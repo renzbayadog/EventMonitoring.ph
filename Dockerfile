@@ -1,30 +1,23 @@
-# Use the official .NET SDK image as the base image
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # Set working directory
 WORKDIR /app
 
 # Install Node.js and npm
-RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
+RUN apt-get update && \
+    apt-get install -y nodejs npm && \
     npm install -g npm@latest
 
-<<<<<<< HEAD
 # Copy package.json and package-lock.json first for better caching
 COPY package*.json ./
 
 # Install Node.js dependencies
 RUN npm ci --only=production
-=======
-# Copy package.json and package-lock.json
-COPY package.json ./
-RUN npm ci
 
 # Copy csproj and restore as distinct layers
 COPY EventMonitoring.ph.csproj ./
 RUN dotnet restore
->>>>>>> 0e8ef433b2a3378a9da49d0fb1d3856c688cce39
 
 # Copy the rest of the project files
 COPY . .
@@ -35,7 +28,7 @@ RUN dotnet build "EventMonitoring.ph.csproj" -c Release -o /app/build
 # Publish the application
 RUN dotnet publish "EventMonitoring.ph.csproj" -c Release -o /app/publish
 
-# Build runtime image
+# Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
 
