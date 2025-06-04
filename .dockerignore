@@ -5,7 +5,6 @@ yarn-debug.log
 yarn-error.log
 
 # .NET build outputs
-bin/
 obj/
 *.user
 *.userosscache
