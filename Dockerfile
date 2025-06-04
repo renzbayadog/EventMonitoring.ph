@@ -4,13 +4,14 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 # Set working directory
 WORKDIR /app
 
-# Install Node.js
-RUN apt-get update && \
-    apt-get install -y nodejs npm && \
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
     npm install -g npm@latest
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
 RUN npm ci
 
 # Copy csproj and restore as distinct layers
