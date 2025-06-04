@@ -49,6 +49,7 @@ yarn-error.log
 *.swp
 *.swo
 
+<<<<<<< HEAD
 # Docker
 Dockerfile
 .dockerignore
@@ -56,3 +57,7 @@ Dockerfile
 # Misc
 .DS_Store
 Thumbs.db 
+=======
+# Project specific
+Migrations/ 
+>>>>>>> 178b4211c3f4349afe9612c9f9cbf80c09f429c8
