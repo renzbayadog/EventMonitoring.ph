@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Stage 2: .NET Build
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
@@ -19,7 +19,11 @@ WORKDIR /app
 # Copy Node.js dependencies from previous stage
 COPY --from=node-build /app/node_modules ./node_modules
 
-# Copy project files
+# Copy csproj and restore as distinct layers
+COPY EventMonitoring.ph.csproj ./
+RUN dotnet restore
+
+# Copy the rest of the project files
 COPY . .
 
 # Build the .NET application
@@ -47,6 +51,10 @@ ENV NODE_ENV=production
 # Expose ports
 EXPOSE 80
 EXPOSE 443
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD curl -f http://localhost/health || exit 1
 
 # Start the application
 ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll"] 
