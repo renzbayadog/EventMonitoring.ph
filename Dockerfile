@@ -9,11 +9,11 @@ RUN apt-get update && \
     apt-get install -y nodejs npm && \
     npm install -g npm@latest
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json first for better caching
 COPY package*.json ./
 
 # Install Node.js dependencies
-RUN npm install
+RUN npm ci --only=production
 
 # Copy the rest of the project files
 COPY . .
@@ -32,6 +32,8 @@ WORKDIR /app
 COPY --from=build /app/publish .
 # Copy node_modules from build stage
 COPY --from=build /app/node_modules ./node_modules
+# Copy wwwroot folder for static files
+COPY --from=build /app/wwwroot ./wwwroot
 
 # Expose ports
 EXPOSE 80
@@ -40,6 +42,7 @@ EXPOSE 443
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:80
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV NODE_ENV=production
 
 # Start the application
 ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll"] 
