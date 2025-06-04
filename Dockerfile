@@ -4,16 +4,27 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 # Set working directory
 WORKDIR /app
 
-# Install Node.js
-RUN apt-get update && \
-    apt-get install -y nodejs npm && \
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
     npm install -g npm@latest
 
+<<<<<<< HEAD
 # Copy package.json and package-lock.json first for better caching
 COPY package*.json ./
 
 # Install Node.js dependencies
 RUN npm ci --only=production
+=======
+# Copy package.json and package-lock.json
+COPY package.json ./
+RUN npm ci
+
+# Copy csproj and restore as distinct layers
+COPY EventMonitoring.ph.csproj ./
+RUN dotnet restore
+>>>>>>> 0e8ef433b2a3378a9da49d0fb1d3856c688cce39
 
 # Copy the rest of the project files
 COPY . .
