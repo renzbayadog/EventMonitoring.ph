@@ -1,17 +1,6 @@
-# Node.js
-node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
-
-# .NET build outputs
-obj/
-*.user
-*.userosscache
-*.suo
-*.userprefs
-.vs/
-.vscode/
+# Git
+.git
+.gitignore
 
 # Build results
 [Dd]ebug/
@@ -20,26 +9,32 @@ obj/
 [Rr]eleases/
 x64/
 x86/
+[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+[Bb]in/
+[Oo]bj/
 [Ll]og/
 [Ll]ogs/
 
 # Visual Studio files
 .vs/
-.vscode/
-*.swp
-*.swo
-*~
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
 
-# Docker
-.dockerignore
-Dockerfile
-
-# Git
-.git/
-.gitignore
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
 
 # Environment files
 *.env
@@ -48,10 +43,16 @@ Dockerfile
 *.env.test.local
 *.env.production.local
 
-# IDE
+# IDE specific files
 .idea/
-*.sln.iml
+.vscode/
+*.swp
+*.swo
 
-# Project specific
-librarybin/
-Migrations/ 
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+.DS_Store
+Thumbs.db 
