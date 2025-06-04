@@ -5,13 +5,13 @@ FROM node:18 AS node-build
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json ./
 
 # Install dependencies
 RUN npm ci
 
 # Stage 2: .NET Build
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # Set working directory
 WORKDIR /app
@@ -33,7 +33,7 @@ RUN dotnet build "EventMonitoring.ph.csproj" -c Release -o /app/build
 RUN dotnet publish "EventMonitoring.ph.csproj" -c Release -o /app/publish
 
 # Stage 3: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
 # Copy published files
