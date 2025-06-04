@@ -28,7 +28,6 @@ RUN dotnet publish "EventMonitoring.ph.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-COPY --from=build /app/node_modules ./node_modules
 EXPOSE 80
 EXPOSE 443
 
