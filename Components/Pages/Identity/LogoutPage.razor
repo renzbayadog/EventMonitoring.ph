@@ -1,0 +1,19 @@
+﻿@page "/Account/Logout"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize]
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? ClientAuthState { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
+        {
+            var response = accountService.LogoutAsync();
+            if (response.Result.flag)
+            {
+                NavManager.NavigateTo("/Account/Login", false, true);
+            }
+        }
+    }
+}

@@ -1,0 +1,138 @@
+is_global = true
+build_property.MudDebugAnalyzer = 
+build_property.MudAllowedAttributePattern = 
+build_property.MudIllegalParameters = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = EventMonitoring.ph
+build_property.RootNamespace = EventMonitoring.ph
+build_property.ProjectDir = C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Footer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRm9vdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Identity/AuthenticationLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSWRlbnRpdHlcQXV0aGVudGljYXRpb25MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Identity/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSWRlbnRpdHlcUmVkaXJlY3RUb0xvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Navigationbar/NavItems.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2aWdhdGlvbmJhclxOYXZJdGVtcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Navigationbar/OnMobileScreenLogo.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2aWdhdGlvbmJhclxPbk1vYmlsZVNjcmVlbkxvZ28ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Sidebar/Brand.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcU2lkZWJhclxCcmFuZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/Sidebar/Content.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcU2lkZWJhclxDb250ZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/content/AdminHomeHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xjb250ZW50XEFkbWluSG9tZUhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/content/Banner.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xjb250ZW50XEJhbm5lci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/content/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xjb250ZW50XEhvbWUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/content/HomeSkeletonLoader.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xjb250ZW50XEhvbWVTa2VsZXRvbkxvYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/General/GenericSpinnerButton.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHZW5lcmFsXEdlbmVyaWNTcGlubmVyQnV0dG9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/AccessDenied.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBY2Nlc3NEZW5pZWQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/Administration/CreateUserPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBZG1pbmlzdHJhdGlvblxDcmVhdGVVc2VyUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/Administration/ManageAccount.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBZG1pbmlzdHJhdGlvblxNYW5hZ2VBY2NvdW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/Administration/ManageUserPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBZG1pbmlzdHJhdGlvblxNYW5hZ2VVc2VyUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/Administration/_imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBZG1pbmlzdHJhdGlvblxfaW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/AuthenticationPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxBdXRoZW50aWNhdGlvblBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxMb2dpblBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/LogoutPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxMb2dvdXRQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Identity/_imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxfaW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-kedb1vs24c

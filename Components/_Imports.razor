@@ -1,0 +1,42 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using EventMonitoring.Hubs
+@using EventMonitoring.States.Administration
+@using EventMonitoring.States.User
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using EventMonitoring.ph
+@using EventMonitoring.ph.Components
+
+@using NetcodeHub.Packages.Components
+@using NetcodeHub.Packages.Components.Validations.OnInput
+@using NetcodeHub.Packages.UI.Templates.Breeze
+@using NetcodeHub.Packages.Components.BreadCrumb
+@using NetcodeHub.Packages.Components.Modal
+@using NetcodeHub.Packages.Components.Toast
+@using NetcodeHub.Packages.Components.DataGrid
+@using NetcodeHub.Packages.Components.FileUpload
+@using EventMonitoring.Components.Layout.Identity
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Notifications
+@using codegen.Interface.Identity
+
+
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider authStateProvider
+@inject ChangePasswordState passwordState
+@inject NetcodeHubConnectionService netcodeHubConnectionService
+@inject IAccount accountService
+@inject IServiceProvider serviceProvider
+@inject IJSRuntime jsRunTIme
+
+@inject GenericHomeHeaderState homeGenericState
+@inject UserActiveOrderCountState userState
+@inject AdminActiveOrderCountState adminState
+@inject ICustomAuthorizationService customAuthorizationService

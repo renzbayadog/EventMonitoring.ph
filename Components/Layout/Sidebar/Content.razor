@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using codegen.Extensions
+<AuthorizeView>
+    <li class="nav-item mt5">
+        <a class="nav-link" href="app/home">
+            <i class="mdi mdi-home menu-icon"></i>    
+            <span class="menu-title">Home</span>
+        </a>
+    </li>
+</AuthorizeView>
+<AuthorizeView Policy="AdministrationPolicy">
+    @if (CanManageUser)
+    {
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#expand-user" aria-expanded="false" aria-controls="">
+                <i class="mdi mdi-account-settings menu-icon fs-4"></i>
+                <span class="menu-title">User Management</span>
+
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="expand-user">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:nv('/administration/account/users/create', 1500)">
+                            Create User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:nv('/administration/account/users/manage', 700)">
+                            Manage User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:nv('/administration/account/users/account', 700)">
+                            Manage Account
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#expand-event" aria-expanded="false" aria-controls="">
+                <i class="mdi mdi-account-settings menu-icon fs-4"></i>
+                <span class="menu-title">Event Management</span>
+
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="expand-event">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:nv('administration/account/create-user', 1500)">
+                            Add Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:nv('administration/account/manage', 700)">
+                            Event List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    }
+
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#expand-product" aria-expanded="false" aria-controls="">
+            <i class="mdi mdi-cube menu-icon fs-4"></i>
+            <span class="menu-title">Report Management</span>
+            <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="expand-product">
+            <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:nv('app/products/manage', 1500)">
+                        Report Generation
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:nv('app/administrator/products/orders',2000)">
+            <i class="mdi mdi-cube-unfolded menu-icon"></i>
+            <span class="menu-title">Print Attendees</span>
+        </a>
+    </li>
+</AuthorizeView>
+<AuthorizeView Policy="@Policy.UserPolicy">
+    <li class="nav-item">
+        <a class="nav-link" href="javascript:nv('app/products/orders', 2000)">
+            <i class="mdi mdi-cube-unfolded menu-icon"></i>
+            <span class="menu-title">Orders</span>
+        </a>
+    </li>
+</AuthorizeView>
+<AuthorizeView>
+    <MudBlazor.MudDivider class="mt5"/>
+    <li class="nav-item sidebar-actions">
+      <div class="nav-link">
+          <div>
+              <div class="border-none">
+                  <p class="text-black">System Info</p>
+              </div>
+              <ul class="mt-4 pl-0">
+                  <li>
+                      <a>Version 1.0.0</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+    </li>
+</AuthorizeView>
+@code {
+    [CascadingParameter] 
+    public Task<AuthenticationState>? myState { get; set; }
+    bool CanManageUser = false;
+    protected async override Task OnInitializedAsync()
+    {
+       CanManageUser = customAuthorizationService.CustomClaimChecker((await myState!).User, DefaultClaims.ManageUser);
+    }
+}

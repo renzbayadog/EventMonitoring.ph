@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "name": "mypackage",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "fontawesome-4.7": "4.7.0",
+    "bootstrap": "5.0.0",
+    "jquery": "3.5.0",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "3.2.11",
+    "sweetalert2": "8.2.6"
+  }
+}
+

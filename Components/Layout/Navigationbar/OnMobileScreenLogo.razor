@@ -1,0 +1,6 @@
+﻿@rendermode InteractiveServer
+<img src="/Logo.png" alt="Logo" width="50" @onclick="NavigationHome" />
+
+@code {
+    void NavigationHome() => NavManager.NavigateTo("app/home");
+}

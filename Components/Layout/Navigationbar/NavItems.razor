@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<li class="nav-item nav-profile dropdown border-0">
+    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
+        <i class="mdi mdi-account-circle nav-profile-img mr-2 text-light"></i>
+        <span class="profile-name">@Name</span>
+    </a>
+    <div class="dropdown-menu navbar-dropdown w100" aria-labelledby="profileDropdwon">
+        <a class="dropdown-item">
+            <div class="">
+                <i class="bi bi-box-arrow-right"></i>
+                <a class="tex-danger nav-link fw-bold text-danger" href="/Account/Logout">Logout</a>
+            </div>
+        </a>
+    </div>
+</li> 
+
+@code {
+    [CascadingParameter] public Task<AuthenticationState>? UserState { get; set; }
+    string? Name;
+    protected override async Task OnInitializedAsync()
+    {
+        Name = (await UserState!).User.Claims.FirstOrDefault(_ => _.Type == "Name")!.Value;
+    }
+}

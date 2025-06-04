@@ -1,0 +1,19 @@
+﻿@page "/app/home"
+
+@attribute [Authorize]
+<PageTitle>Home Page</PageTitle>
+<ThreeSectionsTemplate>
+    <Col9Template>
+        <AdminHomeHeader />
+        @* <HomeSkeletonLoader />  *@
+    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate>
+        <Footer />
+   </FooterTemplate>
+</ThreeSectionsTemplate>
+@code {
+
+}

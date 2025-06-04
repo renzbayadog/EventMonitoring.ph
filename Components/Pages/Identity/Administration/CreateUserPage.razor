@@ -1,0 +1,159 @@
+﻿@page "/administration/account/users/create"
+@using EventMonitoring.ph.Components.Pages.General
+@using EventMonitoring.ph.Components.Pages.content
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
+@using codegen.Extensions
+@using codegen.ViewModels
+@rendermode InteractiveServer
+@implements IDisposable
+<PageTitle>Add User</PageTitle>
+<ThreeSectionsTemplate>
+    <Col9Template>
+        <AdminHomeHeader />
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <div class="card col-xl-10 col-lg-12 bg-light shadow-lg border-0 mt3" style="border-radius: 24px">
+            <div class="card-body bg-light">
+                <EditForm Model="UserModel" OnValidSubmit="RegisterAsync">
+                    <div class="card border-success bg-light shadow-lg text-dark" style="opacity:0.8;border-color:cornflowerblue;border-radius:10px;min-width:300px;">
+                        <div class="card-header text-dark fs-4 border-primary text-center">
+                            <i class="mdi mdi-account-plus menu-icon float start text-success float-start"></i>
+                            <span style="font-family:Algerian; letter-spacing:2px" class="fw-bold text-success">Add New User</span>
+                            <a type="reset" class="btn btn-link btn-outline-danger btn-sm float-end">Reset</a>
+                        </div>
+                        <div class="card-body p3" style="opacity:1">
+                            <DataAnnotationsValidator />
+                            <FloatingText @bind-Value="@UserModel.FirstName" class="form-control mb3" Label="First Name" Placeholder="First Name"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.MiddleInitial" class="form-control mb3" Label="Middle Name" Placeholder="Middle Name"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.LastName" class="form-control mb3" Label="Last Name" Placeholder="Last Name"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.Email" class="form-control mb3" Label="Email Address" Placeholder="Email address"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.PhoneNumber" class="form-control mb3" Label="Phone Number" Placeholder="Phone Number"></FloatingText>
+                            <InputSelect @bind-Value="@UserModel.Policy" class="form-select mb-3">
+                                <option>Select Policy</option>
+                                @foreach (var item in Policies!)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </InputSelect>
+                            <FloatingText @bind-Value="@UserModel.Password" Type="@passwordState.PasswordType" class="form-control mb3" Label="Password" Placeholder="Phone Number"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.ConfirmPassword" Type="@passwordState.PasswordType" class="form-control mb3" Label="Confirm Password" Placeholder="Phone Number"></FloatingText>
+                            <a class="btn btn-link text-decoration-none float-end" @onclick="ChangePasswordType" style="margin-top:-20px"><small>@passwordState.DisplayText</small></a>
+                            <div class="form-group align-content-end">
+                                @if (Loading)
+                                {
+                                    <GenericSpinnerButton Text="Loading.." ButtonClass="btn-primary" />
+                                }
+                                else
+                                {
+                                    <a class="float-end btn btn-success mt-4 w-50" type="submit">Submit</a>
+                                }
+                            </div>
+                            <hr class="text-primary" />
+                        </div>
+                        <div class="card-footer mt-5">
+                            <ValidationSummary class="form-control text-danger text-decoration-none p4" style="list-style:lower-alpha;text-align:left"></ValidationSummary>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
+
+<NetcodeHubToast @ref="ToastComponent" Duration="4000" />
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? userAuthState { get; set; }
+    private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"Create New User", null!}
+    };
+    private UserCreateRequestDTO UserModel { get; set; } = new();
+    NetcodeHubToast? ToastComponent;
+    private bool Loading = false;
+    List<string> Policies = new List<string>(){
+            new string(Policy.AdminPolicy),
+            new string(Policy.UserPolicy),
+            new string(Policy.ManagerPolicy) };
+
+    private HubConnection? hub;
+
+    public async Task RegisterAsync()
+    {
+        Loading = true;
+        await Task.Delay(3000);
+        var result = await accountService.CreateUserAsync(UserModel);
+        await accountService.SaveActivityTrackerAsync(new ActivityTrackerRequestDTO()
+            {
+                UserId = Convert.ToInt32((await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Name)!.Value),
+                Title = "Created New User Method called",
+                Description = result.message,
+                Date = DateTime.Now,
+                OperationState = result.flag.ToString()
+            });
+
+        if (result.flag)
+        {
+            await ToastComponent!.ShowSuccessToast("Info", result.message);
+            UserModel = new();
+        }
+        else
+        {
+            await ToastComponent!.ShowErrorToast("Alert", result.message);
+            UserModel = new();
+        }
+
+        Loading = false;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
+
+        passwordState.Changed += StateHasChanged;
+        homeGenericState.StateChanged += StateButtonClicked;
+
+        hub = netcodeHubConnectionService.GetHubConnection();
+        hub.On<string>("Notify", async (clientId) =>
+        {
+            await CallWhenNotified();
+        });
+
+        if (hub == null)
+        {
+            await hub!.StartAsync();
+        }
+    }
+
+    async Task CallWhenNotified()
+    {
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await adminActiveOrderCountState.GetActiveOrdersCount();
+        });
+    }
+
+    void StateButtonClicked()
+    {
+        var adminurl = "app/administration/products/orders";
+        if (homeGenericState.IsAdmin)
+            NavManager.NavigateTo($"{adminurl}/{homeGenericState.StateName}");
+    }
+
+    void ChangePasswordType() => passwordState.ChangePasswordType();
+
+    public void Dispose()
+    {
+        homeGenericState.StateChanged -= StateButtonClicked;
+        passwordState.Changed -= StateHasChanged;
+    }
+}
