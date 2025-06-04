@@ -53,5 +53,4 @@ Dockerfile
 *.sln.iml
 
 # Project specific
-librarybin/
 Migrations/ 
