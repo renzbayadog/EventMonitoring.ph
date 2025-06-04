@@ -11,9 +11,11 @@ RUN apt-get update && \
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
+RUN npm ci
 
-# Install Node.js dependencies
-RUN npm install
+# Copy csproj and restore as distinct layers
+COPY EventMonitoring.ph.csproj ./
+RUN dotnet restore
 
 # Copy the rest of the project files
 COPY . .
