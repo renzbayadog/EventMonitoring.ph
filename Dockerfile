@@ -50,11 +50,6 @@ ENV NODE_ENV=production
 
 # Expose ports
 EXPOSE 80
-EXPOSE 443
-
-# Add health check
-HEALTHCHECK --interval=30s --timeout=3s \
-    CMD curl -f http://localhost/health || exit 1
 
 # Start the application
 ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll"] 
