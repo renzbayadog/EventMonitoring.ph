@@ -44,7 +44,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/wwwroot ./wwwroot
 
 # Set environment variables
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_URLS=https://+:80
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV NODE_ENV=production
 
