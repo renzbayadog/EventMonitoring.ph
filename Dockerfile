@@ -10,11 +10,6 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# Stage 2: .NET Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
-# Set working directory
-WORKDIR /app
 
 # Copy Node.js dependencies from previous stage
 COPY --from=node-build /app/node_modules ./node_modules
