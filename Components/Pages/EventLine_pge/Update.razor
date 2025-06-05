@@ -1,0 +1,139 @@
+@page "/EventLine/Update/{Id:int}"
+@using EventMonitoring.ph.ViewModels
+@using Newtonsoft.Json
+@using codegeneratorlib.Helpers
+@using EventMonitoring.ph.Data.Entities 
+ @using EventMonitoring.ph.Data.Repositories 
+ @inject IRepositoryWrapper repowrapper
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Update Page</PageTitle>
+
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h5>EventLine/Update</h5>
+        </div>
+		<hr />
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:30px;">
+            <div class="x_panel">               
+                <div class="x_content EventLine-container">		
+				
+                    <div class="row">
+						<div class="modal-header">
+							<h5><b>Update EventLine Details</b></h5>
+						</div>
+
+                        <EditForm class="form-horizontal form-label-left" id="EventLine-form" Model="oEventLineVM" OnValidSubmit="()=>SendRequest()">                           
+							<div class="modal-body">
+								<DataAnnotationsValidator />
+								<ValidationSummary />   
+								@if (!string.IsNullOrEmpty(responseMessage))
+								{
+							      <div class="alert alert-success" role="alert">
+							      	@responseMessage
+							      </div>
+								}
+								<input type="hidden" @bind="oEventLineVM.EventLineId" id=js-eventlineid/>
+								
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Line Name*</label>	
+								<input @bind="oEventLineVM.EventLineName" id="js-eventlinename" class="form-control" />
+								
+							</div>
+							</div>	
+							 <div class="modal-footer">
+								  <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								  
+									<a href="/EventLine/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">
+									<i class="fa fa-close"></i> Cancel Request</a>
+
+							  		@if (Loading)
+                                    {
+										<button class="btn btn-primary btn-custom float-md-end" type="button" disabled>
+                                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                            <span role="status">Loading...</span>
+                                        </button>
+                                    }
+                                    else
+									{
+										<button class="btn btn-primary btn-custom float-md-end" type="submit">
+											<i class="fa fa-save"></i> Submit Request
+                                        </button>
+                                    }
+								 </div>	
+							 </div>
+                        </EditForm> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+	[Parameter]
+	public int Id { get; set; }
+	private EventLineVM oEventLineVM = new();
+	private string responseMessage;
+	private bool Loading = false;
+
+	
+
+	//file upload
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		IBrowserFile file = e.File;
+		var buffer = new byte[file.Size];
+		await file.OpenReadStream().ReadAsync(buffer);
+		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+		
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		var restService = new RestService<EventLineVM>();
+		var result = new ServiceModel<EventLineVM>();
+		result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/GetById/{Id}");
+		if (!result.IsSuccess)
+		{
+			NavigationManager.NavigateTo("/EventLine/Index");
+		}
+		else
+		{
+			oEventLineVM = result.Data;
+		}
+	}
+
+	private async Task SendRequest()
+	{
+		Loading = true;
+		var restService = new RestService<List<EventLineVM>>();
+
+		var json = JsonConvert.SerializeObject(oEventLineVM);
+
+		var result = new ServiceModel<List<EventLineVM>>();
+
+		result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/update", json);
+
+		if (!result.IsSuccess)
+		{
+			responseMessage = result.Error;
+		}
+		else
+		{
+			
+			NavigationManager.NavigateTo($"/EventLine/Details/{Id}");
+		}
+		
+		Loading = false;
+	}
+}
+

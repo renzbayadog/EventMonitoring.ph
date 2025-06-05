@@ -10,7 +10,7 @@ using codegen.Data;
 
 namespace EventMonitoring.ph.Migrations
 {
-    [DbContext(typeof(db_ab9d6a_dbrenz))]
+    [DbContext(typeof(db_ab9d6a_dbrenzContext))]
     partial class AppDB2ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

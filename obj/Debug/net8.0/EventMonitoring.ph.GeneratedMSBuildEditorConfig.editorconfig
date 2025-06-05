@@ -77,6 +77,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXENyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Details.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Update.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXFVwZGF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/General/GenericSpinnerButton.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHZW5lcmFsXEdlbmVyaWNTcGlubmVyQnV0dG9uLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -136,3 +152,7 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-kedb1vs24c
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/EventLineModal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXEV2ZW50TGluZU1vZGFsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-v2hm7du5l0

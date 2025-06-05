@@ -1,0 +1,129 @@
+@page "/EventLine/Create"
+@using EventMonitoring.ph.ViewModels
+@using Newtonsoft.Json
+@using codegeneratorlib.Helpers
+
+@using EventMonitoring.ph.Data.Entities 
+ @using EventMonitoring.ph.Data.Repositories 
+ @inject IRepositoryWrapper repowrapper
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Create Page</PageTitle>
+
+<div class="">
+    <div class="page-title">
+		<div class="title_left">
+            <h5>EventLine/Create</h5>
+        </div>
+		<hr />
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">               
+                <div class="x_content EventLine-container">
+                    <div class="row">
+						<div class="modal-header">
+							<h5><b>Create New EventLine</b></h5>
+						</div>
+
+                        <EditForm class="form-horizontal form-label-left" id="EventLine-form" Model="oEventLineVM" OnValidSubmit="()=>SendRequest()">                           
+							<div class="modal-body">
+							  <DataAnnotationsValidator />
+							  <ValidationSummary />
+							  @if (AlertShowMessage)
+							  {
+							    <div class="alert alert-success" role="alert">
+							    	@responseMessage
+							    </div>
+							  }
+							  
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Line Name*</label>	
+								<input @bind="oEventLineVM.EventLineName" id="js-eventlinename" class="form-control" />
+								
+							</div>
+							</div>
+							 <div class="modal-footer">
+							   <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+
+									<a href="/EventLine/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">
+									<i class="fa fa-close"></i> Cancel Request</a>
+
+							  		@if (Loading)
+                                    {
+										<button class="btn btn-primary btn-custom float-md-end" type="button" disabled>
+                                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                            <span role="status">Loading...</span>
+                                        </button>
+                                    }
+                                    else
+									{
+										<button class="btn btn-primary btn-custom float-md-end" type="submit">
+											<i class="fa fa-save"></i> Submit Request
+                                        </button>
+                                    }
+								 </div>	
+							 </div>
+                        </EditForm> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+	private EventLineVM oEventLineVM = new();
+	private string responseMessage;
+	private bool Loading = false;
+	
+	private bool AlertShowMessage = false;
+
+	
+
+	//file upload
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		IBrowserFile file = e.File;
+		var buffer = new byte[file.Size];
+		await file.OpenReadStream().ReadAsync(buffer);
+		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+		
+	}
+
+	private async Task SendRequest()
+	{
+		Loading = true;
+		var restService = new RestService<List<EventLineVM>>();
+
+		var json = JsonConvert.SerializeObject(oEventLineVM);
+
+		var result = new ServiceModel<List<EventLineVM>>();
+
+		result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/add", json);
+
+		if (!result.IsSuccess)
+		{
+			responseMessage = result.Error;
+		}
+		else
+		{
+			Loading = false;
+			oEventLineVM = new();
+
+			AlertShowMessage = true;
+			responseMessage = "Request has been successfully submitted!";
+
+			await InvokeAsync(() => StateHasChanged());
+
+			await Task.Delay(5000);
+
+			AlertShowMessage = false;
+
+		}
+	}
+}

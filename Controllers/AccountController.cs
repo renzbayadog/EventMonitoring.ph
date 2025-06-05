@@ -13,11 +13,11 @@ namespace codegen.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private db_ab9d6a_dbrenz _context;
+        private db_ab9d6a_dbrenzContext _context;
         private UserManager<User> _userManager;
         private IEmailManager _emailManager;
 
-        public AccountController(db_ab9d6a_dbrenz context, UserManager<User> usrMgr, IEmailManager emailMgr)
+        public AccountController(db_ab9d6a_dbrenzContext context, UserManager<User> usrMgr, IEmailManager emailMgr)
         {
             _context = context;
             _userManager = usrMgr;

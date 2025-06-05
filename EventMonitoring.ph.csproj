@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Components\Pages\EventLine_pge\EventLineModal.razor.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Components\Pages\EventLine_pge\EventLineModal.razor.css" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.10" />
@@ -22,10 +28,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.2.2" />
     <PackageReference Include="MudBlazor" Version="7.15.0" />
     <PackageReference Include="NetcodeHub.Packages.Components.BreadCrumb" Version="1.0.0" />
@@ -45,19 +49,27 @@
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Components\Pages\Identity\EventAdministration\" />
+    <Folder Include="Data\Entities\" />
+    <Folder Include="Data\SeedData\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
-  <!--<ItemGroup>
+  
+  
+  
+  <ItemGroup>
     <ProjectReference Include="..\..\codegeneratorlib\app_application\app_application.csproj" />
     <ProjectReference Include="..\..\codegeneratorlib\Infra\app_infra.csproj" />
-  </ItemGroup>-->
+  </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Reference Include="app_application">
       <HintPath>librarybin\app_application.dll</HintPath>
     </Reference>
     <Reference Include="app_infra">
       <HintPath>librarybin\app_infra.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  </ItemGroup>-->
 </Project>

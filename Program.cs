@@ -1,4 +1,4 @@
-using codegen.Helpers;
+using codegeneratorlib.Helpers;
 using codegen.Middleware;
 using EventMonitoring.Components.Layout.Identity;
 using EventMonitoring.Hubs;
@@ -6,12 +6,16 @@ using EventMonitoring.ph.Components;
 using EventMonitoring.States.Administration;
 using EventMonitoring.States.User;
 using Microsoft.AspNetCore.Components.Authorization;
+using EventMonitoring.ph.Data.Repositories;
+using EventMonitoring.ph.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.WebUIAddInfrastractureService(builder.Configuration);
 builder.Services.AddInfrastractureService(builder.Configuration);
 builder.Services.AddApplicationService();
 builder.Services.AddControllers().AddNewtonsoftJson();
+
 
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthStateProvider>();
 builder.Services.AddScoped<ICustomAuthorizationService, CustomAuthorizationService>();

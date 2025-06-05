@@ -11,7 +11,7 @@ using codegen.Data;
 
 namespace EventMonitoring.ph.Migrations
 {
-    [DbContext(typeof(db_ab9d6a_dbrenz))]
+    [DbContext(typeof(db_ab9d6a_dbrenzContext))]
     [Migration("20250604073129_InitialCreate")]
     partial class InitialCreate
     {
