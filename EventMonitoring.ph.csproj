@@ -47,6 +47,11 @@
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
+  <!--<ItemGroup>
+    <ProjectReference Include="..\..\codegeneratorlib\app_application\app_application.csproj" />
+    <ProjectReference Include="..\..\codegeneratorlib\Infra\app_infra.csproj" />
+  </ItemGroup>-->
+
   <ItemGroup>
     <Reference Include="app_application">
       <HintPath>librarybin\app_application.dll</HintPath>
@@ -55,5 +60,4 @@
       <HintPath>librarybin\app_infra.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

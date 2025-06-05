@@ -7,6 +7,7 @@
 @using codegen.ViewModels
 @rendermode InteractiveServer
 @implements IDisposable
+
 <PageTitle>Add User</PageTitle>
 <ThreeSectionsTemplate>
     <Col9Template>
@@ -14,7 +15,7 @@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         <div class="card col-xl-10 col-lg-12 bg-light shadow-lg border-0 mt3" style="border-radius: 24px">
             <div class="card-body bg-light">
-                <EditForm Model="UserModel" OnValidSubmit="RegisterAsync">
+                <EditForm Model="UserModel" OnValidSubmit="()=>RegisterAsync()">
                     <div class="card border-success bg-light shadow-lg text-dark" style="opacity:0.8;border-color:cornflowerblue;border-radius:10px;min-width:300px;">
                         <div class="card-header text-dark fs-4 border-primary text-center">
                             <i class="mdi mdi-account-plus menu-icon float start text-success float-start"></i>
@@ -26,6 +27,7 @@
                             <FloatingText @bind-Value="@UserModel.FirstName" class="form-control mb3" Label="First Name" Placeholder="First Name"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.MiddleInitial" class="form-control mb3" Label="Middle Name" Placeholder="Middle Name"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.LastName" class="form-control mb3" Label="Last Name" Placeholder="Last Name"></FloatingText>
+                            <FloatingText @bind-Value="@UserModel.UserName" class="form-control mb3" Label="User Name" Placeholder="User Name"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.Email" class="form-control mb3" Label="Email Address" Placeholder="Email address"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.PhoneNumber" class="form-control mb3" Label="Phone Number" Placeholder="Phone Number"></FloatingText>
                             <InputSelect @bind-Value="@UserModel.Policy" class="form-select mb-3">
@@ -45,7 +47,7 @@
                                 }
                                 else
                                 {
-                                    <a class="float-end btn btn-success mt-4 w-50" type="submit">Submit</a>
+                                    <button class="float-end btn btn-success mt-4 w-50" type="submit">Submit</button>
                                 }
                             </div>
                             <hr class="text-primary" />
@@ -90,9 +92,13 @@
         Loading = true;
         await Task.Delay(3000);
         var result = await accountService.CreateUserAsync(UserModel);
+
+        var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
+        var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
+
         await accountService.SaveActivityTrackerAsync(new ActivityTrackerRequestDTO()
             {
-                UserId = Convert.ToInt32((await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Name)!.Value),
+                UserId = userData.UserId,
                 Title = "Created New User Method called",
                 Description = result.message,
                 Date = DateTime.Now,
@@ -144,7 +150,7 @@
 
     void StateButtonClicked()
     {
-        var adminurl = "app/administration/products/orders";
+        var adminurl = "/administration/account/users/create";
         if (homeGenericState.IsAdmin)
             NavManager.NavigateTo($"{adminurl}/{homeGenericState.StateName}");
     }
@@ -153,7 +159,10 @@
 
     public void Dispose()
     {
+        Loading = false;
+
         homeGenericState.StateChanged -= StateButtonClicked;
         passwordState.Changed -= StateHasChanged;
+
     }
 }
