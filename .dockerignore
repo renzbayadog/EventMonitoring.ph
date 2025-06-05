@@ -1,12 +1,10 @@
 # Node.js
-node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
 package-lock.json
 
 # .NET build outputs
-bin/
 obj/
 *.user
 *.userosscache
@@ -62,7 +60,7 @@ docker-compose.*.yml
 *.sln.docstates
 
 # Project specific
-librarybin/
+
 Migrations/
 *.db
 *.db-shm
