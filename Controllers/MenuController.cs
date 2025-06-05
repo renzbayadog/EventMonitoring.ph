@@ -82,7 +82,7 @@ namespace codegen.Controllers
                     };
 
                     _menuManager.Add(newMenu);
-                    _menuManager.SaveChangesAsync();
+                    await _menuManager.SaveChangesAsync();
 
                     return Ok();
                 }

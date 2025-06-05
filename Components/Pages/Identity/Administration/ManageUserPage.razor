@@ -3,6 +3,8 @@
 
 @page "/administration/account/users/manage"
 @using System.Security.Claims
+@using EventMonitoring.ph.Components.Pages.General
+@using EventMonitoring.ph.Components.Pages.content
 @using Microsoft.AspNetCore.SignalR.Client
 @using codegen.Extensions
 @using codegen.ViewModels
@@ -195,7 +197,7 @@
 
 @code {
     [CascadingParameter]
-    public Task<AuthenticationState>? userAuthState { get; set; }
+    public Task<AuthenticationState> userAuthState { get; set; }
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "administrator/manage user"},
@@ -204,8 +206,8 @@
     public bool IsOpen { get; set; }
     void OpenModal() => IsOpen = true;
     ClaimChangeUserRequestDTO ChangeUserClaim = new();
-    NetcodeHubToast? ToastComponent;
-    private HubConnection? hub;
+    NetcodeHubToast ToastComponent;
+    private HubConnection hub;
     private UserCreateRequestDTO UserModel { get; set; } = new();
     List<string> Policies = new List<string>(){
             new string(Policy.AdminPolicy),

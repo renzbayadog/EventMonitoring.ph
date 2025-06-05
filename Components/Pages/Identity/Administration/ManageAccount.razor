@@ -25,21 +25,21 @@
 @code {
 
     [CascadingParameter]
-    public Task<AuthenticationState>? userAuthState { get; set; }
+    public Task<AuthenticationState> userAuthState { get; set; }
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "administrator/account"},
         {"Manage Account", null!}
     };
     private UserCreateRequestDTO UserModel { get; set; } = new();
-    NetcodeHubToast? ToastComponent;
+    NetcodeHubToast ToastComponent;
     private bool Loading = false;
     List<string> Policies = new List<string>(){
             new string(Policy.AdminPolicy),
             new string(Policy.UserPolicy),
             new string(Policy.ManagerPolicy) };
 
-    private HubConnection? hub;
+    private HubConnection hub;
 
     public async Task RegisterAsync()
     {

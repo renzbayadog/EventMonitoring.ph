@@ -50,12 +50,12 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:nv('administration/account/create-user', 1500)">
-                            Add Event
+                            Event List
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:nv('administration/account/manage', 700)">
-                            Event List
+                            Audience List
                         </a>
                     </li>
                 </ul>
@@ -73,17 +73,11 @@
             <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:nv('app/products/manage', 1500)">
-                        Report Generation
+                        View Report
                     </a>
                 </li>
             </ul>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="javascript:nv('app/administrator/products/orders',2000)">
-            <i class="mdi mdi-cube-unfolded menu-icon"></i>
-            <span class="menu-title">Print Attendees</span>
-        </a>
     </li>
 </AuthorizeView>
 <AuthorizeView Policy="@Policy.UserPolicy">
@@ -113,7 +107,7 @@
 </AuthorizeView>
 @code {
     [CascadingParameter] 
-    public Task<AuthenticationState>? myState { get; set; }
+    public Task<AuthenticationState> myState { get; set; }
     bool CanManageUser = false;
     protected async override Task OnInitializedAsync()
     {

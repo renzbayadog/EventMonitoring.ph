@@ -4,12 +4,12 @@
 
 <div class="page-header flex-wrap" style="margin-top:0rem">
     <h3 class="mb-0">
-        Hi, Welcome back! <span class="p-l-0 h6 select2-selection--multiple text-muted d-inline-block"> Your system analytics dashboard</span>
+        Hi, Welcome to <span class="p-l-0 h6 select2-selection--multiple text-muted d-inline-block"> Event Registration System with QR Code</span>
     </h3>
     <div class="d-flex">
         <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Processing, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-            Processing
+            Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                 @adminState.ProcessingCount
                 <span class="visually-hidden">unread messages</span>
@@ -17,7 +17,7 @@
         </button>
         <button type="button" class="btn btn-sm btn-outline-primary btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Delivering, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-            Delivering
+            Listed Audience
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                 @adminState.DeliveringCount
                 <span class="visually-hidden">unread messages</span>
@@ -25,7 +25,7 @@
         </button>
         <button type="button" class="btn btn-sm btn-outline-success btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Delivered, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-            Delivered
+            Finished Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                 @adminState.DeliveredCount
                 <span class="visually-hidden">unread messages</span>
@@ -33,7 +33,7 @@
         </button>
         <button type="button" class="btn btn-sm btn-outline-danger btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Canceled, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-            Canceled
+            Ongoing-Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                 @adminState.CanceledCount
                 <span class="visually-hidden">unread messages</span>

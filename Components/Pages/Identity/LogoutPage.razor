@@ -4,7 +4,7 @@
 @attribute [Authorize]
 @code {
     [CascadingParameter]
-    public Task<AuthenticationState>? ClientAuthState { get; set; }
+    public Task<AuthenticationState> ClientAuthState { get; set; }
     protected override async Task OnInitializedAsync()
     {
         if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)

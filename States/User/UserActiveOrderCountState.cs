@@ -9,7 +9,7 @@ namespace EventMonitoring.States.User
         public int DeliveredCount { get; set; }
         public int CanceledCount { get; set; }
 
-        public event Action? StateChanged;
+        public event Action StateChanged;
 
         public async Task GetActiveOrdersCount(string userId)
         {
