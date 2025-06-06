@@ -1,47 +1,302 @@
-﻿@page "/Eventreport/Print"
-@using EventMonitoring.ph.Components.Pages.content
+﻿@page "/EventReport/Index"
+@using EventMonitoring.ph.Data.Repositories
 @using EventMonitoring.ph.ViewModels
+@using EventMonitoring.ph.Data.Entities
+@using EventMonitoring.ph.Components.Pages.content
+@using Newtonsoft.Json
+@using codegeneratorlib.Helpers
 @attribute [StreamRendering]
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager;
 
-<PageTitle>Report</PageTitle>
+ @inject IRepositoryWrapper repowrapper
+
+<PageTitle>List Page</PageTitle>
 
 <!-- page content -->
 <ThreeSectionsTemplate>
     <Col9Template>
-        <AdminHomeHeader />
+        @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         <MudBlazor.MudDivider class="mt5" />
-        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-            <select id="js-eventtitleid" class="form-control">
-                <option value="">-- Select --</option>
-                @if (oEventAudienceVM != null)
-                {
-                    @foreach (var item in oEventAudienceVM)
-                    {
-                        <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
-                    }
-                }
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content js-EventAudience-main-container">
 
-            </select>
+                        <div class="row">
+
+                            <!--SEARCH AREA-->
+                            <form class="form-horizontal" id="search-EventAudience-form" @onsubmit="()=>SearchEventAudience()">
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+
+                                    <label>Filter Event</label>
+                                    <select @bind="searchInfo.Keyword" id="js-eventtitleid" class="form-control">
+                                        <option value="">-- Select --</option>
+                                        @if (listEventTItle != null)
+                                        {
+                                            @foreach (var item in listEventTItle)
+                                            {
+                                                <option value="@item.EventTitleVenueName">@item.EventTitleVenueName</option>
+                                            }
+                                        } 
+                                    </select>
+                                </div>
+
+                               @*  <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>Page Size:</label>
+                                    <select class="form-control" id="js-page-size" @bind="PageSize">
+                                        <option disabled>Max rows</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div> *@
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                    <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            <!--BUTTON TOP-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <a href="" class="btn btn-warning btn-custom float-end popup"><i class="fa fa-print"></i> Print</a>
+                            </div>
+                            @if (pEventAudiences == null)
+                            {
+                                <br />
+                                <p>Loading..</p>
+                            }
+                            else
+                            {
+                                <!--DATA TABLE-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-EventAudience-list-container">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <b>Event Title:</b> <br /><br />
+                                                    Sample 1
+                                                </td>
+                                                <td>
+                                                    <b>Event Start:</b> <br /><br />
+                                                    @DateTime.Now
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Event Venue:</b> <br /><br />
+                                                    Caloocan
+                                                </td>
+                                                <td>
+                                                    <b>Event End:</b> <br /><br />
+                                                    @DateTime.Now
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <b>Event Description:</b> <br /><br />
+                                                    Codegen publishing
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <table class="table mb-0" id="js-table-EventAudience">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="column-title"><input type="checkbox" id="check-all" /></th>
+
+                                                                <th>Date/ Time</th>
+                                                                <th>Name</th>
+                                                                <th>Email Address</th>
+                                                                <th>Venue</th>
+                                                                <th>Details</th>
+                                                                <th>Event Remarks</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="js-load-EventAudience-row">
+                                                            @foreach (var EventAudience in pEventAudiences.List)
+                                                            {
+                                                                <tr id="selected-row-eventaudienceid">
+                                                                    <td><input type="checkbox" class="js-chk-bulk" data-id=''></td>
+
+                                                                    <td>@EventAudience.EventTitleStartTimeDate</td>
+                                                                    <td>@EventAudience.FirstName @EventAudience.MiddleInitial @EventAudience.LastName</td>
+                                                                    <td>@EventAudience.EmailAddress</td>
+                                                                    <td>@EventAudience.EventTitleVenueName</td>
+                                                                    <td>@EventAudience.EventTitleDescription</td>
+                                                                    <td>@EventAudience.EventRemarks</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                  
+                                </div>
+
+                                <!--PAGINATION AND SUMMARY-->
+                                @* <div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventAudience" style="margin-top:-27px;">
+
+                                    <div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
+                                        @pEventAudiences?.PageSummary
+                                    </div>
+
+                                    <div style="float:right;margin-top:20px;">
+                                        <ul class="pagination pagination-md" id="js-ul-pagination">
+                                            @for (var i = 0; i < @pEventAudiences?.PageIndices?.Count(); i++)
+                                            {
+                                                var pageNum = @pEventAudiences?.PageIndices?.ToArray()[i];
+
+                                                <li id="js-li-count-@pageNum" class="check page-item li-children-ref" data-id="@pageNum">
+                                                    <a style="cursor:pointer;" class="page-link" id="click-User-pagination-@pageNum" @onclick="()=>ClickPagination(pageNum)" data-id="@pageNum">
+                                                        @pageNum
+                                                    </a>
+                                                </li>
+                                            }
+                                           </ul>
+                                    </div>
+                                </div> *@
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
     </Col9Template>
-    <Col3Template>
+   @*  <Col3Template>
         <Banner />
-    </Col3Template>
+    </Col3Template> *@
     <FooterTemplate><Footer /></FooterTemplate>
 </ThreeSectionsTemplate>
 
 
 @code {
-    private List<EventAudienceVM> oEventAudienceVM = new();
-
+    private EventAudienceSearch searchInfo = new();
+    private Pagination<EventAudienceVM> pEventAudiences;
+    private EventAudienceVM oEventAudienceVM = new();
+    private List<EventTitle> listEventTItle => repowrapper.EventTitle_Repository.FindAll().ToList();
+    private string responseMessage;
+    private int PageSize = 10;
+    private int CurrentPage = 1;
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
-        {"Event Report List", null!}
+        {"EventAudience List", null!}
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        //await Task.Delay(1000);
+
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(CurrentPage, PageSize, search);
+        pEventAudiences = list;
+    }
+
+    private async Task ExportFile()
+    {
+        var restService = new RestService<ExcelData>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<ExcelData>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/export/report");
+        if (!result.IsSuccess)
+        {
+        }
+        else
+        {
+            var file = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;base64,{result.Data.File}";
+
+            NavigationManager.NavigateTo(file);
+        }
+    }
+
+    private async Task<Pagination<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
+    {
+        var restService = new RestService<Pagination<EventAudienceVM>>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<Pagination<EventAudienceVM>>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
+        if (!result.IsSuccess)
+        {
+            return pEventAudiences = null;
+        }
+        else
+        {
+            return pEventAudiences = result.Data;
+        }
+    }
+
+    private async Task SearchEventAudience()
+    {
+        var pullout = await LoadEventAudience(CurrentPage, PageSize, searchInfo);
+        pEventAudiences = pullout;
+
+        StateHasChanged();
+    }
+
+    public async Task DeleteEventAudience(int id)
+    {
+        var restService = new RestService<List<EventAudienceVM>>();
+
+        var result = new ServiceModel<List<EventAudienceVM>>();
+
+        result = await restService.Delete($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/{id}/delete");
+
+        if (!result.IsSuccess)
+        {
+            responseMessage = result.Error;
+        }
+        else
+        {
+            var search = new EventAudienceSearch();
+            search.Keyword = searchInfo?.Keyword;
+            var list = await LoadEventAudience(CurrentPage, PageSize, search);
+            pEventAudiences = list;
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task ClickPagination(int? elementId)
+    {
+        var currrentPage = elementId;
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(currrentPage, PageSize, search);
+        pEventAudiences = list;
+        StateHasChanged();
+    }
+
+    private async Task ClickPaginationPrev()
+    {
+        var currrentPage = CurrentPage - 1;
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(currrentPage, PageSize, search);
+        pEventAudiences = list;
+        StateHasChanged();
+    }
+
+    private async Task ClickPaginationNext()
+    {
+        var currrentPage = CurrentPage + 1;
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(currrentPage, PageSize, search);
+        pEventAudiences = list;
+        StateHasChanged();
+    }
 }

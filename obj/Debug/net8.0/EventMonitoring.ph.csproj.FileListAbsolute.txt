@@ -1,3 +1,12 @@
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.pdb
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.AssemblyReference.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfoInputs.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfo.cs
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.sourcelink.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\appsettings.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\librarybin\Debug\net8.0\app_application.deps.json
@@ -216,14 +225,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_infra.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_application.pdb
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_infra.pdb
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.AssemblyReference.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfoInputs.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfo.cs
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.CoreCompileInputs.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.sourcelink.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets\msbuild.EventMonitoring.ph.Microsoft.AspNetCore.StaticWebAssets.props
@@ -239,6 +240,5 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMon.76668F44.Up2Date
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\refint\EventMonitoring.ph.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.pdb
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.genruntimeconfig.cache
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\ref\EventMonitoring.ph.dll
