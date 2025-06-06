@@ -60,6 +60,17 @@ ENV ASPNETCORE_URLS=http://+:10000
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV NODE_ENV=production
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+ENV ASPNETCORE_LOGGING__CONSOLE__FORMAT=json
+ENV ASPNETCORE_LOGGING__CONSOLE__INCLUDE_SCOPES=true
+ENV ASPNETCORE_LOGGING__CONSOLE__TIMESTAMP_FORMAT=yyyy-MM-dd HH:mm:ss.fff
+ENV ASPNETCORE_LOGGING__LOGLEVEL__DEFAULT=Information
+ENV ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT=Warning
+ENV ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT_ASPNETCORE=Information
+
+# Create directory for logs
+RUN mkdir -p /app/logs && \
+    chmod 777 /app/logs
 
 # Expose port for Render
 EXPOSE 10000
@@ -68,5 +79,5 @@ EXPOSE 10000
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
     CMD curl --fail http://localhost:10000/health || exit 1
 
-# Start the application
-ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll"] 
+# Start the application with detailed logging
+ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll", "--urls", "http://+:10000", "--environment", "Production"] 
