@@ -62,7 +62,6 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-librarybin/
 **/bin/
 **/obj/
 **/wwwroot/dist/
