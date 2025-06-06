@@ -60,6 +60,8 @@ ENV ASPNETCORE_URLS=http://+:10000
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV NODE_ENV=production
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 ENV ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
 ENV ASPNETCORE_LOGGING__CONSOLE__FORMAT=Simple
 ENV ASPNETCORE_LOGGING__CONSOLE__INCLUDE_SCOPES=true
@@ -67,6 +69,7 @@ ENV ASPNETCORE_LOGGING__CONSOLE__TIMESTAMP_FORMAT="yyyy-MM-dd HH:mm:ss.fff"
 ENV ASPNETCORE_LOGGING__LOGLEVEL__DEFAULT=Information
 ENV ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT=Warning
 ENV ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT_ASPNETCORE=Information
+ENV ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT_HOSTING=Information
 
 # Create directory for logs
 RUN mkdir -p /app/logs && \
@@ -80,4 +83,4 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
     CMD curl --fail http://localhost:10000/health || exit 1
 
 # Start the application with detailed logging
-ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll", "--urls", "http://+:10000", "--environment", "Production"] 
+ENTRYPOINT ["dotnet", "EventMonitoring.ph.dll"] 
