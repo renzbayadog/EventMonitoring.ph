@@ -1,0 +1,202 @@
+@using EventMonitoring.ph.ViewModels
+@using codegeneratorlib.Helpers
+@using Newtonsoft.Json
+
+@using EventMonitoring.ph.Data.Entities 
+ @using EventMonitoring.ph.Data.Repositories 
+ @inject IRepositoryWrapper repowrapper
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<!-- Modal.razor -->
+<div class="modal-backdrop" style="@(_isVisible ? "display: block;" : "display: none;")">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h5>@ModalTitle</h5>
+            <button class="close" @onclick="Hide">×</button>
+        </div>
+
+        <EditForm class="form-horizontal form-label-left" id="Pullout-form" Model="oEventTitleVM" OnValidSubmit="()=>SendRequest()">
+            <div class="modal-body">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                @if (AlertShowMessage)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @responseMessage
+                    </div>
+                }
+                <input type="hidden" @bind="oEventTitleVM.EventTitleId" id=js-eventtitleid/>
+				
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title Venue Name*</label>	
+								<input @bind="oEventTitleVM.EventTitleVenueName" id="js-eventtitlevenuename" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title Description*</label>	
+								<input @bind="oEventTitleVM.EventTitleDescription" id="js-eventtitledescription" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title Start Time Date*</label>	
+								<input type="date" @bind="oEventTitleVM.EventTitleStartTimeDate" id="js-eventtitlestarttimedate" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title End Time Date*</label>	
+								<input type="date" @bind="oEventTitleVM.EventTitleEndTimeDate" id="js-eventtitleendtimedate" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title Status</label>	
+								<input @bind="oEventTitleVM.EventTitleStatus" id="js-eventtitlestatus" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Line Name</label>	
+								<select @bind="oEventTitleVM.EventLineId" id="js-eventlineid" class="form-control"><option value="">-- Select --</option>@if (listEventLine != null){@foreach (var item in listEventLine){<option value="@item.EventLineId">@item.EventLineName</option>}}
+							</select>
+								
+							</div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <a href="/EventTitle/Index" @onclick="Hide" class="btn btn-danger btn-custom float-md-end">
+					<i class="fa fa-close"></i> Cancel Request</a>
+                    @if (Loading)
+                    {
+                        <button class="btn btn-primary btn-custom float-md-end" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status">Loading...</span>
+                        </button>
+                    }
+                    else
+                    {
+                       <button class="btn btn-primary btn-custom float-md-end" type="submit">
+							<i class="fa fa-save"></i> Submit Request
+                       </button>
+                    }
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+	public int Id { get; set; }
+	private EventTitleVM oEventTitleVM = new();
+	private string responseMessage = "";
+	private bool Loading = false;
+
+    private bool _isVisible;
+
+    [Parameter] public string ModalTitle { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    
+	private bool AlertShowMessage = false;
+
+    private List<EventLine> listEventLine => repowrapper.EventLine_Repository.FindAll().ToList();
+
+    //file upload
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		IBrowserFile file = e.File;
+		var buffer = new byte[file.Size];
+		await file.OpenReadStream().ReadAsync(buffer);
+		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+		
+	}
+
+    public async Task Show(int id)
+    {
+        responseMessage = "";
+        _isVisible = true;
+
+        if (id == 0)
+        {
+            oEventTitleVM = new();
+        }
+        else
+        {
+            var restService = new RestService<EventTitleVM>();
+            var result = new ServiceModel<EventTitleVM>();
+            result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/GetById/{id}");
+            if (!result.IsSuccess)
+            {
+                responseMessage = "Error while fetching data, Contact the administrator";
+            }
+            else
+            {
+                oEventTitleVM = result.Data;
+            }
+        }
+    }
+
+    public void Hide()
+    {
+        _isVisible = false;
+    }
+
+    private async Task SendRequest()
+	{
+		Loading = true;
+		var restService = new RestService<List<EventTitleVM>>();
+
+		var json = JsonConvert.SerializeObject(oEventTitleVM);
+
+		var result = new ServiceModel<List<EventTitleVM>>();
+
+		if (oEventTitleVM.EventTitleId != 0)
+        {
+
+            result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/Update", json);
+
+            if (!result.IsSuccess)
+            {
+                responseMessage = result.Error;
+            }
+            else
+            {
+                Loading = false;
+
+                AlertShowMessage = true;
+                responseMessage = "Request has been successfully submitted!";
+
+                await InvokeAsync(() => StateHasChanged());
+
+                await Task.Delay(5000);
+
+                AlertShowMessage = false;
+            }
+        }
+        else
+        {
+
+            result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/Add", json);
+
+            if (!result.IsSuccess)
+    		{
+    			responseMessage = result.Error;
+    		}
+    		else
+    		{
+                Loading = false;
+    			oEventTitleVM = new();
+    
+    			AlertShowMessage = true;
+    			responseMessage = "Request has been successfully submitted!";
+    
+    			await InvokeAsync(() => StateHasChanged());
+    
+    			await Task.Delay(5000);
+    
+    			AlertShowMessage = false;
+		    }
+        }
+	}
+
+}
+

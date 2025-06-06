@@ -77,6 +77,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventAudience_pge/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudEF1ZGllbmNlX3BnZVxDcmVhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventAudience_pge/Details.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudEF1ZGllbmNlX3BnZVxEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventAudience_pge/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudEF1ZGllbmNlX3BnZVxJbmRleC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventAudience_pge/Update.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudEF1ZGllbmNlX3BnZVxVcGRhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -91,6 +107,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/Update.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXFVwZGF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventTitle_pge/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudFRpdGxlX3BnZVxDcmVhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventTitle_pge/Details.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudFRpdGxlX3BnZVxEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventTitle_pge/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudFRpdGxlX3BnZVxJbmRleC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventTitle_pge/Update.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudFRpdGxlX3BnZVxVcGRhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/General/GenericSpinnerButton.razor]
@@ -156,3 +188,7 @@ build_metadata.AdditionalFiles.CssScope = b-kedb1vs24c
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/EventLineModal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXEV2ZW50TGluZU1vZGFsLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-v2hm7du5l0
+
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventTitle_pge/EventTitleModal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudFRpdGxlX3BnZVxFdmVudFRpdGxlTW9kYWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-luexfgpypd

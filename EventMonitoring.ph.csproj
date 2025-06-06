@@ -50,9 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Pages\Identity\EventAdministration\" />
-    <Folder Include="Data\Entities\" />
-    <Folder Include="Data\SeedData\" />
-    <Folder Include="Data\Repositories\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>

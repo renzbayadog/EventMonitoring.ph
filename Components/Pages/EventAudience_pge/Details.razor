@@ -1,0 +1,106 @@
+@page "/EventAudience/Details/{Id:int}"
+@using EventMonitoring.ph.ViewModels
+@using codegeneratorlib.Helpers
+@using EventMonitoring.ph.Components.Pages.content
+@using Newtonsoft.Json
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Details Page</PageTitle>
+<ThreeSectionsTemplate>
+    <Col9Template>
+        @* <AdminHomeHeader /> *@
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <MudBlazor.MudDivider class="mt5" />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">               
+                <div class="x_content" style="margin-top:30px;">
+				
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<dl class="row">
+						<dt class="col-sm-3">Event Title Id:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleId</dd>
+
+						<dt class="col-sm-3">User Id:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.UserId</dd>
+
+						<dt class="col-sm-3">Qr Code:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.QrCode</dd>
+
+						<dt class="col-sm-3">Event Remarks:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventRemarks</dd>
+
+						<dt class="col-sm-3">Event Title Venue Name:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleVenueName</dd>
+
+						<dt class="col-sm-3">Event Title Description:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleDescription</dd>
+
+						<dt class="col-sm-3">Event Title Start Time Date:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleStartTimeDate</dd>
+
+						<dt class="col-sm-3">Event Title End Time Date:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleEndTimeDate</dd>
+
+						<dt class="col-sm-3">Event Title Status:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EventTitleStatus</dd>
+
+						<dt class="col-sm-3">First Name:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.FirstName</dd>
+
+						<dt class="col-sm-3">Middle Initial:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.MiddleInitial</dd>
+
+						<dt class="col-sm-3">Last Name:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.LastName</dd>
+
+						<dt class="col-sm-3">User Name:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.UserName</dd>
+
+						<dt class="col-sm-3">Email Address:</dt>
+						<dd class="col-sm-9">@oEventAudienceVM.EmailAddress</dd>
+
+					</dl>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<a href="/EventAudience/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">Back To List</a>
+						<a href="/EventAudience/Update/@Id" class="btn btn-primary btn-custom float-md-end">Update Details</a>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+		    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	private EventAudienceVM oEventAudienceVM = new();
+	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"EventAudience Details", null!}
+    };
+	protected override async Task OnInitializedAsync()
+	{
+		var restService = new RestService<EventAudienceVM>();
+		//var json = JsonConvert.SerializeObject(search);
+		var result = new ServiceModel<EventAudienceVM>();
+		result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/GetById/{Id}");
+		if (!result.IsSuccess)
+		{
+			NavigationManager.NavigateTo("/EventAudience/Index");
+		}
+		else
+		{
+			oEventAudienceVM = result.Data;
+		}
+	}
+}
+

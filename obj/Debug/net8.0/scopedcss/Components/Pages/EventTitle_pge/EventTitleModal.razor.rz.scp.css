@@ -1,5 +1,5 @@
 
-.modal-backdrop[b-v2hm7du5l0] {
+.modal-backdrop[b-luexfgpypd] {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,7 +10,7 @@
     display: none;
 }
 
-.modal-container[b-v2hm7du5l0] {
+.modal-container[b-luexfgpypd] {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -22,7 +22,7 @@
     min-width: 300px;
 }
 
-.modal-header[b-v2hm7du5l0], .modal-footer[b-v2hm7du5l0] {
+.modal-header[b-luexfgpypd], .modal-footer[b-luexfgpypd] {
     display: flex;
     justify-content: space-between;
     align-items: center;

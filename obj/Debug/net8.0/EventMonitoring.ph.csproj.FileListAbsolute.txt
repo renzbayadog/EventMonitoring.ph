@@ -232,6 +232,7 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.EventMonitoring.ph.props
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\Components\Pages\EventTitle_pge\EventTitleModal.razor.rz.scp.css
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\Components\Pages\EventLine_pge\EventLineModal.razor.rz.scp.css
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\bundle\EventMonitoring.ph.styles.css
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\projectbundle\EventMonitoring.ph.bundle.scp.css

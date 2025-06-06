@@ -12,10 +12,10 @@ namespace codegen.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private db_ab9d6a_dbrenzContext _context;
+        private AppRoleContext _context;
         private RoleManager<Role> _roleManager;
 
-        public RoleController(db_ab9d6a_dbrenzContext context, RoleManager<Role> roleManager)
+        public RoleController(AppRoleContext context, RoleManager<Role> roleManager)
         {
             _context = context;
             _roleManager = roleManager;

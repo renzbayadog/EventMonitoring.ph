@@ -1,1 +1,0 @@
-using Microsoft.AspNetCore.Identity;using EventMonitoring.ph.ViewModels; using EventMonitoring.ph.Data.Entities; namespace EventMonitoring.ph.Data.Repositories{    public interface IRepositoryWrapper    {        //ISampleRepository _Repository { get; }		IEventLineRepository EventLine_Repository { get; }    }}

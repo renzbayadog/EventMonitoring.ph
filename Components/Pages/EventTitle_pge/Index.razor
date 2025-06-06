@@ -1,4 +1,4 @@
-@page "/EventLine/Index"
+@page "/EventTitle/Index"
 @using EventMonitoring.ph.ViewModels 
  @using EventMonitoring.ph.Data.Entities
 @using EventMonitoring.ph.Components.Pages.content
@@ -13,18 +13,18 @@
 <!-- page content -->
 <ThreeSectionsTemplate>
     <Col9Template>
-        <AdminHomeHeader />
+        @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         <MudBlazor.MudDivider class="mt5" />
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
-                <div class="x_content js-EventLine-main-container">					
+                <div class="x_content js-EventTitle-main-container">					
 					
 						<div class="row">
 							<!--BUTTON TOP-->
 							<div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventLine" style="margin-left:10px;" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" style="margin-left:10px;" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
                                 <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
                             </div>
 
@@ -33,9 +33,9 @@
                             </div>
 
 							<!--SEARCH AREA-->
-							<form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventLine()">
+							<form class="form-horizontal" id="search-EventTitle-form" @onsubmit="()=>SearchEventTitle()">
 								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-									<label>Search by: (EventLineName)</label>
+									<label>Search by: (EventLineId)</label>
 								<input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12">
@@ -61,7 +61,7 @@
 							<div class="col-md-12 col-sm-12 col-xs-12" style="display:none" id="js-delete-container">
 								<button class="btn btn-primary btn-md btn-custom fa fa-trash" id="js-delete-bulk">Delete</button>
 							</div>
-                             @if (pEventLines == null)
+                             @if (pEventTitles == null)
                              {
                                  <br />
                                  <p>Loading..</p>
@@ -69,22 +69,34 @@
                              else
                              {
 							<!--DATA TABLE-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-EventLine-list-container">
-								<table class="table table-bordered bulk_action" id="js-table-EventLine" style="margin-top:10px;">
+							<div class="col-md-12 col-sm-12 col-xs-12 js-EventTitle-list-container">
+								<table class="table table-hover bulk_action" id="js-table-EventTitle" style="margin-top:10px;">
 									<thead>
 										<tr>
 											<th class="column-title"><input type="checkbox" id="check-all" /></th>
+											<th class="column-title">Event Title Venue Name</th>
+											<th class="column-title">Event Title Description</th>
+											<th class="column-title">Event Title Start Time Date</th>
+											<th class="column-title">Event Title End Time Date</th>
+											<th class="column-title">Event Title Status</th>
+											<th class="column-title">Event Line Id</th>
 											<th class="column-title">Event Line Name</th>
 											<th class="column-title no-link last"><span class="nobr">Action</span></th>
 										</tr>
 									</thead>
-									<tbody id="js-load-EventLine-row">
-                                    @foreach (var EventLine in pEventLines.List)
+									<tbody id="js-load-EventTitle-row">
+                                    @foreach (var EventTitle in pEventTitles.List)
                                      {
-                                       <tr id="selected-row-eventlineid">
+                                       <tr id="selected-row-eventtitleid">
 								<td><input type="checkbox" class="js-chk-bulk" data-id=''></td>
-									<td>@EventLine.EventLineName</td>
-									<td><a href="/EventLine/Details/@EventLine.EventLineId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventLine.EventLineId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventLine(EventLine.EventLineId)" style="cursor:pointer" id="js-EventLine-delete" data-id="EventLineId"><i class="fa fa-trash-o"></i></a></td>
+									<td>@EventTitle.EventTitleVenueName</td>
+									<td>@EventTitle.EventTitleDescription</td>
+									<td>@EventTitle.EventTitleStartTimeDate</td>
+									<td>@EventTitle.EventTitleEndTimeDate</td>
+									<td>@EventTitle.EventTitleStatus</td>
+									<td>@EventTitle.EventLineId</td>
+									<td>@EventTitle.EventLineName</td>
+									<td><a href="/EventTitle/Details/@EventTitle.EventTitleId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventTitle.EventTitleId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventTitle(EventTitle.EventTitleId)" style="cursor:pointer" id="js-EventTitle-delete" data-id="EventTitleId"><i class="fa fa-trash-o"></i></a></td>
 								</tr>
                                      }
 									</tbody>
@@ -92,20 +104,20 @@
 							</div>
 
 							 <!--PAGINATION AND SUMMARY-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventLine" style="margin-top:-27px;">
+							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle" style="margin-top:-27px;">
 
 								<div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
 									<!--PAGINATION HISTORY-->
-                                    @pEventLines?.PageSummary
+                                    @pEventTitles?.PageSummary
 								</div>
 
 								<div style="float:right;margin-top:20px;">
 									<ul class="pagination pagination-md" id="js-ul-pagination">
                                     <!--LOAD PAGINATION-->
                                     @* <li id="js-prev-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationPrev()">&laquo;</a></li> *@
-                                    @for (var i = 0; i < @pEventLines?.PageIndices?.Count(); i++)
+                                    @for (var i = 0; i < @pEventTitles?.PageIndices?.Count(); i++)
                                     {
-                                        var pageNum = @pEventLines?.PageIndices?.ToArray()[i];
+                                        var pageNum = @pEventTitles?.PageIndices?.ToArray()[i];
 
                                         <li id="js-li-count-@pageNum" class="check page-item li-children-ref" data-id="@pageNum">
                                             <a style="cursor:pointer;" class="page-link" id="click-User-pagination-@pageNum" @onclick="()=>ClickPagination(pageNum)" data-id="@pageNum">
@@ -124,9 +136,9 @@
         </div>
     </div>
 
- <EventLineModal @ref="modalRef" ModalTitle="EventLine">
+ <EventTitleModal @ref="modalRef" ModalTitle="EventTitle">
       <p>This is modal content.</p>
- </EventLineModal>
+ </EventTitleModal>
 
     </Col9Template>
     <Col3Template>
@@ -136,19 +148,19 @@
 </ThreeSectionsTemplate>
 
 @code {
-    private EventLineSearch searchInfo = new();
-    private Pagination<EventLineVM> pEventLines;
-    private EventLineVM oEventLineVM = new();
+    private EventTitleSearch searchInfo = new();
+    private Pagination<EventTitleVM> pEventTitles;
+    private EventTitleVM oEventTitleVM = new();
     private string responseMessage;
     private int PageSize = 10;
     private int CurrentPage = 1;
 
-    private EventLineModal modalRef;
+    private EventTitleModal modalRef;
 
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
-        {"EventLine List", null!}
+        {"EventTitle List", null!}
     };
 
     protected override async Task OnInitializedAsync()
@@ -156,10 +168,10 @@
         // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(1000);
 
-        var search = new EventLineSearch();
+        var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(CurrentPage, PageSize, search);
-        pEventLines = list;
+        var list = await LoadEventTitle(CurrentPage, PageSize, search);
+        pEventTitles = list;
     }
 
     private async Task ExportFile()
@@ -167,7 +179,7 @@
         var restService = new RestService<ExcelData>();
         //var json = JsonConvert.SerializeObject(search);
         var result = new ServiceModel<ExcelData>();
-        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/export/report");
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/export/report");
         if (!result.IsSuccess)
         {
         }
@@ -179,19 +191,19 @@
         }
     }
 
-    private async Task<Pagination<EventLineVM>> LoadEventLine(int? currpage, int pagesize, EventLineSearch search)
+    private async Task<Pagination<EventTitleVM>> LoadEventTitle(int? currpage, int pagesize, EventTitleSearch search)
     {
-        var restService = new RestService<Pagination<EventLineVM>>();
+        var restService = new RestService<Pagination<EventTitleVM>>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<Pagination<EventLineVM>>();
-        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
+        var result = new ServiceModel<Pagination<EventTitleVM>>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
         if (!result.IsSuccess)
         {
-            return pEventLines = null;
+            return pEventTitles = null;
         }
         else
         {
-            return pEventLines = result.Data;
+            return pEventTitles = result.Data;
         }
     }
 
@@ -200,22 +212,22 @@
         await modalRef.Show(id);
     }
 
-    private async Task SearchEventLine()
+    private async Task SearchEventTitle()
     {
-        var search = new EventLineSearch();
+        var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(CurrentPage, PageSize, search);
-        pEventLines = list;
+        var list = await LoadEventTitle(CurrentPage, PageSize, search);
+        pEventTitles = list;
     }
 
-    private async Task CreateEventLine()
+    private async Task CreateEventTitle()
     {
-        var restService = new RestService<List<EventLineVM>>();
-        var result = new ServiceModel<List<EventLineVM>>();
+        var restService = new RestService<List<EventTitleVM>>();
+        var result = new ServiceModel<List<EventTitleVM>>();
 
-        var json = JsonConvert.SerializeObject(oEventLineVM);
+        var json = JsonConvert.SerializeObject(oEventTitleVM);
 
-        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/add", json);
+        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/add", json);
 
         if (!result.IsSuccess)
         {
@@ -223,22 +235,22 @@
         }
         else
         {
-            var search = new EventLineSearch();
+            var search = new EventTitleSearch();
             search.Keyword = searchInfo?.Keyword;
-            var list = await LoadEventLine(CurrentPage, PageSize, search);
-            pEventLines = list;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
         }
     }
 
-    private async Task UpdateEventLine()
+    private async Task UpdateEventTitle()
     {
-        var restService = new RestService<List<EventLineVM>>();
+        var restService = new RestService<List<EventTitleVM>>();
 
-        var json = JsonConvert.SerializeObject(oEventLineVM);
+        var json = JsonConvert.SerializeObject(oEventTitleVM);
 
-        var result = new ServiceModel<List<EventLineVM>>();
+        var result = new ServiceModel<List<EventTitleVM>>();
 
-        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/update", json);
+        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/update", json);
 
         if (!result.IsSuccess)
         {
@@ -246,20 +258,20 @@
         }
         else
         {
-            var search = new EventLineSearch();
+            var search = new EventTitleSearch();
             search.Keyword = searchInfo?.Keyword;
-            var list = await LoadEventLine(CurrentPage, PageSize, search);
-            pEventLines = list;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
         }
     }
 
-    public async Task DeleteEventLine(int id)
+    public async Task DeleteEventTitle(int id)
     {
-        var restService = new RestService<List<EventLineVM>>();
+        var restService = new RestService<List<EventTitleVM>>();
 
-        var result = new ServiceModel<List<EventLineVM>>();
+        var result = new ServiceModel<List<EventTitleVM>>();
 
-        result = await restService.Delete($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/{id}/delete");
+        result = await restService.Delete($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/{id}/delete");
 
         if (!result.IsSuccess)
         {
@@ -267,37 +279,37 @@
         }
         else
         {
-            var search = new EventLineSearch();
+            var search = new EventTitleSearch();
             search.Keyword = searchInfo?.Keyword;
-            var list = await LoadEventLine(CurrentPage, PageSize, search);
-            pEventLines = list;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
         }
     }
 
     private async Task ClickPagination(int? elementId)
     {
         var currrentPage = elementId;
-        var search = new EventLineSearch();
+        var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(currrentPage, PageSize, search);
-        pEventLines = list;
+        var list = await LoadEventTitle(currrentPage, PageSize, search);
+        pEventTitles = list;
     }
 
     private async Task ClickPaginationPrev()
     {
         var currrentPage = CurrentPage - 1;
-        var search = new EventLineSearch();
+        var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(currrentPage, PageSize, search);
-        pEventLines = list;
+        var list = await LoadEventTitle(currrentPage, PageSize, search);
+        pEventTitles = list;
     }
 
     private async Task ClickPaginationNext()
     {
         var currrentPage = CurrentPage + 1;
-        var search = new EventLineSearch();
+        var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(currrentPage, PageSize, search);
-        pEventLines = list;
+        var list = await LoadEventTitle(currrentPage, PageSize, search);
+        pEventTitles = list;
     }
 }

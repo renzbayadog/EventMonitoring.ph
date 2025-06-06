@@ -1,7 +1,8 @@
-@page "/EventLine/Create"
+@page "/EventAudience/Create"
 @using EventMonitoring.ph.ViewModels
 @using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
+@using codegen.Extensions.Identity
 @using codegeneratorlib.Helpers
 @using EventMonitoring.ph.Components.Pages.content
 
@@ -16,18 +17,19 @@
 
 <ThreeSectionsTemplate>
     <Col9Template>
+        @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         <MudBlazor.MudDivider class="mt5" />
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">               
-                <div class="x_content EventLine-container">
+                <div class="x_content EventAudience-container">
                     <div class="row">
 						<div class="modal-header">
-							<h5><b>Create New EventLine</b></h5>
+							<h5><b>Create New EventAudience</b></h5>
 						</div>
 
-                        <EditForm class="form-horizontal form-label-left" id="EventLine-form" Model="oEventLineVM" OnValidSubmit="()=>SendRequest()">                           
+                        <EditForm class="form-horizontal form-label-left" id="EventAudience-form" Model="oEventAudienceVM" OnValidSubmit="()=>SendRequest()">                           
 							<div class="modal-body">
 							  <DataAnnotationsValidator />
 							  <ValidationSummary />
@@ -39,15 +41,32 @@
 							  }
 							  
 							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Line Name*</label>	
-								<input @bind="oEventLineVM.EventLineName" id="js-eventlinename" class="form-control" />
+								<label>Qr Code</label>	
+								<input @bind="oEventAudienceVM.QrCode" id="js-qrcode" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Remarks</label>	
+								<input @bind="oEventAudienceVM.EventRemarks" id="js-eventremarks" class="form-control" />
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>Event Title Venue Name</label>	
+								<select @bind="oEventAudienceVM.EventTitleId" id="js-eventtitleid" class="form-control"><option value="">-- Select --</option>@if (listEventTitle != null){@foreach (var item in listEventTitle){<option value="@item.EventTitleId">@item.EventTitleVenueName</option>}}
+							</select>
+								
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+								<label>User Name</label>	
+								<select @bind="oEventAudienceVM.UserId" id="js-userid" class="form-control"><option value="">-- Select --</option>@if (listUser != null){@foreach (var item in listUser){<option value="@item.Id">@item.UserName</option>}}
+							</select>
 								
 							</div>
 							</div>
 							 <div class="modal-footer">
 							   <div class="col-md-12 col-sm-12 col-xs-12 form-group">
 
-									<a href="/EventLine/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">
+									<a href="/EventAudience/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">
 									<i class="fa fa-close"></i> Cancel Request</a>
 
 							  		@if (Loading)
@@ -80,17 +99,18 @@
 
 @code {
 
-	private EventLineVM oEventLineVM = new();
+	private EventAudienceVM oEventAudienceVM = new();
 	private string responseMessage;
 	private bool Loading = false;
-	
+
 	private bool AlertShowMessage = false;
 
-	
+	private List<EventTitle> listEventTitle => repowrapper.EventTitle_Repository.FindAll().ToList();
+	private List<User> listUser => new List<User>() { new User() { Id = 2, UserName = "admin"} };
 	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
-        {"Create New EventLine", null!}
+        {"Create New EventAudience", null!}
     };
 
 	//file upload
@@ -106,13 +126,13 @@
 	private async Task SendRequest()
 	{
 		Loading = true;
-		var restService = new RestService<List<EventLineVM>>();
+		var restService = new RestService<List<EventAudienceVM>>();
 
-		var json = JsonConvert.SerializeObject(oEventLineVM);
+		var json = JsonConvert.SerializeObject(oEventAudienceVM);
 
-		var result = new ServiceModel<List<EventLineVM>>();
+		var result = new ServiceModel<List<EventAudienceVM>>();
 
-		result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/add", json);
+		result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/add", json);
 
 		if (!result.IsSuccess)
 		{
@@ -121,7 +141,7 @@
 		else
 		{
 			Loading = false;
-			oEventLineVM = new();
+			oEventAudienceVM = new();
 
 			AlertShowMessage = true;
 			responseMessage = "Request has been successfully submitted!";

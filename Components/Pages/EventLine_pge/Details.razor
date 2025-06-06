@@ -1,19 +1,16 @@
 @page "/EventLine/Details/{Id:int}"
 @using EventMonitoring.ph.ViewModels
 @using codegeneratorlib.Helpers
+@using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager;
 
 <PageTitle>Details Page</PageTitle>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h5>EventLine/Update</h5>
-        </div>
-		<hr />
-    </div>
-    <div class="clearfix"></div>
+<ThreeSectionsTemplate>
+    <Col9Template>
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <MudBlazor.MudDivider class="mt5" />
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">               
@@ -34,14 +31,22 @@
             </div>
         </div>
     </div>
-</div>
-
+		    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
 
 @code {
 	[Parameter]
 	public int Id { get; set; }
 	private EventLineVM oEventLineVM = new();
-
+	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"EventLine Details", null!}
+    };
 	protected override async Task OnInitializedAsync()
 	{
 		var restService = new RestService<EventLineVM>();

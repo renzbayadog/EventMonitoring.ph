@@ -1,0 +1,85 @@
+@page "/EventTitle/Details/{Id:int}"
+@using EventMonitoring.ph.ViewModels
+@using codegeneratorlib.Helpers
+@using EventMonitoring.ph.Components.Pages.content
+@using Newtonsoft.Json
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Details Page</PageTitle>
+<ThreeSectionsTemplate>
+    <Col9Template>
+        @* <AdminHomeHeader /> *@
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <MudBlazor.MudDivider class="mt5" />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">               
+                <div class="x_content" style="margin-top:30px;">
+				
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<dl class="row">
+						<dt class="col-sm-3">Event Title Venue Name:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventTitleVenueName</dd>
+
+						<dt class="col-sm-3">Event Title Description:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventTitleDescription</dd>
+
+						<dt class="col-sm-3">Event Title Start Time Date:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventTitleStartTimeDate</dd>
+
+						<dt class="col-sm-3">Event Title End Time Date:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventTitleEndTimeDate</dd>
+
+						<dt class="col-sm-3">Event Title Status:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventTitleStatus</dd>
+
+						<dt class="col-sm-3">Event Line Id:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventLineId</dd>
+
+						<dt class="col-sm-3">Event Line Name:</dt>
+						<dd class="col-sm-9">@oEventTitleVM.EventLineName</dd>
+
+					</dl>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<a href="/EventTitle/Index" class="btn btn-danger btn-custom float-md-end" style="margin-left:10px;">Back To List</a>
+						<a href="/EventTitle/Update/@Id" class="btn btn-primary btn-custom float-md-end">Update Details</a>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+		    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	private EventTitleVM oEventTitleVM = new();
+	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"EventTitle Details", null!}
+    };
+	protected override async Task OnInitializedAsync()
+	{
+		var restService = new RestService<EventTitleVM>();
+		//var json = JsonConvert.SerializeObject(search);
+		var result = new ServiceModel<EventTitleVM>();
+		result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/GetById/{Id}");
+		if (!result.IsSuccess)
+		{
+			NavigationManager.NavigateTo("/EventTitle/Index");
+		}
+		else
+		{
+			oEventTitleVM = result.Data;
+		}
+	}
+}
+
