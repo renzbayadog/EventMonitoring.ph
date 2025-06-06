@@ -63,7 +63,7 @@
 
   <ItemGroup>
     <Reference Include="app_application">
-      <HintPath>Debug\net8.0\app_application.dll</HintPath>
+      <HintPath>Debug\net8.0\librarybin\app_application.dll</HintPath>
     </Reference>
     <Reference Include="app_infra">
       <HintPath>Debug\net8.0\librarybin\app_infra.dll</HintPath>
