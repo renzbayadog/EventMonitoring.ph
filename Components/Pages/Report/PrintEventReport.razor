@@ -1,0 +1,47 @@
+﻿@page "/Eventreport/Print"
+@using EventMonitoring.ph.Components.Pages.content
+@using EventMonitoring.ph.ViewModels
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Report</PageTitle>
+
+<!-- page content -->
+<ThreeSectionsTemplate>
+    <Col9Template>
+        <AdminHomeHeader />
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <MudBlazor.MudDivider class="mt5" />
+        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+            <select id="js-eventtitleid" class="form-control">
+                <option value="">-- Select --</option>
+                @if (oEventAudienceVM != null)
+                {
+                    @foreach (var item in oEventAudienceVM)
+                    {
+                        <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
+                    }
+                }
+
+            </select>
+        </div>
+
+
+    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
+
+
+@code {
+    private List<EventAudienceVM> oEventAudienceVM = new();
+
+    private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"Event Report List", null!}
+    };
+}
