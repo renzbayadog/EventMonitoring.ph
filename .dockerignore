@@ -1,0 +1,95 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+librarybin/
+**/bin/
+**/obj/
+**/wwwroot/dist/
+**/wwwroot/css/
+**/wwwroot/js/
+**/wwwroot/lib/
+**/wwwroot/images/
+**/wwwroot/fonts/
+**/wwwroot/vendor/
+**/wwwroot/plugins/
+**/wwwroot/themes/
+**/wwwroot/uploads/
+**/wwwroot/temp/
+**/wwwroot/cache/
+**/wwwroot/logs/
+**/wwwroot/backup/
+**/wwwroot/export/
+**/wwwroot/import/
+**/wwwroot/upload/
+**/wwwroot/download/
+**/wwwroot/private/
+**/wwwroot/public/
+**/wwwroot/secure/
+**/wwwroot/storage/
+**/wwwroot/tmp/
+**/wwwroot/var/
+**/wwwroot/var/cache/
+**/wwwroot/var/log/
+**/wwwroot/var/sessions/
+**/wwwroot/var/tmp/ 
