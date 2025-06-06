@@ -8841,6 +8841,7 @@
       "AspNetCore.Authentication.Basic >= 8.0.0",
       "Mapster >= 7.4.0",
       "MediatR >= 12.4.1",
+      "Microsoft.AspNetCore.Components.Analyzers >= 8.0.10",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.10",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.10",
       "Microsoft.AspNetCore.SignalR.Client >= 8.0.10",
@@ -8925,6 +8926,12 @@
           "MediatR": {
             "target": "Package",
             "version": "[12.4.1, )"
+          },
+          "Microsoft.AspNetCore.Components.Analyzers": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[8.0.10, )"
           },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",

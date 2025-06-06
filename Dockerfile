@@ -23,7 +23,7 @@ COPY --from=node-build /app/node_modules ./node_modules
 
 # Copy csproj and restore as distinct layers
 COPY EventMonitoring.ph.csproj ./
-RUN dotnet restore --no-cache && \
+RUN dotnet restore --no-cache --force && \
     dotnet tool restore
 
 # Copy the rest of the project files
@@ -36,7 +36,10 @@ RUN dotnet build "EventMonitoring.ph.csproj" -c Release -o /app/build
 RUN dotnet publish "EventMonitoring.ph.csproj" -c Release -o /app/publish \
     --no-restore \
     --no-self-contained \
-    -r linux-x64
+    -r linux-x64 \
+    /p:UseSharedCompilation=false \
+    /p:BuildInParallel=false \
+    /m:1
 
 # Stage 3: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
