@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Pages\Identity\EventAdministration\" />
+    <Folder Include="librarybin\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
@@ -67,10 +68,10 @@
 
   <ItemGroup>
     <Reference Include="app_application">
-      <HintPath>librarybin\app_application.dll</HintPath>
+      <HintPath>librarybin\Debug\net8.0\app_application.dll</HintPath>
     </Reference>
     <Reference Include="app_infra">
-      <HintPath>librarybin\app_infra.dll</HintPath>
+      <HintPath>librarybin\Debug\net8.0\app_infra.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
