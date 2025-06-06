@@ -13,9 +13,10 @@
 <!-- page content -->
 <ThreeSectionsTemplate>
     <Col9Template>
-        <AdminHomeHeader />
+        @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
-        <MudBlazor.MudDivider class="mt5" />
+        @* <MudBlazor.MudDivider class="mt5" /> *@
+        <br />
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -28,31 +29,29 @@
                                 <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
                             </div>
 
-							<div class="col-md-12 col-sm-12 col-xs-12 divider-dashed">
-                                <hr />
-                            </div>
-
 							<!--SEARCH AREA-->
 							<form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventLine()">
-								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-									<label>Search by: (EventLineName)</label>
-								<input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
-								</div>
-								<div class="col-md-12 col-sm-12 col-xs-12">
-									<label>Page Size:</label>
-									<select class="form-control" id="js-page-size" @bind="PageSize">
-										<option disabled>Max rows</option>
-										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
-								</div>
-								<div class="col-md-12 col-sm-12 col-xs-12 form-group" style="margin-top:10px;">
-									<button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
-								</div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label>Search by: (EventLineName)</label>
+                                        <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label>Page Size:</label>
+                                        <select class="form-control" id="js-page-size" @bind="PageSize">
+                                            <option disabled>Max rows</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
+                                        <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
 							</form>
                         </div>
 
@@ -69,30 +68,28 @@
                              else
                              {
 							<!--DATA TABLE-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-EventLine-list-container">
-								<table class="table table-bordered bulk_action" id="js-table-EventLine" style="margin-top:10px;">
-									<thead>
-										<tr>
-											<th class="column-title"><input type="checkbox" id="check-all" /></th>
-											<th class="column-title">Event Line Name</th>
-											<th class="column-title no-link last"><span class="nobr">Action</span></th>
-										</tr>
-									</thead>
-									<tbody id="js-load-EventLine-row">
-                                    @foreach (var EventLine in pEventLines.List)
-                                     {
-                                       <tr id="selected-row-eventlineid">
-								<td><input type="checkbox" class="js-chk-bulk" data-id=''></td>
-									<td>@EventLine.EventLineName</td>
-									<td><a href="/EventLine/Details/@EventLine.EventLineId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventLine.EventLineId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventLine(EventLine.EventLineId)" style="cursor:pointer" id="js-EventLine-delete" data-id="EventLineId"><i class="fa fa-trash-o"></i></a></td>
-								</tr>
-                                     }
-									</tbody>
-								</table>
-							</div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-EventLine-list-container">
+                                    <table class="table table-hover bulk_action" id="js-table-EventLine" style="margin-top:10px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="column-title">Event Line Name</th>
+                                                <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="js-load-EventLine-row">
+                                            @foreach (var EventLine in pEventLines.List)
+                                            {
+                                                <tr id="selected-row-eventlineid">
+                                                    <td>@EventLine.EventLineName</td>
+                                                    <td><a href="/EventLine/Details/@EventLine.EventLineId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventLine.EventLineId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventLine(EventLine.EventLineId)" style="cursor:pointer" id="js-EventLine-delete" data-id="EventLineId"><i class="fa fa-trash-o"></i></a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
 
 							 <!--PAGINATION AND SUMMARY-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventLine" style="margin-top:-27px;">
+							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventLine" style="">
 
 								<div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
 									<!--PAGINATION HISTORY-->
@@ -135,6 +132,9 @@
     <FooterTemplate><Footer /></FooterTemplate>
 </ThreeSectionsTemplate>
 
+
+<NetcodeHubToast @ref="ToastComponent" Duration="4000" />
+
 @code {
     private EventLineSearch searchInfo = new();
     private Pagination<EventLineVM> pEventLines;
@@ -144,6 +144,9 @@
     private int CurrentPage = 1;
 
     private EventLineModal modalRef;
+
+    NetcodeHubToast ToastComponent;
+
 
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
@@ -264,6 +267,8 @@
         if (!result.IsSuccess)
         {
             responseMessage = result.Error;
+
+            await ToastComponent!.ShowErrorToast("Error", responseMessage);
         }
         else
         {
@@ -271,30 +276,15 @@
             search.Keyword = searchInfo?.Keyword;
             var list = await LoadEventLine(CurrentPage, PageSize, search);
             pEventLines = list;
+
+
+            await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
         }
     }
 
     private async Task ClickPagination(int? elementId)
     {
         var currrentPage = elementId;
-        var search = new EventLineSearch();
-        search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(currrentPage, PageSize, search);
-        pEventLines = list;
-    }
-
-    private async Task ClickPaginationPrev()
-    {
-        var currrentPage = CurrentPage - 1;
-        var search = new EventLineSearch();
-        search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventLine(currrentPage, PageSize, search);
-        pEventLines = list;
-    }
-
-    private async Task ClickPaginationNext()
-    {
-        var currrentPage = CurrentPage + 1;
         var search = new EventLineSearch();
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventLine(currrentPage, PageSize, search);

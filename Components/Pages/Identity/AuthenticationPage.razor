@@ -4,27 +4,19 @@
 @code 
 {
     [CascadingParameter]
-    public Task<AuthenticationState> ClientAuthState { get; set; }
+    public Task<AuthenticationState>? ClientAuthState { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            //create admin seeder
             await accountService.SetupAsync();
 
             if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
             {
-                NavManager.NavigateTo("/App/home", false, true);
+                NavManager.NavigateTo("/app/home", false, true);
 
             }
             else
             {
                 NavManager.NavigateTo("/Account/login", false, true);
             }
-        }
-        catch
-        {
-            NavManager.NavigateTo("/Account/login", false, true);
-        }
     }
 }

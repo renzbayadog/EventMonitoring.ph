@@ -59,8 +59,6 @@
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
   
-  
-  
   <!--<ItemGroup>
     <ProjectReference Include="..\..\codegeneratorlib\app_application\app_application.csproj" />
     <ProjectReference Include="..\..\codegeneratorlib\Infra\app_infra.csproj" />

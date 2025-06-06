@@ -15,7 +15,8 @@
     <Col9Template>
         @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
-        <MudBlazor.MudDivider class="mt5" />
+        @* <MudBlazor.MudDivider class="mt5" /> *@
+        <br />
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -27,33 +28,30 @@
                                 <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" style="margin-left:10px;" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
                                 <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
                             </div>
-
-							<div class="col-md-12 col-sm-12 col-xs-12 divider-dashed">
-                                <hr />
-                            </div>
-
-							<!--SEARCH AREA-->
-							<form class="form-horizontal" id="search-EventTitle-form" @onsubmit="()=>SearchEventTitle()">
-								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-									<label>Search by: (EventLineId)</label>
-								<input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
-								</div>
-								<div class="col-md-12 col-sm-12 col-xs-12">
-									<label>Page Size:</label>
-									<select class="form-control" id="js-page-size" @bind="PageSize">
-										<option disabled>Max rows</option>
-										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
-								</div>
-								<div class="col-md-12 col-sm-12 col-xs-12 form-group" style="margin-top:10px;">
-									<button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
-								</div>
-							</form>
+                            <!--SEARCH AREA-->
+                            <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventTitle()">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label>Search by: (EventLineName)</label>
+                                        <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                        <label>Page Size:</label>
+                                        <select class="form-control" id="js-page-size" @bind="PageSize">
+                                            <option disabled>Max rows</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
+                                        <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
 
 						<div class="row">
@@ -68,43 +66,42 @@
                              }
                              else
                              {
-							<!--DATA TABLE-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-EventTitle-list-container">
-								<table class="table table-hover bulk_action" id="js-table-EventTitle" style="margin-top:10px;">
-									<thead>
-										<tr>
-											<th class="column-title"><input type="checkbox" id="check-all" /></th>
-											<th class="column-title">Event Title Venue Name</th>
-											<th class="column-title">Event Title Description</th>
-											<th class="column-title">Event Title Start Time Date</th>
-											<th class="column-title">Event Title End Time Date</th>
-											<th class="column-title">Event Title Status</th>
-											<th class="column-title">Event Line Id</th>
-											<th class="column-title">Event Line Name</th>
-											<th class="column-title no-link last"><span class="nobr">Action</span></th>
-										</tr>
-									</thead>
-									<tbody id="js-load-EventTitle-row">
-                                    @foreach (var EventTitle in pEventTitles.List)
-                                     {
-                                       <tr id="selected-row-eventtitleid">
-								<td><input type="checkbox" class="js-chk-bulk" data-id=''></td>
-									<td>@EventTitle.EventTitleVenueName</td>
-									<td>@EventTitle.EventTitleDescription</td>
-									<td>@EventTitle.EventTitleStartTimeDate</td>
-									<td>@EventTitle.EventTitleEndTimeDate</td>
-									<td>@EventTitle.EventTitleStatus</td>
-									<td>@EventTitle.EventLineId</td>
-									<td>@EventTitle.EventLineName</td>
-									<td><a href="/EventTitle/Details/@EventTitle.EventTitleId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventTitle.EventTitleId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventTitle(EventTitle.EventTitleId)" style="cursor:pointer" id="js-EventTitle-delete" data-id="EventTitleId"><i class="fa fa-trash-o"></i></a></td>
-								</tr>
-                                     }
-									</tbody>
-								</table>
-							</div>
+                                <!--DATA TABLE-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-EventTitle-list-container">
+                                    <table class="table table-hover bulk_action" id="js-table-EventTitle" style="margin-top:10px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="column-title">Event Line Name</th>
+                                                <th class="column-title">Venue</th>
+                                                <th class="column-title">Description</th>
+                                                <th class="column-title">Start Time Date</th>
+                                                <th class="column-title">End Time Date</th>
+                                                <th class="column-title">Status</th>
+                                                @* <th class="column-title">Event Line Id</th> *@
+                                                <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="js-load-EventTitle-row">
+                                            @foreach (var EventTitle in pEventTitles.List)
+                                            {
+                                                <tr id="selected-row-eventtitleid">
+
+                                                    <td>@EventTitle.EventLineName</td>
+                                                    <td>@EventTitle.EventTitleVenueName</td>
+                                                    <td>@EventTitle.EventTitleDescription</td>
+                                                    <td>@EventTitle.EventTitleStartTimeDate</td>
+                                                    <td>@EventTitle.EventTitleEndTimeDate</td>
+                                                    <td>@EventTitle.EventTitleStatus</td>
+                                                    @* <td>@EventTitle.EventLineId</td> *@
+                                                    <td><a href="/EventTitle/Details/@EventTitle.EventTitleId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventTitle.EventTitleId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventTitle(EventTitle.EventTitleId)" style="cursor:pointer" id="js-EventTitle-delete" data-id="EventTitleId"><i class="fa fa-trash-o"></i></a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
 
 							 <!--PAGINATION AND SUMMARY-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle" style="margin-top:-27px;">
+							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle">
 
 								<div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
 									<!--PAGINATION HISTORY-->
@@ -147,6 +144,8 @@
     <FooterTemplate><Footer /></FooterTemplate>
 </ThreeSectionsTemplate>
 
+<NetcodeHubToast @ref="ToastComponent" Duration="4000" />
+
 @code {
     private EventTitleSearch searchInfo = new();
     private Pagination<EventTitleVM> pEventTitles;
@@ -156,6 +155,8 @@
     private int CurrentPage = 1;
 
     private EventTitleModal modalRef;
+
+    NetcodeHubToast ToastComponent;
 
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
@@ -255,6 +256,9 @@
         if (!result.IsSuccess)
         {
             responseMessage = result.Error;
+
+            await ToastComponent!.ShowSuccessToast("Danger", responseMessage);
+
         }
         else
         {
@@ -276,6 +280,7 @@
         if (!result.IsSuccess)
         {
             responseMessage = result.Error;
+            await ToastComponent!.ShowErrorToast("Error", responseMessage);
         }
         else
         {
@@ -283,30 +288,13 @@
             search.Keyword = searchInfo?.Keyword;
             var list = await LoadEventTitle(CurrentPage, PageSize, search);
             pEventTitles = list;
+            await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
         }
     }
 
     private async Task ClickPagination(int? elementId)
     {
         var currrentPage = elementId;
-        var search = new EventTitleSearch();
-        search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventTitle(currrentPage, PageSize, search);
-        pEventTitles = list;
-    }
-
-    private async Task ClickPaginationPrev()
-    {
-        var currrentPage = CurrentPage - 1;
-        var search = new EventTitleSearch();
-        search.Keyword = searchInfo?.Keyword;
-        var list = await LoadEventTitle(currrentPage, PageSize, search);
-        pEventTitles = list;
-    }
-
-    private async Task ClickPaginationNext()
-    {
-        var currrentPage = CurrentPage + 1;
         var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventTitle(currrentPage, PageSize, search);

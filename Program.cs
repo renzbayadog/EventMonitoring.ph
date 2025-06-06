@@ -16,7 +16,6 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthStateProvider>();
 builder.Services.AddScoped<ICustomAuthorizationService, CustomAuthorizationService>();
 builder.Services.AddScoped<NetcodeHubConnectionService>();
