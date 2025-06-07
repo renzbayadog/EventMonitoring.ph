@@ -25,13 +25,17 @@
 						<div class="row">
 							<!--BUTTON TOP-->
 							<div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventAudience" style="margin-left:10px;" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventAudience" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
 								<a href="/EventAudience/Create" class="btn btn-primary btn-custom float-end popup"><i class="fa fa-plus"></i> Create New</a>
 							</div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <MudBlazor.MudDivider class="mt5" />
+                            </div>
 
+                        </div>
+                        <div class="row">
                             <!--SEARCH AREA-->
                             <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventAudience()">
-                                <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label>Search by: (EventLineName)</label>
                                         <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
@@ -50,10 +54,9 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
                                         <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
-                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                        </form>
+                                </div>
 
 						<div class="row">
 							<!--BULK BUTTON-->

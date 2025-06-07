@@ -1,5 +1,5 @@
 @page "/EventTitle/Index"
-@using EventMonitoring.ph.ViewModels 
+@using EventMonitoring.ph.ViewModels
  @using EventMonitoring.ph.Data.Entities
 @using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
@@ -17,55 +17,59 @@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         @* <MudBlazor.MudDivider class="mt5" /> *@
         <br />
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_content js-EventTitle-main-container">					
-					
-						<div class="row">
-							<!--BUTTON TOP-->
-							<div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" style="margin-left:10px;" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content js-EventTitle-main-container">
+
+                        <div class="row">
+                            <!--BUTTON TOP-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
                                 <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
                             </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <MudBlazor.MudDivider class="mt5" />
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <!--SEARCH AREA-->
                             <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventTitle()">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                        <label>Search by: (EventLineName)</label>
-                                        <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                                        <label>Page Size:</label>
-                                        <select class="form-control" id="js-page-size" @bind="PageSize">
-                                            <option disabled>Max rows</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                            <option value="40">40</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
-                                        <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
-                                    </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>Search by: (EventLineName)</label>
+                                    <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                    <label>Page Size:</label>
+                                    <select class="form-control" id="js-page-size" @bind="PageSize">
+                                        <option disabled>Max rows</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
+                                    <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </form>
                         </div>
-
-						<div class="row">
-							<!--BULK BUTTON-->
-							<div class="col-md-12 col-sm-12 col-xs-12" style="display:none" id="js-delete-container">
-								<button class="btn btn-primary btn-md btn-custom fa fa-trash" id="js-delete-bulk">Delete</button>
-							</div>
-                             @if (pEventTitles == null)
-                             {
-                                 <br />
-                                 <p>Loading..</p>
-                             }
-                             else
-                             {
+                        <div class="row">
+                            <!--BULK BUTTON-->
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="display:none" id="js-delete-container">
+                                <button class="btn btn-primary btn-md btn-custom fa fa-trash" id="js-delete-bulk">Delete</button>
+                            </div>
+                            @if (pEventTitles == null)
+                            {
+                                <br />
+                                <p>Loading..</p>
+                            }
+                            else
+                            {
                                 <!--DATA TABLE-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 js-EventTitle-list-container">
                                     <table class="table table-hover bulk_action" id="js-table-EventTitle" style="margin-top:10px;">
@@ -100,42 +104,42 @@
                                     </table>
                                 </div>
 
-							 <!--PAGINATION AND SUMMARY-->
-							<div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle">
+                                <!--PAGINATION AND SUMMARY-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle">
 
-								<div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
-									<!--PAGINATION HISTORY-->
-                                    @pEventTitles?.PageSummary
-								</div>
+                                    <div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
+                                        <!--PAGINATION HISTORY-->
+                                        @pEventTitles?.PageSummary
+                                    </div>
 
-								<div style="float:right;margin-top:20px;">
-									<ul class="pagination pagination-md" id="js-ul-pagination">
-                                    <!--LOAD PAGINATION-->
-                                    @* <li id="js-prev-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationPrev()">&laquo;</a></li> *@
-                                    @for (var i = 0; i < @pEventTitles?.PageIndices?.Count(); i++)
-                                    {
-                                        var pageNum = @pEventTitles?.PageIndices?.ToArray()[i];
+                                    <div style="float:right;margin-top:20px;">
+                                        <ul class="pagination pagination-md" id="js-ul-pagination">
+                                            <!--LOAD PAGINATION-->
+                                            @* <li id="js-prev-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationPrev()">&laquo;</a></li> *@
+                                            @for (var i = 0; i < @pEventTitles?.PageIndices?.Count(); i++)
+                                            {
+                                                var pageNum = @pEventTitles?.PageIndices?.ToArray()[i];
 
-                                        <li id="js-li-count-@pageNum" class="check page-item li-children-ref" data-id="@pageNum">
-                                            <a style="cursor:pointer;" class="page-link" id="click-User-pagination-@pageNum" @onclick="()=>ClickPagination(pageNum)" data-id="@pageNum">
-                                                @pageNum
-                                            </a>
-                                        </li>
-                                    }
-                                    @* <li id="js-next-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationNext()">&raquo;</a></li> *@
-									</ul>
-							   </div>
-						</div>
-                       }
-					</div>
-				</div>
+                                                <li id="js-li-count-@pageNum" class="check page-item li-children-ref" data-id="@pageNum">
+                                                    <a style="cursor:pointer;" class="page-link" id="click-User-pagination-@pageNum" @onclick="()=>ClickPagination(pageNum)" data-id="@pageNum">
+                                                        @pageNum
+                                                    </a>
+                                                </li>
+                                            }
+                                            @* <li id="js-next-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationNext()">&raquo;</a></li> *@
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
- <EventTitleModal @ref="modalRef" ModalTitle="EventTitle">
-      <p>This is modal content.</p>
- </EventTitleModal>
+        <EventTitleModal @ref="modalRef" ModalTitle="EventTitle">
+            <p>This is modal content.</p>
+        </EventTitleModal>
 
     </Col9Template>
     <Col3Template>
@@ -301,4 +305,4 @@
         var list = await LoadEventTitle(currrentPage, PageSize, search);
         pEventTitles = list;
     }
-}
+}
