@@ -3,9 +3,12 @@
 @using EventMonitoring.ph.Components.Pages.General
 @using EventMonitoring.ph.Components.Pages.content
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
 @using codegen.Extensions
 @using codegen.ViewModels
 @rendermode InteractiveServer
+@implements IDisposable
+
 <PageTitle>Manage User</PageTitle>
 <TwoSectionsTemplate>
     <Col12Template>
@@ -45,7 +48,7 @@
         </div>
         <Modal @bind-Open="IsOpen"
                BootstrapClass="border-info rounded p-2 ml-2 mr-2 align-item-conter position-absolute top-50 start-50 translate-middle"
-               CustomStyle="width:300px;margin-top:200px;">
+               CustomStyle="width:100px;margin-top:200px;">
             <ContentContent>
                 <div class="card p-3 shadow-lg border-success">
                     <div class="card-title text-center text-info d-flex justify-content-between">
@@ -233,36 +236,37 @@
             NavManager.NavigateTo("Account/Access-Denied");
 
         await GetUsersWithClaims();
-        // passwordState.Changed += StateHasChanged;
-        // homeGenericState.StateChanged += StateButtonClicked;
+        passwordState.Changed += StateHasChanged;
+        homeGenericState.StateChanged += StateButtonClicked;
 
-        // hub = netcodeHubConnectionService.GetHubConnection();
-        // hub.On<string>("Notify", async (clientId) =>
-        // {
-        //     await CallWhenNotified();
-        // });
+        hub = netcodeHubConnectionService.GetHubConnection();
+        hub.On<string>("Notify", async (clientId) =>
+        {
+            await CallWhenNotified();
+        });
 
-        // if (hub == null)
-        // {
-        //     await hub!.StartAsync();
-        // }
+        if (hub == null)
+        {
+            await hub!.StartAsync();
+        }
     }
 
-    // async Task CallWhenNotified()
-    // {
-    //     await InvokeAsync(async () =>
-    //     {
-    //         StateHasChanged();
-    //         await adminActiveOrderCountState.GetActiveOrdersCount();
-    //     });
-    // }
+    async Task CallWhenNotified()
+    {
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await adminActiveOrderCountState.GetActiveOrdersCount();
+        });
+    }
 
-    // void StateButtonClicked()
-    // {
-    //     var adminurl = "app/administration/products/orders";
-    //     if (homeGenericState.IsAdmin)
-    //         NavManager.NavigateTo($"{adminurl}/{homeGenericState.StateName}");
-    // }
+    void StateButtonClicked()
+    {
+        var adminurl = "administration/account/users/manage";
+        if (homeGenericState.IsAdmin)
+            NavManager.NavigateTo($"{adminurl}/{homeGenericState.StateName}");
+    }
+
 
     async Task SaveChanges()
     {
@@ -301,5 +305,13 @@
     {
         ChangeUserClaim = new();
         IsOpen = false;
+    }
+    public void Dispose()
+    {
+        Loading = false;
+
+        homeGenericState.StateChanged -= StateButtonClicked;
+        passwordState.Changed -= StateHasChanged;
+
     }
 }

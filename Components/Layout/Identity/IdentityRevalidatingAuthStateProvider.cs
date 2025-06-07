@@ -12,7 +12,7 @@ namespace EventMonitoring.Components.Layout.Identity
                                                          IOptions<IdentityOptions> options): 
                                                          RevalidatingServerAuthenticationStateProvider(loggerfactory)
     {
-        protected override TimeSpan RevalidationInterval => TimeSpan.FromSeconds(20);
+        protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(5);
 
         protected async override Task<bool> ValidateAuthenticationStateAsync(
             AuthenticationState authenticationState, CancellationToken cancellationToken)
