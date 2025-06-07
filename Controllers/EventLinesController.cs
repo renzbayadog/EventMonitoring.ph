@@ -201,7 +201,7 @@ namespace EventMonitoring.ph.Controllers
 
         [HttpGet("export/report")]
         public async Task<IActionResult> ExportEventLine([FromQuery] EventLineSearch searchInfo)
-        {
+			{
 			List<EventLine> eventlines = await _eventlineRepository.GetAllEventLineQry(searchInfo);
 
 			// Map entity model to view model
@@ -227,7 +227,7 @@ namespace EventMonitoring.ph.Controllers
                 dr = dt.NewRow();
 
                 dr[0] = item.EventLineId;
-						dr[1] = item.EventLineName;
+			    dr[1] = item.EventLineName;
 
                 dt.Rows.Add(dr);
             }

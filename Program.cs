@@ -7,6 +7,7 @@ using EventMonitoring.States.Administration;
 using EventMonitoring.States.User;
 using Microsoft.AspNetCore.Components.Authorization;
 using EventMonitoring.ph.Data.Repositories;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddInfrastractureService(builder.Configuration);
 builder.Services.AddApplicationService();
 builder.Services.AddControllers().AddNewtonsoftJson();
 
+builder.Services.AddSyncfusionBlazor();
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthStateProvider>();

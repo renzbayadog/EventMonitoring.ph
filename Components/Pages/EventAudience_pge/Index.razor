@@ -230,6 +230,8 @@
             search.Keyword = searchInfo?.Keyword;
             var list = await LoadEventAudience(CurrentPage, PageSize, search);
             pEventAudiences = list;
+
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
         }
     }

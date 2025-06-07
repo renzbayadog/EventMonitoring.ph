@@ -288,6 +288,7 @@
             search.Keyword = searchInfo?.Keyword;
             var list = await LoadEventTitle(CurrentPage, PageSize, search);
             pEventTitles = list;
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
         }
     }

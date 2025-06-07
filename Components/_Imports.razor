@@ -12,6 +12,7 @@
 @using Microsoft.JSInterop
 @using EventMonitoring.ph
 @using EventMonitoring.ph.Components
+@using codegen.Interface.Identity
 
 @using NetcodeHub.Packages.Components
 @using NetcodeHub.Packages.Components.Validations.OnInput
@@ -25,18 +26,16 @@
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Notifications
-@using codegen.Interface.Identity
 
 
 @inject NavigationManager NavManager
 @inject AuthenticationStateProvider authStateProvider
 @inject ChangePasswordState passwordState
 @inject NetcodeHubConnectionService netcodeHubConnectionService
-@inject IAccount accountService
-@inject IServiceProvider serviceProvider
-@inject IJSRuntime jsRunTIme
-
 @inject GenericHomeHeaderState homeGenericState
 @inject UserActiveOrderCountState userState
 @inject AdminActiveOrderCountState adminState
+@inject IAccount accountService
+@inject IServiceProvider serviceProvider
+@inject IJSRuntime jsRunTIme
 @inject ICustomAuthorizationService customAuthorizationService

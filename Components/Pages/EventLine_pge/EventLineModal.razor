@@ -60,29 +60,29 @@
 
 @code {
     [Parameter]
-	public int Id { get; set; }
-	private EventLineVM oEventLineVM = new();
-	private string responseMessage = "";
-	private bool Loading = false;
+    public int Id { get; set; }
+    private EventLineVM oEventLineVM = new();
+    private string responseMessage = "";
+    private bool Loading = false;
 
     private bool _isVisible;
 
     [Parameter] public string ModalTitle { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    
-	private bool AlertShowMessage = false;
 
-    
+    private bool AlertShowMessage = false;
+
+
 
     //file upload
-	private async Task LoadFiles(InputFileChangeEventArgs e)
-	{
-		IBrowserFile file = e.File;
-		var buffer = new byte[file.Size];
-		await file.OpenReadStream().ReadAsync(buffer);
-		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
-		
-	}
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        IBrowserFile file = e.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+
+    }
 
     public async Task Show(int id)
     {
@@ -115,15 +115,15 @@
     }
 
     private async Task SendRequest()
-	{
-		Loading = true;
-		var restService = new RestService<List<EventLineVM>>();
+    {
+        Loading = true;
+        var restService = new RestService<List<EventLineVM>>();
 
-		var json = JsonConvert.SerializeObject(oEventLineVM);
+        var json = JsonConvert.SerializeObject(oEventLineVM);
 
-		var result = new ServiceModel<List<EventLineVM>>();
+        var result = new ServiceModel<List<EventLineVM>>();
 
-		if (oEventLineVM.EventLineId != 0)
+        if (oEventLineVM.EventLineId != 0)
         {
 
             result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/Update", json);
@@ -138,11 +138,8 @@
 
                 AlertShowMessage = true;
                 responseMessage = "Request has been successfully submitted!";
-
                 await InvokeAsync(() => StateHasChanged());
-
                 await Task.Delay(5000);
-
                 AlertShowMessage = false;
             }
         }
@@ -152,22 +149,20 @@
             result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/Add", json);
 
             if (!result.IsSuccess)
-    		{
-    			responseMessage = result.Error;
-    		}
-    		else
-    		{
+            {
+                responseMessage = result.Error;
+            }
+            else
+            {
                 Loading = false;
-    			oEventLineVM = new();
-    
-    			AlertShowMessage = true;
-    			responseMessage = "Request has been successfully submitted!";
-    
-    			await InvokeAsync(() => StateHasChanged());
-    
-    			await Task.Delay(5000);
-    
-    			AlertShowMessage = false;
+                oEventLineVM = new();
+
+                AlertShowMessage = true;
+                responseMessage = "Request has been successfully submitted!";
+
+                await InvokeAsync(() => StateHasChanged());
+                await Task.Delay(5000);
+                AlertShowMessage = false;
 		    }
         }
 	}
