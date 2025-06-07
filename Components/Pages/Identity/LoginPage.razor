@@ -5,6 +5,8 @@
 @using codegen.Interface.Identity
 @using codegen.ViewModels
 @inject IAccount  AccountService
+
+@rendermode InteractiveServer
 @attribute [AllowAnonymous]
 
 
@@ -46,7 +48,10 @@
             <div class="form-group align-content-end">
                 @if (Loading)
                 {
-                    <GenericSpinnerButton ButtonClass="btn btn-info btn-sm float-end" Text="Logging in..." />
+                    <button class="float-end btn btn-success mt-4 w-50" type="button" style="position:absolute" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status">Logging in...</span>
+                    </button>
                 }
                 else
                 {
@@ -57,7 +62,8 @@
         </div>
 
         <div class="card-footer mt-5">
-            @if (@ErrorMessage != "")
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 <div class="alert alert-danger">@ErrorMessage</div>
 
@@ -67,36 +73,36 @@
                 <ValidationSummary class="form-control text-danger text-decoration-line-through">
 
                 </ValidationSummary>
-
             }
         </div>
     </div>
 </EditForm> 
 
 @code {
-    string ErrorMessage = "";
-    public bool Isbusy { get; set; } = false;
-
     [SupplyParameterFromForm]
     private UserLoginRequestDTO LoginModel { get; set; } = new();
+    string ErrorMessage = "";
+    public bool Isbusy { get; set; } = false;
     private bool Loading = false;
 
     private async Task LoginAsync()
     {
         Loading = true;
-
-        await Task.Delay(3000);
         if (Isbusy) return;
         ErrorMessage = "";
         Isbusy = true;
         var response = await AccountService.LoginAsync(LoginModel);
         if (!response.flag)
         {
+            await InvokeAsync(() => StateHasChanged());
+            await Task.Delay(3000);
             Isbusy = false;
             Loading = false;
             ErrorMessage = response.message;
             return;
         }
+        await InvokeAsync(() => StateHasChanged());
+        await Task.Delay(3000);
         Isbusy = false;
         Loading = false;
         NavManager.NavigateTo("/app/home", true);
