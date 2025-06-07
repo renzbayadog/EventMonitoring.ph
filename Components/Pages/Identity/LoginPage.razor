@@ -5,78 +5,65 @@
 @using codegen.Interface.Identity
 @using codegen.ViewModels
 @inject IAccount  AccountService
-
-@rendermode InteractiveServer
 @attribute [AllowAnonymous]
 
 
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
 
-@* <EditForm Model="LoginModel" method="post" OnValidSubmit="LoginAsync" FormName="Login" Enhance>
+        <EditForm Model="LoginModel" method="post" OnValidSubmit="LoginAsync" FormName="Login" Enhance>
+            <div class="card border-primary shadow-lg text-dark p-5" style="border-radius:24px;min-width:300px;">
+                <div class="card-header text-dark fs-4 border-primary">Login</div>
+                <div class="card-body" style="opacity:1">
+                    <DataAnnotationsValidator />
+                    <div class="form-floating mb3">
+                        <InputText @bind-Value="LoginModel.Email" class="form-control" autocomplete="username" aria-busy="@Isbusy" />
+                        <label for="email" class="form-label">Email Address</label>
+                    </div>
+                    <div><br /></div>
+                    <div class="form-floating mb3">
+                        <InputText @bind-Value="LoginModel.Password"
+                                   class="form-control" autocomplete="password" aria-busy="@Isbusy" />
+                        <label for="password" class="form-label">User Password</label>
+                    </div>
+                    <div class="form-group align-content-end">
+                        @if (Loading)
+                        {
+                            <button class="float-end btn btn-success mt-4 w-50" type="button" style="position:absolute" disabled>
+                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Logging in...</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="float-end btn btn-success mt-4 w-50" type="submit" style="position:absolute">Login</button>
+                        }
+                    </div>
+                    <div class="form-group align-content-end">
 
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</EditForm> *@
+                        @if (!string.IsNullOrEmpty(ErrorMessage))
+                        {
+                            <div class="alert alert-danger" style="margin-top:30px;">@ErrorMessage</div>
 
-<EditForm Model="LoginModel" method="post" OnValidSubmit="LoginAsync" FormName="Login" Enhance>
-    <div class="card border-primary shadow-lg text-dark p-5" style="border-radius:24px;min-width:300px;">
-        <div class="card-header text-dark fs-4 border-primary">Login</div>
-        <div class="card-body" style="opacity:1">
-            <DataAnnotationsValidator />
-            <div class="form-floating mb3">
-                <InputText @bind-Value="LoginModel.Email" class="form-control" autocomplete="username" aria-busy="@Isbusy" />
-                <label for="email" class="form-label">Email Address</label>
+                        }
+                        else
+                        {
+                            <ValidationSummary class="form-control text-danger text-decoration-line-through" style="padding:30px;margin-top:50px;">
+
+                            </ValidationSummary>
+                        }
+                    </div>
+                </div>
+
+
+                <div class="card-footer mt-5">
+
+                </div>
             </div>
-            <div><br /></div>
-            <div class="form-floating mb3">
-                <InputText @bind-Value="LoginModel.Password"
-                           class="form-control" autocomplete="password" aria-busy="@Isbusy" />
-                <label for="password" class="form-label">User Password</label>
-            </div>
-            <div class="form-group align-content-end">
-                @if (Loading)
-                {
-                    <button class="float-end btn btn-success mt-4 w-50" type="button" style="position:absolute" disabled>
-                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        <span role="status">Logging in...</span>
-                    </button>
-                }
-                else
-                {
-                    <button class="float-end btn btn-success mt-4 w-50" type="submit" style="position:absolute">Login</button>
-                }
-            </div>
-            <hr class="text-primary" />
-        </div>
-
-        <div class="card-footer mt-5">
-
-            @if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="alert alert-danger">@ErrorMessage</div>
-
-            }
-            else
-            {
-                <ValidationSummary class="form-control text-danger text-decoration-line-through">
-
-                </ValidationSummary>
-            }
-        </div>
+        </EditForm>
     </div>
-</EditForm> 
+</div>
+
 
 @code {
     [SupplyParameterFromForm]
@@ -84,6 +71,21 @@
     string ErrorMessage = "";
     public bool Isbusy { get; set; } = false;
     private bool Loading = false;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> ClientAuthState { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
+                NavManager.NavigateTo("/app/home", false, true);
+
+        }
+        catch (Exception)
+        {
+        }
+    }
 
     private async Task LoginAsync()
     {
@@ -106,20 +108,5 @@
         Isbusy = false;
         Loading = false;
         NavManager.NavigateTo("/app/home", true);
-    }
-
-    [CascadingParameter]
-    public Task<AuthenticationState> ClientAuthState { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
-                NavManager.NavigateTo("/app/home", false, true);
-
-        }
-        catch (Exception)
-        {
-        }
     }
 }
