@@ -2,6 +2,7 @@
 @using EventMonitoring.ph.Components.Pages.General
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using codegen.Extensions.Identity
 @using codegen.Interface.Identity
 @using codegen.ViewModels
 @inject IAccount  AccountService
@@ -102,6 +103,84 @@
             Loading = false;
             ErrorMessage = response.message;
             return;
+        }
+        else
+        {
+            //create session cookies
+
+
+            //User user = await AccountService.getUser
+
+            // if (user != null)
+            // {
+                // if (user.IsDeleted == true)
+                // {
+                //     Message = "Your account is disabled. Contact the system administrator.";
+
+                //     Login = new LoginVM();
+                //     return Page();
+                // }
+
+                // Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(Login.UserName, Login.Password, Login.RememberMe, false);
+
+                // if (!result.Succeeded)
+                // {
+                //     Message = "Username or Password is incorrect";
+
+                //     Login = new LoginVM();
+                //     return Page();
+                // }
+
+                // IdentityUserRole<int> userRole = _context.UserRoles.Where(u => u.UserId == user.Id).FirstOrDefault();
+                // if (userRole == null)
+                // {
+                //     Message = "Role not assigned. Contact the system administrator.";
+
+                //     Login = new LoginVM();
+                //     return Page();
+                // }
+
+                // Role role = _context.Roles.Where(u => u.Id == userRole.RoleId).FirstOrDefault();
+
+                // Get all root menu items associated with the role
+                //List<Menu> listMenuId = await _context.RoleMenus.Where(u => u.RoleId == role.Id).Select(u => new Menu { MenuId = u.MenuId }).ToListAsync();
+
+
+                // HttpContext.Session.SetObject("UserFullName", $"{user.FirstName} {user.LastName}");
+                // HttpContext.Session.SetObject("UserId", user.Id);
+                // HttpContext.Session.SetObject("RoleId", role.Id);
+                // HttpContext.Session.SetObject("UserRole", role.Name);
+                // HttpContext.Session.SetObject("UserRoleDescription", role.RoleDescription);
+                // HttpContext.Session.SetObject("UserName", user.UserName);
+                // HttpContext.Session.SetObject("Menu", _menuManager.GenerateMenuForCurrUser(role.Id));
+
+                // switch (role.Name)
+                // {
+                //     case "CC":
+                //         HttpContext.Session.SetObject("Summary", "Sales Summary");
+                //         break;
+                //     case "RBM":
+                //         HttpContext.Session.SetObject("Summary", "Sales Summary");
+                //         break;
+                //     default:
+                //         HttpContext.Session.SetObject("Summary", "National");
+                //         break;
+                // }
+
+                //var LoginVM = new LoginVM();
+                //LoginVM.Email = user.Email;
+                //LoginVM.UserName = Login.UserName;
+                //LoginVM.Password = Login.Password;
+
+                //var authService = new AuthServices(_userManager, _context, _configuration);
+                //var resultToken = await authService.GetTokenAsync(LoginVM);
+                //AppHelper.SetRefreshTokenInCookie(resultToken.RefreshToken);
+
+              //  }
+
+
+
+
         }
         await InvokeAsync(() => StateHasChanged());
         await Task.Delay(3000);
