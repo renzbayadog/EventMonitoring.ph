@@ -2,16 +2,17 @@
 @using EventMonitoring.ph.Components.Pages.General
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
 @using codegen.Extensions.Identity
-@using codegen.Interface.Identity
 @using codegen.ViewModels
+@using codegeneratorlib.Helpers;
 @inject IAccount  AccountService
 @attribute [AllowAnonymous]
 
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-
         <EditForm Model="LoginModel" method="post" OnValidSubmit="LoginAsync" FormName="Login" Enhance>
             <div class="card border-primary shadow-lg text-dark p-5" style="border-radius:24px;min-width:300px;">
                 <div class="card-header text-dark fs-4 border-primary">Login</div>
@@ -44,7 +45,7 @@
 
                         @if (!string.IsNullOrEmpty(ErrorMessage))
                         {
-                            <div class="alert alert-danger" style="margin-top:30px;">@ErrorMessage</div>
+                            <div class="alert alert-danger" style="padding:30px;margin-top:50px;">@ErrorMessage</div>
 
                         }
                         else
@@ -94,98 +95,27 @@
         if (Isbusy) return;
         ErrorMessage = "";
         Isbusy = true;
-        var response = await AccountService.LoginAsync(LoginModel);
-        if (!response.flag)
+
+        var restService = new RestService<ServiceResponse>();
+        var json = JsonConvert.SerializeObject(LoginModel);
+        var response = new ServiceModel<ServiceResponse>();
+        response = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/Auth/LoginUser", json);
+        if (!response.Data.flag)
         {
-            await InvokeAsync(() => StateHasChanged());
-            await Task.Delay(3000);
             Isbusy = false;
             Loading = false;
-            ErrorMessage = response.message;
+            ErrorMessage = response.Data.message;
             return;
+            //await InvokeAsync(() => StateHasChanged());
+            //await Task.Delay(3000);
         }
         else
         {
-            //create session cookies
 
-
-            //User user = await AccountService.getUser
-
-            // if (user != null)
-            // {
-                // if (user.IsDeleted == true)
-                // {
-                //     Message = "Your account is disabled. Contact the system administrator.";
-
-                //     Login = new LoginVM();
-                //     return Page();
-                // }
-
-                // Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(Login.UserName, Login.Password, Login.RememberMe, false);
-
-                // if (!result.Succeeded)
-                // {
-                //     Message = "Username or Password is incorrect";
-
-                //     Login = new LoginVM();
-                //     return Page();
-                // }
-
-                // IdentityUserRole<int> userRole = _context.UserRoles.Where(u => u.UserId == user.Id).FirstOrDefault();
-                // if (userRole == null)
-                // {
-                //     Message = "Role not assigned. Contact the system administrator.";
-
-                //     Login = new LoginVM();
-                //     return Page();
-                // }
-
-                // Role role = _context.Roles.Where(u => u.Id == userRole.RoleId).FirstOrDefault();
-
-                // Get all root menu items associated with the role
-                //List<Menu> listMenuId = await _context.RoleMenus.Where(u => u.RoleId == role.Id).Select(u => new Menu { MenuId = u.MenuId }).ToListAsync();
-
-
-                // HttpContext.Session.SetObject("UserFullName", $"{user.FirstName} {user.LastName}");
-                // HttpContext.Session.SetObject("UserId", user.Id);
-                // HttpContext.Session.SetObject("RoleId", role.Id);
-                // HttpContext.Session.SetObject("UserRole", role.Name);
-                // HttpContext.Session.SetObject("UserRoleDescription", role.RoleDescription);
-                // HttpContext.Session.SetObject("UserName", user.UserName);
-                // HttpContext.Session.SetObject("Menu", _menuManager.GenerateMenuForCurrUser(role.Id));
-
-                // switch (role.Name)
-                // {
-                //     case "CC":
-                //         HttpContext.Session.SetObject("Summary", "Sales Summary");
-                //         break;
-                //     case "RBM":
-                //         HttpContext.Session.SetObject("Summary", "Sales Summary");
-                //         break;
-                //     default:
-                //         HttpContext.Session.SetObject("Summary", "National");
-                //         break;
-                // }
-
-                //var LoginVM = new LoginVM();
-                //LoginVM.Email = user.Email;
-                //LoginVM.UserName = Login.UserName;
-                //LoginVM.Password = Login.Password;
-
-                //var authService = new AuthServices(_userManager, _context, _configuration);
-                //var resultToken = await authService.GetTokenAsync(LoginVM);
-                //AppHelper.SetRefreshTokenInCookie(resultToken.RefreshToken);
-
-              //  }
-
-
-
-
+            Isbusy = false;
+            Loading = false;
+            await Task.Delay(3000);
+            NavManager.NavigateTo("app/home", true);
         }
-        await InvokeAsync(() => StateHasChanged());
-        await Task.Delay(3000);
-        Isbusy = false;
-        Loading = false;
-        NavManager.NavigateTo("/app/home", true);
     }
 }
