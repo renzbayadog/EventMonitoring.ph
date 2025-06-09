@@ -2,12 +2,14 @@
 @using EventMonitoring.ph.Components.Pages.General
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Microsoft.AspNetCore.Identity
 @using Newtonsoft.Json
 @using codegen.Extensions.Identity
 @using codegen.ViewModels
 @using codegeneratorlib.Helpers;
 @inject IAccount  AccountService
+@inject ProtectedSessionStorage ProtectedSessionStore
 @attribute [AllowAnonymous]
 
 
@@ -78,15 +80,8 @@
     public Task<AuthenticationState> ClientAuthState { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
-                NavManager.NavigateTo("/app/home", false, true);
-
-        }
-        catch (Exception)
-        {
-        }
+        if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
+            NavManager.NavigateTo("/app/home", false, true);
     }
 
     private async Task LoginAsync()
@@ -96,26 +91,23 @@
         ErrorMessage = "";
         Isbusy = true;
 
-        var restService = new RestService<ServiceResponse>();
-        var json = JsonConvert.SerializeObject(LoginModel);
-        var response = new ServiceModel<ServiceResponse>();
-        response = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/Auth/LoginUser", json);
-        if (!response.Data.flag)
+        // var restService = new RestService<ServiceResponse>();
+        // var json = JsonConvert.SerializeObject(LoginModel);
+        // var response = new ServiceModel<ServiceResponse>();
+        // response = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/Auth/LoginUser", json);
+        var response = await accountService.LoginAsync(LoginModel);
+        if (!response.flag)
         {
             Isbusy = false;
             Loading = false;
-            ErrorMessage = response.Data.message;
+            ErrorMessage = response.message;
             return;
-            //await InvokeAsync(() => StateHasChanged());
-            //await Task.Delay(3000);
         }
         else
         {
-
             Isbusy = false;
             Loading = false;
-            await Task.Delay(3000);
-            NavManager.NavigateTo("app/home", true);
+            NavManager.NavigateTo("/app/home", false, true);
         }
     }
 }

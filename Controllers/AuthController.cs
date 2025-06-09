@@ -2,8 +2,6 @@
 using codegen.Interface.Identity;
 using codegen.ViewModels;
 using codegeneratorlib.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventMonitoring.ph.Controllers
@@ -30,19 +28,23 @@ namespace EventMonitoring.ph.Controllers
 
             if(userClaim != null)
             {
-                HttpContext.Session.SetObject("UserFullName", $"{userClaim.UserInfo.FirstName} {userClaim.UserInfo.LastName}");
-                HttpContext.Session.SetObject("UserId", userClaim.UserInfo.Id);
-                HttpContext.Session.SetObject("RoleId", userClaim.UserInfo.RoleId);
-                HttpContext.Session.SetObject("UserRole", userClaim.UserInfo.RoleName);
-                HttpContext.Session.SetObject("UserRoleDescription", userClaim.UserInfo.RoleDescription);
-                HttpContext.Session.SetObject("UserName", userClaim.UserInfo.UserName);
 
-                var menulist = _menuManager.GenerateMenuForCurrUser(userClaim.UserInfo.Id).Result;
+                // var result = await ProtectedSessionStore.GetAsync<int>("count");
+                // var currentCount = result.Success ? result.Value : 0;
 
-                if (menulist != null)
-                {
-                    HttpContext.Session.SetObject("Menu", menulist);
-                }
+                //HttpContext.Session.SetObject("UserFullName", $"{userClaim.UserInfo.FirstName} {userClaim.UserInfo.LastName}");
+                //HttpContext.Session.SetObject("UserId", userClaim.UserInfo.Id);
+                //HttpContext.Session.SetObject("RoleId", userClaim.UserInfo.RoleId);
+                //HttpContext.Session.SetObject("UserRole", userClaim.UserInfo.RoleName);
+                //HttpContext.Session.SetObject("UserRoleDescription", userClaim.UserInfo.RoleDescription);
+                //HttpContext.Session.SetObject("UserName", userClaim.UserInfo.UserName);
+
+                //var menulist = _menuManager.GenerateMenuForCurrUser(userClaim.UserInfo.Id).Result;
+
+                //if (menulist != null)
+                //{
+                //    HttpContext.Session.SetObject("Menu", menulist);
+                //}
 
                 //switch (role.Name)
                 //{
