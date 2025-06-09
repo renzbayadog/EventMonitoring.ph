@@ -2,15 +2,18 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+# Install Node.js 16.x
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest
+    && npm install -g npm@8
+
+# Configure npm to ignore engine requirements
+RUN npm config set engine-strict false
 
 # Copy package.json and install frontend dependencies
 COPY ["package.json", "package-lock.json", "./"]
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy csproj and restore dependencies
 COPY ["EventMonitoring.ph.csproj", "./"]
