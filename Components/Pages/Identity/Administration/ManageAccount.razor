@@ -41,6 +41,27 @@
 
     private HubConnection hub;
 
+    protected async override Task OnInitializedAsync()
+    {
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
+
+        passwordState.Changed += StateHasChanged;
+        homeGenericState.StateChanged += StateButtonClicked;
+
+        hub = netcodeHubConnectionService.GetHubConnection();
+        hub.On<string>("Notify", async (clientId) =>
+        {
+            await CallWhenNotified();
+        });
+
+        if (hub == null)
+        {
+            await hub!.StartAsync();
+        }
+    }
+
+
     public async Task RegisterAsync()
     {
         Loading = true;
@@ -67,26 +88,6 @@
         }
 
         Loading = false;
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
-            NavManager.NavigateTo("Account/Access-Denied");
-
-        passwordState.Changed += StateHasChanged;
-        homeGenericState.StateChanged += StateButtonClicked;
-
-        hub = netcodeHubConnectionService.GetHubConnection();
-        hub.On<string>("Notify", async (clientId) =>
-        {
-            await CallWhenNotified();
-        });
-
-        if (hub == null)
-        {
-            await hub!.StartAsync();
-        }
     }
 
     async Task CallWhenNotified()

@@ -2,6 +2,7 @@
 @using EventMonitoring.ph.ViewModels
 @using Newtonsoft.Json
 @using EventMonitoring.ph.Components.Pages.content
+@using codegen.Extensions
 @using codegen.Extensions.Identity
 @using codegeneratorlib.Helpers
 @using EventMonitoring.ph.Data.Entities 
@@ -111,18 +112,14 @@
         {"Home", "/"},
         {"Update EventAudience", null!}
     };
-	//file upload
-	private async Task LoadFiles(InputFileChangeEventArgs e)
-	{
-		IBrowserFile file = e.File;
-		var buffer = new byte[file.Size];
-		await file.OpenReadStream().ReadAsync(buffer);
-		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
-		
-	}
 
+	[CascadingParameter]
+	public Task<AuthenticationState> userAuthState { get; set; }
 	protected override async Task OnInitializedAsync()
 	{
+		if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+			NavManager.NavigateTo("Account/Access-Denied");
+	
 
 		var restService = new RestService<EventAudienceVM>();
 		var result = new ServiceModel<EventAudienceVM>();
@@ -135,6 +132,17 @@
 		{
 			oEventAudienceVM = result.Data;
 		}
+	}
+
+
+	//file upload
+	private async Task LoadFiles(InputFileChangeEventArgs e)
+	{
+		IBrowserFile file = e.File;
+		var buffer = new byte[file.Size];
+		await file.OpenReadStream().ReadAsync(buffer);
+		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+
 	}
 
 	private async Task SendRequest()

@@ -1,5 +1,6 @@
 @page "/EventAudience/Details/{Id:int}"
 @using EventMonitoring.ph.ViewModels
+@using codegen.Extensions
 @using codegeneratorlib.Helpers
 @using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
@@ -87,8 +88,13 @@
         {"Home", "/"},
         {"EventAudience Details", null!}
     };
+	[CascadingParameter]
+	public Task<AuthenticationState> userAuthState { get; set; }
 	protected override async Task OnInitializedAsync()
 	{
+		if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+			NavManager.NavigateTo("Account/Access-Denied");
+
 		var restService = new RestService<EventAudienceVM>();
 		//var json = JsonConvert.SerializeObject(search);
 		var result = new ServiceModel<EventAudienceVM>();

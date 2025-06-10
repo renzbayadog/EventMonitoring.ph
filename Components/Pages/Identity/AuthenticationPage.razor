@@ -9,6 +9,7 @@
     {
             await accountService.SetupAsync();
 
+
             if ((await ClientAuthState!).User.Identity!.IsAuthenticated == true)
             {
                 NavManager.NavigateTo("/app/home", false, true);

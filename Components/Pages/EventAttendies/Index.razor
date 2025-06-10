@@ -1,0 +1,136 @@
+@page "/EventAttendies/Register"
+@using EventMonitoring.ph.ViewModels 
+ @using EventMonitoring.ph.Data.Entities
+@using EventMonitoring.ph.Components.Pages.content
+@using Newtonsoft.Json
+@using codegeneratorlib.Helpers
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
+
+<PageTitle>List Page</PageTitle>
+
+<!-- page content -->
+<ThreeSectionsTemplate>
+    <Col9Template>
+        @* <AdminHomeHeader /> *@
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        @* <MudBlazor.MudDivider class="mt5" /> *@
+        <br />
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content js-EventAudience-main-container">					
+					<div class="alert-danger">Register QR CODE</div>
+				</div>
+            </div>
+        </div>
+    </div>
+    </Col9Template>
+    <Col3Template>
+        <Banner />
+    </Col3Template>
+    <FooterTemplate><Footer /></FooterTemplate>
+</ThreeSectionsTemplate>
+
+<NetcodeHubToast @ref="ToastComponent" Duration="4000" />
+
+@code {
+    private EventAudienceSearch searchInfo = new();
+    private Pagination<EventAudienceVM> pEventAudiences;
+    private EventAudienceVM oEventAudienceVM = new();
+    private string responseMessage;
+    private int PageSize = 10;
+    private int CurrentPage = 1;
+    NetcodeHubToast ToastComponent;
+    private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"Register QR CODE", null!}
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(1000);
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(CurrentPage, PageSize, search);
+        pEventAudiences = list;
+    }
+
+    private async Task ExportFile()
+    {
+        var restService = new RestService<ExcelData>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<ExcelData>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/export/report");
+        if (!result.IsSuccess)
+        {
+        }
+        else
+        {
+            var file = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;base64,{result.Data.File}";
+
+            NavigationManager.NavigateTo(file);
+        }
+    }
+
+    private async Task<Pagination<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
+    {
+        var restService = new RestService<Pagination<EventAudienceVM>>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<Pagination<EventAudienceVM>>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
+        if (!result.IsSuccess)
+        {
+            return pEventAudiences = null;
+        }
+        else
+        {
+            return pEventAudiences = result.Data;
+        }
+    }
+
+    private async Task SearchEventAudience()
+    {
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var pullout = await LoadEventAudience(CurrentPage, PageSize, search);
+        pEventAudiences = pullout;
+    }
+
+    public async Task DeleteEventAudience(int id)
+    {
+        var restService = new RestService<List<EventAudienceVM>>();
+
+        var result = new ServiceModel<List<EventAudienceVM>>();
+
+        result = await restService.Delete($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/{id}/delete");
+
+        if (!result.IsSuccess)
+        {
+            responseMessage = result.Error;
+            await ToastComponent!.ShowErrorToast("Error", responseMessage);
+        }
+        else
+        {
+            var search = new EventAudienceSearch();
+            search.Keyword = searchInfo?.Keyword;
+            var list = await LoadEventAudience(CurrentPage, PageSize, search);
+            pEventAudiences = list;
+
+            await InvokeAsync(() => StateHasChanged());
+            await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
+        }
+    }
+
+    private async Task ClickPagination(int? elementId)
+    {
+        var currrentPage = elementId;
+        var search = new EventAudienceSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventAudience(currrentPage, PageSize, search);
+        pEventAudiences = list;
+    }
+}

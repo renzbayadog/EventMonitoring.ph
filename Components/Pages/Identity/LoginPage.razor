@@ -95,19 +95,20 @@
         // var json = JsonConvert.SerializeObject(LoginModel);
         // var response = new ServiceModel<ServiceResponse>();
         // response = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/Auth/LoginUser", json);
-        var response = await accountService.LoginAsync(LoginModel);
-        if (!response.flag)
-        {
-            Isbusy = false;
-            Loading = false;
-            ErrorMessage = response.message;
-            return;
-        }
-        else
-        {
-            Isbusy = false;
-            Loading = false;
-            NavManager.NavigateTo("/app/home", false, true);
-        }
+
+            var response = await accountService.LoginAsync(LoginModel);
+            if (!response.flag)
+            {
+                Isbusy = false;
+                Loading = false;
+                ErrorMessage = response.message;
+                return;
+            }
+            else
+            {
+                Isbusy = false;
+                Loading = false;
+                NavManager.NavigateTo("/app/home", false, true);
+            }
     }
 }

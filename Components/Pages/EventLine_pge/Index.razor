@@ -3,6 +3,7 @@
  @using EventMonitoring.ph.Data.Entities
 @using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
+@using codegen.Extensions
 @using codegeneratorlib.Helpers
 @attribute [StreamRendering]
 @rendermode InteractiveServer
@@ -141,6 +142,9 @@
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+
     private EventLineSearch searchInfo = new();
     private Pagination<EventLineVM> pEventLines;
     private EventLineVM oEventLineVM = new();
@@ -161,8 +165,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
         var search = new EventLineSearch();
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventLine(CurrentPage, PageSize, search);

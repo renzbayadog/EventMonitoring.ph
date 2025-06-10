@@ -33,19 +33,19 @@
                             <FloatingText @bind-Value="@UserModel.Email" class="form-control mb3" Label="Email Address" Placeholder="Email address"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.PhoneNumber" class="form-control mb3" Label="Phone Number" Placeholder="Phone Number"></FloatingText>
                             <InputSelect @bind-Value="@UserModel.Policy" class="form-select mb-3">
-                                <option>Select Policy</option>
+                                <option disabled>--Select Policy--</option>
                                 @foreach (var item in Policies!)
                                 {
                                     <option value="@item">@item</option>
                                 }
                             </InputSelect>
-                            <InputSelect @bind-Value="@UserModel.RoleId" class="form-select mb-3">
-                                <option>Select Policy</option>
+                          @*   <InputSelect @bind-Value="@UserModel.RoleId" class="form-select mb-3">
+                                <option disabled>--Select Role--</option>
                                 @foreach (var item in RoleVM!)
                                 {
                                     <option value="@item.Id">@item.Name</option>
                                 }
-                            </InputSelect>
+                            </InputSelect> *@
                             <FloatingText @bind-Value="@UserModel.Password" Type="@passwordState.PasswordType" class="form-control mb3" Label="Password" Placeholder="Phone Number"></FloatingText>
                             <FloatingText @bind-Value="@UserModel.ConfirmPassword" Type="@passwordState.PasswordType" class="form-control mb3" Label="Confirm Password" Placeholder="Phone Number"></FloatingText>
                             <a class="btn btn-link text-decoration-none float-end" @onclick="ChangePasswordType" style="margin-top:-20px"><small>@passwordState.DisplayText</small></a>

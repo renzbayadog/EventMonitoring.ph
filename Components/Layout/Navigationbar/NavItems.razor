@@ -15,10 +15,11 @@
 </li> 
 
 @code {
-    [CascadingParameter] public Task<AuthenticationState> UserState { get; set; }
+    [CascadingParameter] 
+    public Task<AuthenticationState> UserState { get; set; }
     string Name;
     protected override async Task OnInitializedAsync()
     {
-        Name = (await UserState!).User.Claims.FirstOrDefault(_ => _.Type == "Name")!.Value;
+        Name = (await UserState!).User.Claims.FirstOrDefault(_ => _.Type == "Name")?.Value;
     }
 }

@@ -2,6 +2,7 @@
 @using EventMonitoring.ph.ViewModels
 @using EventMonitoring.ph.Components.Pages.content
 @using Newtonsoft.Json
+@using codegen.Extensions
 @using codegeneratorlib.Helpers
 @using EventMonitoring.ph.Components.Pages.content
 
@@ -83,15 +84,23 @@
 	private EventLineVM oEventLineVM = new();
 	private string responseMessage;
 	private bool Loading = false;
-	
+
 	private bool AlertShowMessage = false;
 
-	
+
 	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
         {"Create New EventLine", null!}
     };
+
+	[CascadingParameter]
+	public Task<AuthenticationState> userAuthState { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+			NavManager.NavigateTo("Account/Access-Denied");
+	}
 
 	//file upload
 	private async Task LoadFiles(InputFileChangeEventArgs e)
