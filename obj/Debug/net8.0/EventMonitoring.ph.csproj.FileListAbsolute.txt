@@ -16,9 +16,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Azure.Security.KeyVault.Certificates.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Azure.Security.KeyVault.Secrets.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\CoreCompat.System.Drawing.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\CsvHelper.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Humanizer.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Mapster.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Mapster.Core.dll
@@ -105,7 +102,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\NetcodeHub.Packages.UI.Templates.Breeze.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\QRCoder.Core.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.AspNetCore.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
@@ -145,7 +141,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Drawing.Common.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Formats.Asn1.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.IO.Packaging.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Memory.Data.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Runtime.Caching.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
@@ -153,8 +148,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Security.Permissions.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Text.Json.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Windows.Extensions.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\zxing.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\ZXing.CoreCompat.System.Drawing.v2.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
