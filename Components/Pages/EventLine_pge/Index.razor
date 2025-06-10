@@ -22,18 +22,25 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_content js-EventLine-main-container">
-
                         <div class="row">
                             <!--BUTTON TOP-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventLine" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
-                                <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
+                                @if(Print){
 
+                                <button class="btn btn-dark btn-custom float-end" id="js-export-EventLine" @onclick="()=>PrintReport()"><i class="fa fa-print"></i> Print</button>
+                                }
+                                @if(Export){
+                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventLine" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+
+                                }
+                                @if(Add){
+                                    <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
+                                }
+                               
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <MudBlazor.MudDivider class="mt5" />
                             </div>
-
                         </div>
                             <!--SEARCH AREA-->
                             <div class="row" >
@@ -86,7 +93,14 @@
                                             {
                                                 <tr id="selected-row-eventlineid">
                                                     <td>@EventLine.EventLineName</td>
-                                                    <td><a href="/EventLine/Details/@EventLine.EventLineId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventLine.EventLineId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventLine(EventLine.EventLineId)" style="cursor:pointer" id="js-EventLine-delete" data-id="EventLineId"><i class="fa fa-trash-o"></i></a></td>
+                                                    <td>
+                                                        <a href="/EventLine/Details/@EventLine.EventLineId" class="popup">
+                                                            <i class="fa fa-info-circle"></i></a> 
+                                                        <a style="cursor:pointer" @onclick="()=>OpenModal(EventLine.EventLineId)" class="popup">
+                                                            <i class="fa fa-edit"></i></a> 
+                                                        <a @onclick="()=>DeleteEventLine(EventLine.EventLineId)" style="cursor:pointer" id="js-EventLine-delete" data-id="EventLineId">
+                                                            <i class="fa fa-trash-o"></i></a>
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -124,13 +138,11 @@
 				</div>
             </div>
         </div>
-    </div>
+        </div>
 
- <EventLineModal @ref="modalRef" ModalTitle="EventLine">
-      <p>This is modal content.</p>
- </EventLineModal>
-
-
+        <EventLineModal @ref="modalRef" ModalTitle="EventLine">
+            <p>This is modal content.</p>
+        </EventLineModal>
     </Col9Template>
     <Col3Template>
         <Banner />
@@ -142,31 +154,44 @@
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {
-    [CascadingParameter]
-    public Task<AuthenticationState> userAuthState { get; set; }
 
     private EventLineSearch searchInfo = new();
-    private Pagination<EventLineVM> pEventLines;
+    private PaginationVM<EventLineVM> pEventLines;
     private EventLineVM oEventLineVM = new();
     private string responseMessage;
     private int PageSize = 10;
     private int CurrentPage = 1;
-
     private EventLineModal modalRef;
-
     NetcodeHubToast ToastComponent;
-
-
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
         {"EventLine List", null!}
     };
 
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+    bool CanManageUser = false;
+    bool Add = false;
+    bool Update = false;
+    bool Delete = false;
+    bool Read = false;
+    bool Print = false;
+    bool Export = false;
+
     protected override async Task OnInitializedAsync()
     {
         if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
             NavManager.NavigateTo("Account/Access-Denied");
+
+        CanManageUser = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser);
+        Add = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Add);
+        Update = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Update);
+        Delete = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Delete);
+        Read = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Read);
+        Print = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Print);
+        Export = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Export);
+
         var search = new EventLineSearch();
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventLine(CurrentPage, PageSize, search);
@@ -190,11 +215,15 @@
         }
     }
 
-    private async Task<Pagination<EventLineVM>> LoadEventLine(int? currpage, int pagesize, EventLineSearch search)
+    private async Task PrintReport()
     {
-        var restService = new RestService<Pagination<EventLineVM>>();
+    }
+
+    private async Task<PaginationVM<EventLineVM>> LoadEventLine(int? currpage, int pagesize, EventLineSearch search)
+    {
+        var restService = new RestService<PaginationVM<EventLineVM>>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<Pagination<EventLineVM>>();
+        var result = new ServiceModel<PaginationVM<EventLineVM>>();
         result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventLines/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
         if (!result.IsSuccess)
         {

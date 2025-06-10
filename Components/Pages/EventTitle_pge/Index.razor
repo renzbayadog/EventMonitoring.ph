@@ -26,9 +26,22 @@
                         <div class="row">
                             <!--BUTTON TOP-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
-                                <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
-                            </div>
+
+                                @if (Print)
+                                {
+
+                                    <button class="btn btn-dark btn-custom float-end" id="js-export-EventLine" @onclick="()=>PrintReport()"><i class="fa fa-print"></i> Print</button>
+                                }
+                                @if (Export)
+                                {
+                                    <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+
+                                }
+                                @if (Add)
+                                {
+                                    <button class="btn btn-primary btn-custom float-end popup" @onclick="()=>OpenModal(0)"><i class="fa fa-plus"></i> Create New</button>
+                                }
+                                </div>
 
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <MudBlazor.MudDivider class="mt5" />
@@ -152,11 +165,8 @@
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {
-    [CascadingParameter]
-    public Task<AuthenticationState> userAuthState { get; set; }
-
     private EventTitleSearch searchInfo = new();
-    private Pagination<EventTitleVM> pEventTitles;
+    private PaginationVM<EventTitleVM> pEventTitles;
     private EventTitleVM oEventTitleVM = new();
     private string responseMessage;
     private int PageSize = 10;
@@ -171,11 +181,28 @@
         {"Home", "/"},
         {"EventTitle List", null!}
     };
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+    bool CanManageUser = false;
+    bool Add = false;
+    bool Update = false;
+    bool Delete = false;
+    bool Read = false;
+    bool Print = false;
+    bool Export = false;
 
     protected override async Task OnInitializedAsync()
     {
         if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
             NavManager.NavigateTo("Account/Access-Denied");
+
+        CanManageUser = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser);
+        Add = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Add);
+        Update = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Update);
+        Delete = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Delete);
+        Read = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Read);
+        Print = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Print);
+        Export = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Export);
 
         var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
@@ -200,11 +227,16 @@
         }
     }
 
-    private async Task<Pagination<EventTitleVM>> LoadEventTitle(int? currpage, int pagesize, EventTitleSearch search)
+
+    private async Task PrintReport()
     {
-        var restService = new RestService<Pagination<EventTitleVM>>();
+    }
+
+    private async Task<PaginationVM<EventTitleVM>> LoadEventTitle(int? currpage, int pagesize, EventTitleSearch search)
+    {
+        var restService = new RestService<PaginationVM<EventTitleVM>>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<Pagination<EventTitleVM>>();
+        var result = new ServiceModel<PaginationVM<EventTitleVM>>();
         result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
         if (!result.IsSuccess)
         {

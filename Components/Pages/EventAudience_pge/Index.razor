@@ -26,9 +26,22 @@
 						<div class="row">
 							<!--BUTTON TOP-->
 							<div class="col-md-12 col-sm-12 col-xs-12">
-                                <button class="btn btn-warning btn-custom float-end" id="js-export-EventAudience" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
-								<a href="/EventAudience/Create" class="btn btn-primary btn-custom float-end popup"><i class="fa fa-plus"></i> Create New</a>
-							</div>
+
+                                @if (Print)
+                                {
+
+                                    <button class="btn btn-dark btn-custom float-end" id="js-export-EventLine" @onclick="()=>PrintReport()"><i class="fa fa-print"></i> Print</button>
+                                }
+                                @if (Export)
+                                {
+                                    <button class="btn btn-warning btn-custom float-end" id="js-export-EventAudience" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+
+                                }
+                                @if (Add)
+                                {
+                                    <a href="/EventAudience/Create" class="btn btn-primary btn-custom float-end popup"><i class="fa fa-plus"></i> Create New</a>
+                                }
+								</div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <MudBlazor.MudDivider class="mt5" />
                             </div>
@@ -151,11 +164,8 @@
 
 @code {
 
-    [CascadingParameter]
-    public Task<AuthenticationState> userAuthState { get; set; }
-
     private EventAudienceSearch searchInfo = new();
-    private Pagination<EventAudienceVM> pEventAudiences;
+    private PaginationVM<EventAudienceVM> pEventAudiences;
     private EventAudienceVM oEventAudienceVM = new();
     private string responseMessage;
     private int PageSize = 10;
@@ -167,10 +177,28 @@
         {"EventAudience List", null!}
     };
 
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+    bool CanManageUser = false;
+    bool Add = false;
+    bool Update = false;
+    bool Delete = false;
+    bool Read = false;
+    bool Print = false;
+    bool Export = false;
+
     protected override async Task OnInitializedAsync()
     {
         if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
             NavManager.NavigateTo("Account/Access-Denied");
+
+        CanManageUser = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser);
+        Add = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Add);
+        Update = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Update);
+        Delete = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Delete);
+        Read = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Read);
+        Print = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Print);
+        Export = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Export);
 
         var search = new EventAudienceSearch();
         search.Keyword = searchInfo?.Keyword;
@@ -195,11 +223,15 @@
         }
     }
 
-    private async Task<Pagination<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
+    private async Task PrintReport()
     {
-        var restService = new RestService<Pagination<EventAudienceVM>>();
+    }
+
+    private async Task<PaginationVM<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
+    {
+        var restService = new RestService<PaginationVM<EventAudienceVM>>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<Pagination<EventAudienceVM>>();
+        var result = new ServiceModel<PaginationVM<EventAudienceVM>>();
         result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
         if (!result.IsSuccess)
         {
