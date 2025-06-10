@@ -130,11 +130,17 @@
 
             if (!result.IsSuccess)
             {
+                Loading = false;
+                oEventLineVM = new();
                 responseMessage = result.Error;
+                await InvokeAsync(() => StateHasChanged());
+                await Task.Delay(10000);
+                AlertShowMessage = false;
             }
             else
             {
                 Loading = false;
+                oEventLineVM = new();
 
                 AlertShowMessage = true;
                 responseMessage = "Request has been successfully submitted!";
@@ -150,7 +156,15 @@
 
             if (!result.IsSuccess)
             {
+                Loading = false;
+                oEventLineVM = new();
+
+                AlertShowMessage = true;
                 responseMessage = result.Error;
+
+                await InvokeAsync(() => StateHasChanged());
+                await Task.Delay(5000);
+                AlertShowMessage = false;
             }
             else
             {

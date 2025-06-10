@@ -140,9 +140,6 @@
         </div>
         </div>
 
-        <EventLineModal @ref="modalRef" ModalTitle="EventLine">
-            <p>This is modal content.</p>
-        </EventLineModal>
     </Col9Template>
     <Col3Template>
         <Banner />
@@ -151,6 +148,9 @@
 </ThreeSectionsTemplate>
 
 
+<EventLineModal @ref="modalRef" ModalTitle="EventLine">
+    <p>This is modal content.</p>
+</EventLineModal>
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {

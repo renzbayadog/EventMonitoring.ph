@@ -151,9 +151,6 @@
             </div>
         </div>
 
-        <EventTitleModal @ref="modalRef" ModalTitle="EventTitle">
-            <p>This is modal content.</p>
-        </EventTitleModal>
 
     </Col9Template>
     <Col3Template>
@@ -162,6 +159,9 @@
     <FooterTemplate><Footer /></FooterTemplate>
 </ThreeSectionsTemplate>
 
+<EventTitleModal @ref="modalRef" ModalTitle="EventTitle">
+    <p>This is modal content.</p>
+</EventTitleModal>
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {
