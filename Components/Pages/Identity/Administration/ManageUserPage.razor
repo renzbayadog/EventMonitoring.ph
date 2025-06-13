@@ -12,7 +12,7 @@
 <PageTitle>Manage User</PageTitle>
 <TwoSectionsTemplate>
     <Col12Template>
-        <AdminHomeHeader />
+        @* <AdminHomeHeader /> *@
         <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
         <div class="row mt-3">
             @if (UsersClaim != null)
@@ -65,7 +65,7 @@
                    style="cursor:pointer" @onclick="()=>CloseModalDialog()"></i>
             </div>
             <div class="card-body">
-                <h5>@ChangeUserClaim.Name</h5>
+                <h5>@ChangeUserClaim.UserInfo?.FirstName @ChangeUserClaim.UserInfo?.LastName (@ChangeUserClaim.Name</h5>
                 <EditForm Model="ChangeUserClaim" OnValidSubmit="SaveChanges">
                     <DataAnnotationsValidator />
                     <div class="form-group mt-3">
@@ -290,7 +290,7 @@
         await InvokeAsync(async () =>
         {
             StateHasChanged();
-            await adminActiveOrderCountState.GetActiveOrdersCount();
+            await adminActiveOrderCountState.GetActiveEventCount();
         });
     }
 

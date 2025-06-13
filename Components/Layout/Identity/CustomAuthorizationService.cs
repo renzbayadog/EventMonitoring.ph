@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using codegen.Interface.Identity;
+using System.Security.Claims;
 
 namespace EventMonitoring.Components.Layout.Identity
 {

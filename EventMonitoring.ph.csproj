@@ -51,6 +51,8 @@
     <PackageReference Include="Syncfusion.Blazor.Navigations" Version="27.1.52" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="27.1.52" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.9.1" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="librarybin\" />

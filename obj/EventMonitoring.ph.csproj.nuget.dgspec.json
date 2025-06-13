@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.9.1, )"
+            },
             "Mapster": {
               "target": "Package",
               "version": "[7.4.0, )"

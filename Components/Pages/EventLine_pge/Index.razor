@@ -1,4 +1,5 @@
 @page "/EventLine/Index"
+@using EventMonitoring.Helpers
 @using EventMonitoring.ph.ViewModels 
  @using EventMonitoring.ph.Data.Entities
 @using EventMonitoring.ph.Components.Pages.content
@@ -81,7 +82,7 @@
                              {
 							<!--DATA TABLE-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 js-EventLine-list-container">
-                                    <table class="table table-hover bulk_action" id="js-table-EventLine" style="margin-top:10px;">
+                                    <table class="table table-bordered bulk_action" id="js-table-EventLine" style="margin-top:10px;">
                                         <thead>
                                             <tr>
                                                 <th class="column-title">Event Line Name</th>

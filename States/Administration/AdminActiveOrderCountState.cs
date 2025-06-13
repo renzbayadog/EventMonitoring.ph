@@ -10,7 +10,7 @@ namespace EventMonitoring.States.Administration
 
         public event Action? StateChanged;
 
-        public async Task GetActiveOrdersCount()
+        public async Task GetActiveEventCount()
         {
             //using var scope = serviceProvider.CreateScope();
             //var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

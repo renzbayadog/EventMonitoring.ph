@@ -49,7 +49,7 @@
     protected override async Task OnInitializedAsync()
     {
         adminState.StateChanged += StateHasChanged;
-        await adminState.GetActiveOrdersCount();
+        await adminState.GetActiveEventCount();
     }
 
     public void Dispose() => adminState.StateChanged -= StateHasChanged;

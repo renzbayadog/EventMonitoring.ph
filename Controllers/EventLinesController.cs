@@ -10,7 +10,8 @@ using System.Data;
 using EventMonitoring.ph.ViewModels; 
 using EventMonitoring.ph.Data.Entities; 
 using EventMonitoring.ph.Data.Repositories; 
-using codegeneratorlib.Helpers; 
+using codegeneratorlib.Helpers;
+using EventMonitoring.Helpers;
 
 
 
@@ -233,13 +234,21 @@ namespace EventMonitoring.ph.Controllers
             }
 
             var exportExcelHelperService = new ExportExcelHelper();
+			try
+			{
+                var bytes = Convert.ToBase64String(exportExcelHelperService.CreateExcelWorkBook(dt));
 
-            var bytes = Convert.ToBase64String(exportExcelHelperService.CreateExcelWorkBook(dt));
+                var data = new ExcelData();
+                data.Filename = "EventLine Extracted Data";
+                data.File = bytes;
+                return Ok(data);
+            }
+			catch (Exception ex)
+			{
 
-            var data = new ExcelData();
-			data.Filename = "EventLine Extracted Data";
-            data.File = bytes;
-            return Ok(data);
+				throw;
+			}
+            
         }
         #endregion
 
