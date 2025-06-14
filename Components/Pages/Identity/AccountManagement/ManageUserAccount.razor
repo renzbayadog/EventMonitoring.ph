@@ -1,15 +1,17 @@
-﻿@page "/administration/account/users/manage"
+﻿@page "/account/users/profile"
 @using System.Security.Claims
 @using EventMonitoring.ph.Components.Pages.General
 @using EventMonitoring.ph.Components.Pages.content
+@using Mapster
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Security.Claims
+@using MudBlazor
 @using codegen.Extensions
 @using codegen.ViewModels
 @rendermode InteractiveServer
 @implements IDisposable
 
-<PageTitle>Manage User</PageTitle>
+<PageTitle>Manage Your Account</PageTitle>
 <TwoSectionsTemplate>
     <Col12Template>
         @* <AdminHomeHeader /> *@

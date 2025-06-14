@@ -1,0 +1,19 @@
+﻿@using EventMonitoring.ph.Components.Layout.Identity
+@using codegen.Interface.Identity
+@using Mapster
+@using MudBlazor
+@using NetcodeHub.Packages.Components.Validations.OnInput
+@using NetcodeHub.Packages.UI.Templates.Breeze
+@using NetcodeHub.Packages.Components.Modal
+@using NetcodeHub.Packages.Components.Toast
+@using NetcodeHub.Packages.Components.BreadCrumb
+@inject AuthenticationStateProvider authStateProvider
+@inject ChangePasswordState passwordState
+@inject NetcodeHubConnectionService netcodeHubConnectionService
+@inject IJSRuntime jsRunTIme
+@inject IAccount accountService
+@inject GenericHomeHeaderState homeGenericState
+@inject AdminActiveOrderCountState adminActiveOrderCountState
+@layout MainLayout
+@attribute [Authorize(Policy= "AdministrationPolicy")]
+
