@@ -1,14 +1,16 @@
 @page "/EventAudience/Create"
 @using EventMonitoring.ph.ViewModels
 @using EventMonitoring.ph.Components.Pages.content
+@using Mapster
 @using Newtonsoft.Json
 @using codegen.Extensions
 @using codegen.Extensions.Identity
+@using codegen.ViewModels
 @using codegeneratorlib.Helpers
 
 @using EventMonitoring.ph.Data.Entities 
- @using EventMonitoring.ph.Data.Repositories 
- @inject IRepositoryWrapper repowrapper
+@using EventMonitoring.ph.Data.Repositories 
+@inject IRepositoryWrapper repowrapper
 
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager;
@@ -58,7 +60,7 @@
 							</div>
 							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
 								<label>User Name</label>	
-								<select @bind="oEventAudienceVM.UserId" id="js-userid" class="form-control"><option value="">-- Select --</option>@if (listUser != null){@foreach (var item in listUser){<option value="@item.Id">@item.UserName</option>}}
+								<select @bind="oEventAudienceVM.UserId" id="js-userid" class="form-control"><option value="">-- Select --</option>@if (listUser != null){@foreach (var item in listUser){<option value="@item.Id">@item.FirstName @item.LastName (@item.UserName)</option>}}
 							</select>
 								
 							</div>
@@ -106,7 +108,10 @@
 	private bool AlertShowMessage = false;
 
 	private List<EventTitle> listEventTitle => repowrapper.EventTitle_Repository.FindAll().ToList();
-	private List<User> listUser => new List<User>() { new User() { Id = 2, UserName = "admin"} };
+
+	private List<UserVM> listUser = new();
+
+
 	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
@@ -119,6 +124,20 @@
 	{
 		if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
 			NavManager.NavigateTo("Account/Access-Denied");
+
+		var userlist = repowrapper.UserManager_Repository.FindAll().ToList();
+
+		foreach (var item in userlist)
+		{
+			listUser.Add(new UserVM()
+			{
+				UserName = item.UserName,
+				FirstName = item.FirstName,
+				LastName = item.LastName,
+				Id = item.Id
+			});
+
+		}
 	}
 
 	//file upload

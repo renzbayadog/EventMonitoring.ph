@@ -184,7 +184,7 @@
 
 @code {
     private EventAudienceSearch searchInfo = new();
-    private Pagination<EventAudienceVM> pEventAudiences;
+    private PaginationVM<EventAudienceVM> pEventAudiences;
     private EventAudienceVM oEventAudienceVM = new();
     private List<EventTitle> listEventTItle => repowrapper.EventTitle_Repository.FindAll().ToList();
     private string responseMessage;
@@ -224,11 +224,11 @@
         }
     }
 
-    private async Task<Pagination<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
+    private async Task<PaginationVM<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
     {
-        var restService = new RestService<Pagination<EventAudienceVM>>();
+        var restService = new RestService<PaginationVM<EventAudienceVM>>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<Pagination<EventAudienceVM>>();
+        var result = new ServiceModel<PaginationVM<EventAudienceVM>>();
         result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
         if (!result.IsSuccess)
         {
