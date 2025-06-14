@@ -169,6 +169,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJZGVudGl0eVxfaW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Report/Print.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZXBvcnRcUHJpbnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/Report/PrintEventReport.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZXBvcnRcUHJpbnRFdmVudFJlcG9ydC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,240 @@
+﻿@page "/EventAudience/print"
+@using EventMonitoring.ph.Components.Layout.Identity
+@inject IJSRuntime jsRunTIme
+@layout AuthenticationLayout
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="EventMonitoring.ph.styles.css" />
+
+
+    <style type="text/css" media="print">
+
+        body {
+            border: solid 1px #FFFFFF;
+            margin: 3mm 8mm 3mm 8mm; /* margin you want for the content */
+        }
+
+        .pagebreak {
+            clear: both;
+            page-break-after: always;
+        }
+
+
+        @@page {
+            size: auto; /* auto is the initial value */
+            margin-left: 0mm;
+            margin-right: 0mm;
+            margin-top: 6mm;
+            margin-bottom: 6mm;
+        }
+
+        html {
+            background-color: #FFFFFF;
+            margin: 0px; /* this affects the margin on the html before sending to printer */
+        }
+    </style>
+
+    <style type="text/css">
+
+        table.table-bordered {
+            border: 1px solid black;
+            margin-top: 20px;
+            font-size: 8px;
+        }
+
+            table.table-bordered > thead > tr > th {
+                border: 1px solid black;
+            }
+
+            table.table-bordered > tbody > tr > td {
+                border: 1px solid black;
+            }
+
+        table.print-header td {
+            border: 1px solid black;
+            padding: 10px;
+            font-size: 10px;
+        }
+    </style>
+
+</head>
+<body class="nav-md">
+    <div class="right_col" role="main">
+        <div class=""></div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel" style="margin-top:150px;">
+                    <div class="x_content">
+                        <section class="content invoice" id="print-sales">
+                            <!-- Table row -->
+                            <div class="row" style="font-size:12px;">
+                                <div class="col-md-12">
+                                    <div class="text-center">
+                                        <h2>Saudi Arabia</h2>
+                                        <span>Quezon City</span>  <br />
+                                        (02) 927-4013
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <br /><br />
+                                    <div class="text-center">
+                                        <h4>Event FORM</h4>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <table class="print-header" border="0" style="font-size:14px;width:100%;">
+                                            <tr>
+                                                <td><strong>Date: 11/22/1996</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong><i>Description</i></strong></td>
+                                            </tr>
+                                        </table>
+                                        <br /><br />
+
+                                        <table class="print-header" border="0" style="font-size:14px;width:100%;">
+
+                                            <tr>
+                                                <td><strong>Event Title:</strong></td>
+                                                <td colspan="2">address 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Event Venue:</strong></td>
+                                                <td colspan="2">Address 1</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Event Description:</strong></td>
+                                                <td colspan="2">Address 1</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Event Start:</strong></td>
+                                                <td colspan="2">11/22/2025</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Event End:</strong></td>
+                                                <td colspan="2">11/22/2025</td>
+                                            </tr>
+                                          @*   @foreach (var item in Model.SchoolContacts)
+                                            {
+                                                <tr>
+                                                    <td><strong>@item.Position</strong></td>
+                                                    <td>@item.FullName</td>
+                                                    <td>@item.PhoneNumber</td>
+                                                </tr>
+                                            } *@
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top: 0px;">
+                                        @* <div style="padding-top:10px;"><h4>SY: 2022</h4></div> *@
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: 0px;">
+                                        <table class="table table-bordered" id="js-title-delivery" style="font-size:13px;">
+                                            <thead>
+                                                <tr>
+                                                  @*   <th width="80%" class="text-center">Audience</th>
+                                                    <th width="20%" class="text-center">Remarks</th>
+ *@
+                                                    <th>Date/ Time</th>
+                                                    <th>Name</th>
+                                                    <th>Email Address</th>
+                                                    <th>Venue</th>
+                                                    <th>Details</th>
+                                                    <th>Event Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                              @*   @foreach (var item in Model.TitlePulloutList)
+                                                {
+                                                    <tr>
+                                                        <td width="80%" class="text-center">
+                                                            @item.TitleSales.TitleName
+                                                        </td>
+                                                        <td width="20%" class="text-center">
+                                                            @item.Quantity
+                                                        </td>
+                                                    </tr>
+                                                } *@
+
+                                               @*  <tr>
+                                                    <td style="text-align:right;">TOTAL</td>
+                                                    <td>200</td>
+                                                </tr> *@
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div>Remarks: </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td><b>Organized By:</b></td>
+                                                <td><b>Signed By:</b> Agent XXX</td>
+                                            </tr>
+                                            <tr>
+                                                <td>___________________________________________</td>
+                                                <td>___________________________________________</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Received from: </b></td>
+                                                <td><b>Approve By:</b> Agent YYY</td>
+                                            </tr>
+                                            <tr>
+                                                <td>___________________________________________</td>
+                                                <td>___________________________________________</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div style="text-align:center;">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="clearfix"> </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="node_modules/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+    <script type="text/javascript" asp-append-version="true">
+        $(document).ready(function () {
+            setTimeout(function () {
+                window.print();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}

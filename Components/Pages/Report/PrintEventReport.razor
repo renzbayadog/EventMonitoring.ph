@@ -9,8 +9,7 @@
 @attribute [StreamRendering]
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager;
-
- @inject IRepositoryWrapper repowrapper
+@inject IRepositoryWrapper repowrapper
 
 <PageTitle>List Page</PageTitle>
 
@@ -65,7 +64,7 @@
                         <div class="row">
                             <!--BUTTON TOP-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="" class="btn btn-warning btn-custom float-end popup"><i class="fa fa-print"></i> Print</a>
+                                <a href="/EventAudience/print" target="blank" class="btn btn-warning btn-custom float-end popup"><i class="fa fa-print"></i> Print</a>
                             </div>
                             @if (pEventAudiences == null)
                             {
@@ -213,16 +212,12 @@
         //var json = JsonConvert.SerializeObject(search);
         var result = new ServiceModel<ExcelData>();
         result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/export/report");
-        if (!result.IsSuccess)
-        {
-        }
-        else
-        {
-            var file = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;base64,{result.Data.File}";
 
-            NavigationManager.NavigateTo(file);
-        }
+        var file = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;base64,{result.Data.File}";
+
+        NavigationManager.NavigateTo(file);
     }
+
 
     private async Task<PaginationVM<EventAudienceVM>> LoadEventAudience(int? currpage, int pagesize, EventAudienceSearch search)
     {

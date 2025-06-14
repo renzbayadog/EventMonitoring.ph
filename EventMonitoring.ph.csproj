@@ -58,6 +58,7 @@
     <Folder Include="librarybin\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
   
   <!--<ItemGroup>
