@@ -12,6 +12,7 @@ using EventMonitoring.ph.Data.Entities;
 using EventMonitoring.ph.Data.Repositories; 
 using codegeneratorlib.Helpers;
 using EventMonitoring.Helpers;
+using static app_infra.Data.Enum.Enumerations;
 
 
 
@@ -35,36 +36,57 @@ namespace EventMonitoring.ph.Controllers
 		{
 			if(!ModelState.IsValid) return BadRequest();
 
-			List<EventAudience> eventaudiences = await _eventaudienceRepository.GetAllEventAudienceQry(searchInfo);
+			try
+            {
+                List<EventAudience> eventaudiences = await _eventaudienceRepository.GetAllEventAudienceQry(searchInfo);
 
-			// Map entity model to view model
-			List<EventAudienceVM> eventaudiencesVM = new List<EventAudienceVM>();
-			
-			foreach(EventAudience eventaudience in eventaudiences)
+                // Map entity model to view model
+                List<EventAudienceVM> eventaudiencesVM = new List<EventAudienceVM>();
+
+                foreach (EventAudience eventaudience in eventaudiences)
+                {
+                    var eventStatus = "";
+                    if (eventaudience.EventTitle.EventTitleStatus.Equals((int)EventStatusEnum.Ongoing))
+                    {
+                        eventStatus = "Ongoing";
+
+                    }
+                    else if (eventaudience.EventTitle.EventTitleStatus.Equals((int)EventStatusEnum.Completed))
+                    {
+                        eventStatus = "Completed";
+                    }
+
+                    eventaudiencesVM.Add(new EventAudienceVM()
+                    {
+                        EventAudienceId = eventaudience.EventAudienceId,
+                        EventTitleId = eventaudience.EventTitle?.EventTitleId,
+                        UserId = eventaudience.User.Id,
+                        QrCode = eventaudience.QrCode,
+                        EventRemarks = eventaudience.EventRemarks,
+                        EventTitleVenueName = eventaudience.EventTitle?.EventTitleVenueName,
+                        EventTitleDescription = eventaudience.EventTitle?.EventTitleDescription,
+                        EventTitleStartTimeDate = eventaudience.EventTitle?.EventTitleStartTimeDate,
+                        EventTitleEndTimeDate = eventaudience.EventTitle?.EventTitleEndTimeDate,
+                        EventTitleStatus = eventaudience.EventTitle.EventTitleStatus,
+                        FirstName = eventaudience.User?.FirstName,
+                        MiddleInitial = eventaudience.User?.MiddleInitial,
+                        EventStatusEnum = eventStatus,
+                        LastName = eventaudience.User?.LastName,
+                        UserName = eventaudience.User?.UserName,
+                        EmailAddress = eventaudience.User.Email
+                    });
+                }
+
+                Pagination<EventAudienceVM> pagination = new Pagination<EventAudienceVM>(eventaudiencesVM, currPage, pageSize);
+
+                return Ok(pagination);
+
+            }
+			catch (Exception ex)
 			{
-				eventaudiencesVM.Add(new EventAudienceVM()
-				{
-					EventAudienceId = eventaudience.EventAudienceId,
-					EventTitleId = eventaudience.EventTitle?.EventTitleId,
-					UserId = eventaudience.User.Id,
-					QrCode = eventaudience.QrCode,
-					EventRemarks = eventaudience.EventRemarks,
-					EventTitleVenueName = eventaudience.EventTitle?.EventTitleVenueName,
-					EventTitleDescription = eventaudience.EventTitle?.EventTitleDescription,
-					EventTitleStartTimeDate = eventaudience.EventTitle?.EventTitleStartTimeDate,
-					EventTitleEndTimeDate = eventaudience.EventTitle?.EventTitleEndTimeDate,
-					EventTitleStatus = eventaudience.EventTitle.EventTitleStatus,
-					FirstName = eventaudience.User?.FirstName,
-					MiddleInitial = eventaudience.User?.MiddleInitial,
-					LastName = eventaudience.User?.LastName,
-					UserName = eventaudience.User?.UserName,
-					EmailAddress = eventaudience.User.Email
-				});
+
+				throw;
 			}
-
-			Pagination<EventAudienceVM> pagination = new Pagination<EventAudienceVM>(eventaudiencesVM, currPage, pageSize);
-
-			return Ok(pagination);
 		}
 
 		[HttpGet]
@@ -130,7 +152,7 @@ namespace EventMonitoring.ph.Controllers
 			{
 				EventTitleId = eventaudience.EventTitleId,
 				UserId = eventaudience.UserId,
-				QrCode = eventaudience.QrCode,
+				//QrCode = eventaudience.QrCode,
 				EventRemarks = eventaudience.EventRemarks
 			};
 

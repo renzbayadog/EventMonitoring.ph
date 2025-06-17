@@ -12,6 +12,8 @@ using EventMonitoring.ph.Data.Entities;
 using EventMonitoring.ph.Data.Repositories; 
 using codegeneratorlib.Helpers;
 using EventMonitoring.Helpers;
+using codegen.Enum;
+using static app_infra.Data.Enum.Enumerations;
 
 
 
@@ -42,7 +44,18 @@ namespace EventMonitoring.ph.Controllers
 			
 			foreach(EventTitle eventtitle in eventtitles)
 			{
-				eventtitlesVM.Add(new EventTitleVM()
+                var eventStatus = "";
+                if (eventtitle.EventTitleStatus.Equals((int)EventStatusEnum.Ongoing))
+                {
+                    eventStatus = "Ongoing";
+
+                }
+                else if (eventtitle.EventTitleStatus.Equals((int)EventStatusEnum.Completed))
+                {
+                    eventStatus = "Completed";
+                }
+
+                eventtitlesVM.Add(new EventTitleVM()
 				{
 					EventTitleId = eventtitle.EventTitleId,
 					EventTitleVenueName = eventtitle.EventTitleVenueName,
@@ -50,7 +63,8 @@ namespace EventMonitoring.ph.Controllers
 					EventTitleStartTimeDate = eventtitle.EventTitleStartTimeDate,
 					EventTitleEndTimeDate = eventtitle.EventTitleEndTimeDate,
 					EventTitleStatus = eventtitle.EventTitleStatus,
-					EventLineId = eventtitle.EventLine?.EventLineId,
+                    EventStausEnum = eventStatus,
+                    EventLineId = eventtitle.EventLine?.EventLineId,
 					EventLineName = eventtitle.EventLine?.EventLineName
 				});
 			}
@@ -78,6 +92,16 @@ namespace EventMonitoring.ph.Controllers
 					return NotFound("Not Found");
 				}
 
+				var eventStatus = "";
+				if (eventtitle.EventTitleStatus.Equals((int)EventStatusEnum.Ongoing))
+				{
+					eventStatus = "Ongoing";
+
+                }else if (eventtitle.EventTitleStatus.Equals((int)EventStatusEnum.Completed))
+                {
+                    eventStatus = "Completed";
+                }
+
 				var oeventtitle = new EventTitleVM()
 				{
 					EventTitleId = eventtitle.EventTitleId,
@@ -86,12 +110,12 @@ namespace EventMonitoring.ph.Controllers
 					EventTitleStartTimeDate = eventtitle.EventTitleStartTimeDate,
 					EventTitleEndTimeDate = eventtitle.EventTitleEndTimeDate,
 					EventTitleStatus = eventtitle.EventTitleStatus,
-					EventLineId = eventtitle.EventLine?.EventLineId,
+					EventStausEnum = eventStatus,
+                    EventLineId = eventtitle.EventLine?.EventLineId,
 					EventLineName = eventtitle.EventLine?.EventLineName
 				};
 
 				return Ok(oeventtitle);
-
             }
             catch (Exception ex)
             {

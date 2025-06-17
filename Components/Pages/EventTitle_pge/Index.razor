@@ -110,7 +110,7 @@
                                                     <td>@EventTitle.EventTitleDescription</td>
                                                     <td>@EventTitle.EventTitleStartTimeDate</td>
                                                     <td>@EventTitle.EventTitleEndTimeDate</td>
-                                                    <td>@EventTitle.EventTitleStatus</td>
+                                                    <td><span class="text text-warning"> @EventTitle.EventStausEnum</span></td>
                                                     @* <td>@EventTitle.EventLineId</td> *@
                                                     <td><a href="/EventTitle/Details/@EventTitle.EventTitleId" class="popup"><i class="fa fa-info-circle"></i></a> <a style="cursor:pointer" @onclick="()=>OpenModal(EventTitle.EventTitleId)" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventTitle(EventTitle.EventTitleId)" style="cursor:pointer" id="js-EventTitle-delete" data-id="EventTitleId"><i class="fa fa-trash-o"></i></a></td>
                                                 </tr>

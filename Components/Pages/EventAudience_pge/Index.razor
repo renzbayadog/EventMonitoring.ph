@@ -114,7 +114,7 @@
                                                     <td>@EventAudience.EventTitleDescription</td>
                                                     <td>@EventAudience.EventTitleStartTimeDate</td>
                                                     <td>@EventAudience.EventTitleEndTimeDate</td>
-                                                    <td>@EventAudience.EventTitleStatus</td>
+                                                    <td><span class="text text-warning"> @EventAudience.EventStatusEnum</span></td>
                                                     <td><a href="/EventAudience/Details/@EventAudience.EventAudienceId" class="popup"><i class="fa fa-info-circle"></i></a> <a href="/EventAudience/Update/@EventAudience.EventAudienceId" class="popup"><i class="fa fa-edit"></i></a> <a @onclick="()=>DeleteEventAudience(EventAudience.EventAudienceId)" style="cursor:pointer" id="js-EventAudience-delete" data-id="EventAudienceId"><i class="fa fa-trash-o"></i></a></td>
                                                 </tr>
                                             }

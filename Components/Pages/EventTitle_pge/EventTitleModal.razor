@@ -49,11 +49,15 @@
 								<input type="date" @bind="oEventTitleVM.EventTitleEndTimeDate" id="js-eventtitleendtimedate" class="form-control" />
 								
 							</div>
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title Status</label>	
-								<input @bind="oEventTitleVM.EventTitleStatus" id="js-eventtitlestatus" class="form-control" />
-								
-							</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Title Status</label>
+                    <select @bind="oEventTitleVM.EventTitleStatus" id="js-eventlineid" class="form-control">
+                        <option value="" disabled>-- Select --</option>
+                        <option value="1">Ongoing</option>
+                        <option value="2">Completed</option>
+                    </select>
+
+                </div>
 							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
 								<label>Event Line Name</label>	
 								<select @bind="oEventTitleVM.EventLineId" id="js-eventlineid" class="form-control"><option value="">-- Select --</option>@if (listEventLine != null){@foreach (var item in listEventLine){<option value="@item.EventLineId">@item.EventLineName</option>}}
