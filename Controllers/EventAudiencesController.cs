@@ -73,7 +73,9 @@ namespace EventMonitoring.ph.Controllers
                         EventStatusEnum = eventStatus,
                         LastName = eventaudience.User?.LastName,
                         UserName = eventaudience.User?.UserName,
-                        EmailAddress = eventaudience.User.Email
+                        MobileNumber = eventaudience.User.PhoneNumber,
+                        EmailAddress = eventaudience.User.Email,
+						EventLineName = eventaudience.EventTitle?.EventLine?.EventLineName
                     });
                 }
 

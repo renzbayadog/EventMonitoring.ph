@@ -27,7 +27,7 @@
                         <div class="row">
 
                             <!--SEARCH AREA-->
-                            <form class="form-horizontal" id="search-EventAudience-form" @onsubmit="()=>SearchEventAudience()">
+                            <form class="form-horizontal" id="search-EventAudience-form" @onsubmit="()=>GetEventAudience()">
                                 <div class="col-md-6 col-sm-6 col-xs-6 form-group">
 
                                     <label>Filter Event</label>
@@ -37,7 +37,7 @@
                                         {
                                             @foreach (var item in listEventTItle)
                                             {
-                                                <option value="@item.EventTitleVenueName">@item.EventTitleVenueName</option>
+                                                <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
                                             }
                                         } 
                                     </select>
@@ -111,8 +111,6 @@
                                                     <table class="table mb-0" id="js-table-EventAudience">
                                                         <thead>
                                                             <tr>
-                                                                <th class="column-title"><input type="checkbox" id="check-all" /></th>
-
                                                                 <th>Date/ Time</th>
                                                                 <th>Name</th>
                                                                 <th>Email Address</th>
@@ -125,8 +123,6 @@
                                                             @foreach (var EventAudience in pEventAudiences.List)
                                                             {
                                                                 <tr id="selected-row-eventaudienceid">
-                                                                    <td><input type="checkbox" class="js-chk-bulk" data-id=''></td>
-
                                                                     <td>@EventAudience.EventTitleStartTimeDate</td>
                                                                     <td>@EventAudience.FirstName @EventAudience.MiddleInitial @EventAudience.LastName</td>
                                                                     <td>@EventAudience.EmailAddress</td>
@@ -186,6 +182,8 @@
     private PaginationVM<EventAudienceVM> pEventAudiences;
     private EventAudienceVM oEventAudienceVM = new();
     private List<EventTitle> listEventTItle => repowrapper.EventTitle_Repository.FindAll().ToList();
+
+    private int EventTitleId;
     private string responseMessage;
     private int PageSize = 10;
     private int CurrentPage = 1;
@@ -204,6 +202,16 @@
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventAudience(CurrentPage, PageSize, search);
         pEventAudiences = list;
+    }
+
+    private async Task GetEventAudience()
+    {
+        var restService = new RestService<EventAudienceVM>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<EventAudienceVM>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/GetById/{EventTitleId}");
+
+        oEventAudienceVM = result.Data;
     }
 
     private async Task ExportFile()

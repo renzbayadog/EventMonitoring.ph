@@ -28,7 +28,7 @@
                 <div class="x_content EventAudience-container">
                     <div class="row">
 						<div class="modal-header">
-							<h5><b>Create New EventAudience</b></h5>
+							<h5><b>Assign Audience</b></h5>
 						</div>
 
                         <EditForm class="form-horizontal form-label-left" id="EventAudience-form" Model="oEventAudienceVM" OnValidSubmit="()=>SendRequest()">                           
@@ -53,13 +53,13 @@
 								
 							</div>
 							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title Venue Name</label>	
+								<label>Event Venue</label>	
 								<select @bind="oEventAudienceVM.EventTitleId" id="js-eventtitleid" class="form-control"><option value="">-- Select --</option>@if (listEventTitle != null){@foreach (var item in listEventTitle){<option value="@item.EventTitleId">@item.EventTitleVenueName</option>}}
 							</select>
 								
 							</div>
 							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>User Name</label>	
+								<label>Assign To:</label>	
 								<select @bind="oEventAudienceVM.UserId" id="js-userid" class="form-control"><option value="">-- Select --</option>@if (listUser != null){@foreach (var item in listUser){<option value="@item.Id">@item.FirstName @item.LastName (@item.UserName)</option>}}
 							</select>
 								
@@ -115,7 +115,7 @@
 	private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
-        {"Create New EventAudience", null!}
+        {"Assign Audience", null!}
     };
 
 	[CascadingParameter]

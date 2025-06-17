@@ -40,7 +40,7 @@
                                 }
                                 @if (Add)
                                 {
-                                    <a href="/EventAudience/Create" class="btn btn-primary btn-custom float-end popup"><i class="fa fa-plus"></i> Create New</a>
+                                    <a href="/EventAudience/Create" class="btn btn-primary btn-custom float-end popup"><i class="fa fa-plus"></i> Assign</a>
                                 }
 								</div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -52,7 +52,7 @@
                             <!--SEARCH AREA-->
                             <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventAudience()">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                                        <label>Search by: (EventLineName)</label>
+                                        <label>Search by: (Any)</label>
                                         <input class="form-control" id="js-Keyword-search" @bind="searchInfo.Keyword" />
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6 form-group">
@@ -91,13 +91,15 @@
                                         <thead>
                                             <tr>
                                                 <th>Qr Code</th>
-                                                <th>Name</th>
-                                                <th>Email Address</th>
-                                                <th>Event Remarks</th>
+                                                <th>Event Line</th>
                                                 <th>Venue</th>
+                                                <th>Audience Name</th>
+                                                <th>Email Address</th>
+                                                <th>Mobile Number</th>
+                                                <th>Event Remarks</th>
                                                 <th>Description</th>
-                                                <th>Start Time Date</th>
-                                                <th>End Time Date</th>
+                                                <th>Start Date/ Time</th>
+                                                <th>End Date/ Time</th>
                                                 <th>Status</th>
                                                 <th class="column-title no-link last"><span class="nobr">Action</span></th>
                                             </tr>
@@ -107,10 +109,12 @@
                                             {
                                                 <tr id="selected-row-eventaudienceid">
                                                     <td></td>
+                                                    <td>@EventAudience.EventLineName</td>
+                                                    <td>@EventAudience.EventTitleVenueName</td>
                                                     <td>@EventAudience.FirstName @EventAudience.LastName</td>
                                                     <td>@EventAudience.EmailAddress</td>
+                                                    <td>@EventAudience.MobileNumber</td>
                                                     <td>@EventAudience.EventRemarks</td>
-                                                    <td>@EventAudience.EventTitleVenueName</td>
                                                     <td>@EventAudience.EventTitleDescription</td>
                                                     <td>@EventAudience.EventTitleStartTimeDate</td>
                                                     <td>@EventAudience.EventTitleEndTimeDate</td>
@@ -175,7 +179,7 @@
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
-        {"EventAudience List", null!}
+        {"Event Audience", null!}
     };
 
     [CascadingParameter]
