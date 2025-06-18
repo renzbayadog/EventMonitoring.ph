@@ -143,6 +143,10 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "QRCoder": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
             "Serilog.AspNetCore": {
               "target": "Package",
               "version": "[8.0.2, )"
@@ -175,9 +179,17 @@
               "target": "Package",
               "version": "[27.1.52, )"
             },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "System.Security.Claims": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "ZXing.Net": {
+              "target": "Package",
+              "version": "[0.16.10, )"
             }
           },
           "imports": [

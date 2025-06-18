@@ -8,6 +8,7 @@ using EventMonitoring.States.User;
 using Microsoft.AspNetCore.Components.Authorization;
 using EventMonitoring.ph.Data.Repositories;
 using Syncfusion.Blazor;
+using EventMonitoring.ph.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,8 @@ builder.Services.AddScoped<GenericHomeHeaderState>();
 builder.Services.AddScoped<ChangePasswordState>();
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<IQRCodeService, QRCodeService>();
 
 var app = builder.Build();
 
@@ -55,4 +58,4 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+app.Run();

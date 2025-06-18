@@ -1,3 +1,11 @@
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.AssemblyReference.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfoInputs.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfo.cs
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.sourcelink.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\appsettings.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\librarybin\Debug\net8.0\app_application.deps.json
@@ -103,6 +111,7 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\NetcodeHub.Packages.UI.Templates.Breeze.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\QRCoder.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.AspNetCore.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
@@ -150,6 +159,7 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Security.Permissions.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Text.Json.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\zxing.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -208,9 +218,7 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
@@ -218,14 +226,6 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_infra.dll
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_application.pdb
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\bin\Debug\net8.0\app_infra.pdb
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.AssemblyReference.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfoInputs.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.AssemblyInfo.cs
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.csproj.CoreCompileInputs.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.sourcelink.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\staticwebassets\msbuild.EventMonitoring.ph.Microsoft.AspNetCore.StaticWebAssets.props

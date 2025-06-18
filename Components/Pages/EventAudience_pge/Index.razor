@@ -107,8 +107,12 @@
                                         <tbody id="js-load-EventAudience-row">
                                             @foreach (var EventAudience in pEventAudiences.List)
                                             {
+                                                var qrtext = $"{EventAudience.UserName}_{EventAudience.UserId}";
+
                                                 <tr id="selected-row-eventaudienceid">
-                                                    <td></td>
+                                                    <td>
+                                                        <a href="/administrator/qrcode/@qrtext"><i class="fa fa-plus"></i> Generate</a>
+                                                    </td>
                                                     <td>@EventAudience.EventLineName</td>
                                                     <td>@EventAudience.EventTitleVenueName</td>
                                                     <td>@EventAudience.FirstName @EventAudience.LastName</td>

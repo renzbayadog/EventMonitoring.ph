@@ -1,0 +1,144 @@
+@page "/administrator/qrcode/{qrText}"
+@using EventMonitoring.ph.Components.Pages.content
+@using QRCoder
+@using System.Drawing
+@using System.Drawing.Imaging
+@using System.IO
+@using EventMonitoring.ph.Services
+@using codegen.Extensions
+@inject IQRCodeService QRCodeService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<PageTitle>QR Code Generator</PageTitle>
+
+<TwoSectionsTemplate>
+    <Col12Template>
+        <AdminHomeHeader /> 
+        <NetcodeHubBreadCrumb BreadCrumbs="crumbs" ReloadPageOnClick="true" BackgroundColor="@BreadCrumbBackgroundColor.SecondarySubtle()" />
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">QR Code Generator</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label for="qrText" class="form-label">Enter Text for QR Code:</label>
+                                <input type="text" class="form-control" id="qrText" @bind="qrText" placeholder="Enter text to encode" disabled/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="qrSize" class="form-label">QR Code Size (pixels):</label>
+                                <input type="range" class="form-range" id="qrSize" min="100" max="500" step="10" @bind="qrSize" />
+                                <small class="text-muted">Current size: @qrSize px</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="qrColor" class="form-label">QR Code Color:</label>
+                                <input type="color" class="form-control form-control-color" id="qrColor" @bind="qrColor" />
+                            </div>
+                            <button class="btn btn-primary" @onclick="()=>GenerateQRCode()">
+                                <i class="fas fa-qrcode me-2"></i>Generate QR Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">Generated QR Code</h3>
+                        </div>
+                        <div class="card-body text-center">
+                            @if (!string.IsNullOrEmpty(qrCodeImage))
+                            {
+                                <div class="qr-code-container" style="width: @(qrSize)px; height: @(qrSize)px; margin: 0 auto;">
+                                    <img src="@qrCodeImage" alt="QR Code" class="img-fluid" style="width: 100%; height: 100%;" />
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-success" @onclick="DownloadQRCode">
+                                        <i class="fas fa-download me-2"></i>Download QR Code
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <i class="fas fa-qrcode fa-4x text-muted mb-3"></i>
+                                    <p class="text-muted">Enter text and click generate to create a QR code.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Col12Template>
+    <FooterTemplate>
+        <Footer />
+    </FooterTemplate>
+</TwoSectionsTemplate>
+
+
+<style>
+    .qr-code-container {
+        transition: all 0.3s ease;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 10px;
+        background: white;
+    }
+    .qr-code-container img {
+        object-fit: contain;
+    }
+    .form-control-color {
+        width: 100%;
+        height: 38px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public string qrText { get; set; }
+
+    private string qrCodeImage = "";
+    private int qrSize = 200;
+    private string qrColor = "#000000";
+    private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "administrator/qrCode generator"},
+        {"Manage Users", null!}
+    };
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
+
+    }
+
+
+    private void GenerateQRCode()
+    {
+        if (string.IsNullOrWhiteSpace(qrText))
+            return;
+
+        qrCodeImage = QRCodeService.GenerateQRCode(qrText, qrColor);
+    }
+
+    private async Task DownloadQRCode()
+    {
+        if (string.IsNullOrEmpty(qrCodeImage))
+            return;
+
+        // Convert base64 to bytes
+        var base64Data = qrCodeImage.Replace("data:image/png;base64,", "");
+        var imageBytes = Convert.FromBase64String(base64Data);
+
+        // Create a download link using JavaScript interop
+        var fileName = $"QRCode_{DateTime.Now:yyyyMMddHHmmss}.png";
+        await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, imageBytes);
+    }
+} 
