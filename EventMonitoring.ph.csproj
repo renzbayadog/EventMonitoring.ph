@@ -76,9 +76,4 @@
       <HintPath>librarybin\Debug\net8.0\app_infra.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\vendors\moment\moment.d.ts" />
-    <TypeScriptCompile Include="wwwroot\vendors\sweet-alert\sweetalert2.d.ts" />
-  </ItemGroup>
 </Project>

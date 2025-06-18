@@ -27,11 +27,11 @@
                         <div class="row">
 
                             <!--SEARCH AREA-->
-                            <form class="form-horizontal" id="search-EventAudience-form" @onsubmit="()=>GetEventAudience()">
+                            <form class="form-horizontal" id="search-EventAudience-form" @onsubmit="()=>GetEventTitle()">
                                 <div class="col-md-6 col-sm-6 col-xs-6 form-group">
 
-                                    <label>Filter Event</label>
-                                    <select @bind="searchInfo.Keyword" id="js-eventtitleid" class="form-control">
+                                    <label>Filter Event Location</label>
+                                    <select @bind="EventTitleId" id="js-eventtitleid" class="form-control">
                                         <option value="">-- Select --</option>
                                         @if (listEventTItle != null)
                                         {
@@ -64,12 +64,12 @@
                         <div class="row">
                             <!--BUTTON TOP-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <a href="/EventAudience/print" target="blank" class="btn btn-warning btn-custom float-end popup"><i class="fa fa-print"></i> Print</a>
+                                <a href="/EventAudience/print/@EventTitleId" target="blank" class="btn btn-warning btn-custom float-end popup"><i class="fa fa-print"></i> Print</a>
                             </div>
-                            @if (pEventAudiences == null)
+                            @if (oEventTitleVM == null)
                             {
                                 <br />
-                                <p>Loading..</p>
+                                <i>Select Event Location to view it's details..</i>
                             }
                             else
                             {
@@ -80,28 +80,29 @@
                                             <tr>
                                                 <td>
                                                     <b>Event Title:</b> <br /><br />
-                                                    Sample 1
+                                                    @oEventTitleVM.EventLineName
                                                 </td>
                                                 <td>
                                                     <b>Event Start:</b> <br /><br />
-                                                    @DateTime.Now
+                                                     @oEventTitleVM.EventTitleStartTimeDate
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <b>Event Venue:</b> <br /><br />
-                                                    Caloocan
+
+                                                    @oEventTitleVM.EventTitleVenueName
                                                 </td>
                                                 <td>
                                                     <b>Event End:</b> <br /><br />
-                                                    @DateTime.Now
+                                                    @oEventTitleVM.EventTitleEndTimeDate
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>
                                                     <b>Event Description:</b> <br /><br />
-                                                    Codegen publishing
+                                                    @oEventTitleVM.EventTitleDescription
                                                 </td>
                                             </tr>
                                         </thead>
@@ -120,7 +121,9 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="js-load-EventAudience-row">
-                                                            @foreach (var EventAudience in pEventAudiences.List)
+
+
+                                                            @foreach (var EventAudience in oEventTitleVM?.EventAudiences)
                                                             {
                                                                 <tr id="selected-row-eventaudienceid">
                                                                     <td>@EventAudience.EventTitleStartTimeDate</td>
@@ -137,8 +140,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
-                                  
                                 </div>
 
                                 <!--PAGINATION AND SUMMARY-->
@@ -187,11 +188,13 @@
     private string responseMessage;
     private int PageSize = 10;
     private int CurrentPage = 1;
+    private PaginationVM<EventTitleVM> pEventTitles;
     private Dictionary<string, string> crumbs = new Dictionary<string, string>()
     {
         {"Home", "/"},
         {"EventAudience List", null!}
     };
+    private EventTitleVM oEventTitleVM = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -204,14 +207,21 @@
         pEventAudiences = list;
     }
 
-    private async Task GetEventAudience()
+    private async Task GetEventTitle()
     {
-        var restService = new RestService<EventAudienceVM>();
+        var restService = new RestService<EventTitleVM>();
         //var json = JsonConvert.SerializeObject(search);
-        var result = new ServiceModel<EventAudienceVM>();
-        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventAudiences/GetById/{EventTitleId}");
+        var result = new ServiceModel<EventTitleVM>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/GetById/{EventTitleId}");
 
-        oEventAudienceVM = result.Data;
+        if (!result.IsSuccess)
+        {
+            oEventTitleVM = null;
+        }
+        else
+        {
+            oEventTitleVM = result.Data;
+        }
     }
 
     private async Task ExportFile()

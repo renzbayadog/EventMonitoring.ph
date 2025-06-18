@@ -1,5 +1,8 @@
-﻿@page "/EventAudience/print"
+﻿@page "/EventAudience/print/{EventTitleId:int}"
 @using EventMonitoring.ph.Components.Layout.Identity
+@using EventMonitoring.ph.ViewModels
+@using codegen.Extensions
+@using codegeneratorlib.Helpers
 @inject IJSRuntime jsRunTIme
 @layout AuthenticationLayout
 
@@ -75,7 +78,7 @@
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12">
-                <div class="x_panel" style="margin-top:150px;">
+                <div class="x_panel">
                     <div class="x_content">
                         <section class="content invoice" id="print-sales">
                             <!-- Table row -->
@@ -99,7 +102,7 @@
                                     <div class="col-md-12">
                                         <table class="print-header" border="0" style="font-size:14px;width:100%;">
                                             <tr>
-                                                <td><strong>Date: 11/22/1996</strong></td>
+                                                <td><strong>Date: @DateTime.Now.ToString("MM-dd-yyyy")</strong></td>
                                             </tr>
                                             <tr>
                                                 <td><strong><i>Description</i></strong></td>
@@ -111,23 +114,23 @@
 
                                             <tr>
                                                 <td><strong>Event Title:</strong></td>
-                                                <td colspan="2">address 2</td>
+                                                <td colspan="2">@oEventTitleVM?.EventLineName</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Event Venue:</strong></td>
-                                                <td colspan="2">Address 1</td>
+                                                <td colspan="2">@oEventTitleVM?.EventTitleVenueName</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Event Description:</strong></td>
-                                                <td colspan="2">Address 1</td>
+                                                <td colspan="2">@oEventTitleVM?.EventTitleDescription</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Event Start:</strong></td>
-                                                <td colspan="2">11/22/2025</td>
+                                                <td colspan="2">@oEventTitleVM?.EventTitleStartTimeDate</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Event End:</strong></td>
-                                                <td colspan="2">11/22/2025</td>
+                                                <td colspan="2">@oEventTitleVM?.EventTitleEndTimeDate</td>
                                             </tr>
                                           @*   @foreach (var item in Model.SchoolContacts)
                                             {
@@ -151,7 +154,8 @@
                                                     <th width="20%" class="text-center">Remarks</th>
  *@
                                                     <th>Date/ Time</th>
-                                                    <th>Name</th>
+                                                    <th>Audience Name</th>
+                                                    <th>Phone Number</th>
                                                     <th>Email Address</th>
                                                     <th>Venue</th>
                                                     <th>Details</th>
@@ -159,22 +163,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              @*   @foreach (var item in Model.TitlePulloutList)
+                                                @if (oEventTitleVM == null)
                                                 {
                                                     <tr>
-                                                        <td width="80%" class="text-center">
-                                                            @item.TitleSales.TitleName
-                                                        </td>
-                                                        <td width="20%" class="text-center">
-                                                            @item.Quantity
-                                                        </td>
+                                                        <td style="text-align:right;">No Audience</td>
                                                     </tr>
-                                                } *@
-
-                                               @*  <tr>
-                                                    <td style="text-align:right;">TOTAL</td>
-                                                    <td>200</td>
-                                                </tr> *@
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var EventAudience in oEventTitleVM.EventAudiences)
+                                                    {
+                                                        <tr id="selected-row-eventaudienceid">
+                                                            <td>@EventAudience.EventTitleStartTimeDate</td>
+                                                            <td>@EventAudience.FirstName @EventAudience.MiddleInitial @EventAudience.LastName</td>
+                                                            <td>@EventAudience.MobileNumber</td>
+                                                            <td>@EventAudience.EmailAddress</td>
+                                                            <td>@EventAudience.EventTitleVenueName</td>
+                                                            <td>@EventAudience.EventTitleDescription</td>
+                                                            <td>@EventAudience.EventRemarks</td>
+                                                        </tr>
+                                                    }
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -228,13 +237,38 @@
         $(document).ready(function () {
             setTimeout(function () {
                 window.print();
-            }, 3000);
+            }, 5000);
         });
     </script>
 </body>
 </html>
 @code{
+
+    [Parameter]
+    public int EventTitleId { get; set; }
+
+    private EventTitleVM oEventTitleVM = null;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
+
+        var restService = new RestService<EventTitleVM>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<EventTitleVM>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/GetById/{EventTitleId}");
+
+        if (!result.IsSuccess)
+        {
+            oEventTitleVM = null;
+        }
+        else
+        {
+            oEventTitleVM = result.Data;
+        }
     }
 }

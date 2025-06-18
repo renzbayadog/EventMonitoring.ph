@@ -14,6 +14,7 @@ using codegeneratorlib.Helpers;
 using EventMonitoring.Helpers;
 using codegen.Enum;
 using static app_infra.Data.Enum.Enumerations;
+using Mapster;
 
 
 
@@ -24,11 +25,14 @@ namespace EventMonitoring.ph.Controllers
 	public class EventTitlesController : ControllerBase
 	{
 		private readonly IEventTitleRepository _eventtitleRepository;
+        private readonly IEventAudienceRepository _eventAudienceRepository;
 
-		public EventTitlesController(IRepositoryWrapper repoWrapper)
+        public EventTitlesController(IRepositoryWrapper repoWrapper)
 		{
 			_eventtitleRepository = repoWrapper.EventTitle_Repository;
-		}
+			_eventAudienceRepository = repoWrapper.EventAudience_Repository;
+
+        }
 
 		[HttpGet]
         [Route("List/Page{currPage:int}/PageSize{pageSize:int}")]
@@ -102,7 +106,9 @@ namespace EventMonitoring.ph.Controllers
                     eventStatus = "Completed";
                 }
 
-				var oeventtitle = new EventTitleVM()
+				var listAudience = await _eventAudienceRepository.GetListEventAudienceById(eventtitle.EventTitleId);
+
+                var oeventtitle = new EventTitleVM()
 				{
 					EventTitleId = eventtitle.EventTitleId,
 					EventTitleVenueName = eventtitle.EventTitleVenueName,
@@ -113,9 +119,38 @@ namespace EventMonitoring.ph.Controllers
 					EventStausEnum = eventStatus,
                     EventLineId = eventtitle.EventLine?.EventLineId,
 					EventLineName = eventtitle.EventLine?.EventLineName
-				};
+                };
 
-				return Ok(oeventtitle);
+				var olistaudience = new List<EventAudienceVM>();
+
+				foreach (var eventaudience in listAudience)
+				{
+					olistaudience.Add(new EventAudienceVM
+                    {
+                        EventAudienceId = eventaudience.EventAudienceId,
+                        EventTitleId = eventaudience.EventTitle?.EventTitleId,
+                        UserId = eventaudience.User.Id,
+                        QrCode = eventaudience.QrCode,
+                        EventRemarks = eventaudience.EventRemarks,
+                        EventTitleVenueName = eventaudience.EventTitle?.EventTitleVenueName,
+                        EventTitleDescription = eventaudience.EventTitle?.EventTitleDescription,
+                        EventTitleStartTimeDate = eventaudience.EventTitle?.EventTitleStartTimeDate,
+                        EventTitleEndTimeDate = eventaudience.EventTitle?.EventTitleEndTimeDate,
+                        EventTitleStatus = eventaudience.EventTitle.EventTitleStatus,
+                        FirstName = eventaudience.User?.FirstName,
+                        MiddleInitial = eventaudience.User?.MiddleInitial,
+                        EventStatusEnum = eventStatus,
+                        LastName = eventaudience.User?.LastName,
+                        UserName = eventaudience.User?.UserName,
+                        MobileNumber = eventaudience.User.PhoneNumber,
+                        EmailAddress = eventaudience.User.Email,
+                        EventLineName = eventaudience.EventTitle?.EventLine?.EventLineName
+                    });
+				}
+
+				oeventtitle.EventAudiences = olistaudience;
+
+                return Ok(oeventtitle);
             }
             catch (Exception ex)
             {
