@@ -6,9 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Components\Pages\EventLine_pge\EventLineModal.razor.css" />
+    <None Remove="Components\Pages\Identity\AccountManagement\ManageUserAccount.razor.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Components\Pages\EventLine_pge\EventLineModal.razor.css" />
+    <Content Include="Components\Pages\Identity\AccountManagement\ManageUserAccount.razor.css" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mapster" Version="7.4.0" />
