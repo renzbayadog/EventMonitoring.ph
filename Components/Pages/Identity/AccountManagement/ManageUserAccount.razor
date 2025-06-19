@@ -187,7 +187,7 @@
     </Modal>
 }
 
-<NetcodeHubToast Duration="10000" IconClass="mdi mdi-content-duplicate menu-icon fs-4" @ref="ToastComponent" />
+<NetcodeHubToast Duration="5000" IconClass="mdi mdi-content-duplicate menu-icon fs-4" @ref="ToastComponent" />
 
 @code {
     [CascadingParameter]
@@ -266,30 +266,46 @@
     {
         Loading = true;
 
-        var result = await accountService.UpdateUserProfileAsync(User);
+        try
+        {
+            var result = await accountService.UpdateUserProfileAsync(User);
 
-        var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
-        var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
+            var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
+            var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
 
-        await accountService.SaveActivityTrackerAsync(new ActivityTrackerRequestDTO()
+            await accountService.SaveActivityTrackerAsync(new ActivityTrackerRequestDTO()
+                {
+                    UserId = userData.UserId,
+                    Title = "Update User Account Method called",
+                    Description = result.message,
+                    Date = DateTime.Now,
+                    OperationState = result.flag.ToString()
+                });
+
+            if (result.flag)
             {
-                UserId = userData.UserId,
-                Title = "Update User Account Method called",
-                Description = result.message,
-                Date = DateTime.Now,
-                OperationState = result.flag.ToString()
-            });
+                Loading = false;
+                CloseModalDialog();
 
-        if (result.flag)
-        {
-            CloseModalDialog();
-            await ToastComponent!.ShowSuccessToast("Updated User Permission", result.message);
+                await InvokeAsync(() => StateHasChanged());
+
+                await ToastComponent!.ShowSuccessToast("Updated User Account", result.message);
+            }
+            else
+            {
+
+                Loading = false;
+
+                await InvokeAsync(() => StateHasChanged());
+
+                await ToastComponent!.ShowSuccessToast("Failed To Update Permission", result.message);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await ToastComponent!.ShowSuccessToast("Failed To Update Permission", result.message);
+            
+            throw;
         }
-        Loading = false;
     }
 
     public async Task ManageUserClicked()
@@ -302,9 +318,9 @@
 
     void CloseModalDialog()
     {
-        //await GetUserUpdatedDetails();
         IsOpen = false;
     }
+
     public void Dispose()
     {
         Loading = false;

@@ -138,16 +138,19 @@
 
         if (result.flag)
         {
+            Loading = false;
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowSuccessToast("Created", "User has been successfully created!");
             UserModel = new();
         }
         else
         {
+            Loading = false;
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowErrorToast("Failed", result.message);
             UserModel = new();
         }
 
-        Loading = false;
     }
 
     async Task ResetForm()
