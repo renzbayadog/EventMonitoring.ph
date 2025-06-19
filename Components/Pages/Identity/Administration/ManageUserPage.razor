@@ -309,6 +309,7 @@
         await Task.Delay(3000);
         var result = await accountService.UpdateUserAsync(ChangeUserClaim);
 
+        var userId = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Name)!.Value;
         var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
         var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
 
