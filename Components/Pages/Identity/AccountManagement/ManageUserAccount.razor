@@ -31,8 +31,8 @@
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                          alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                                    <h5>@User.UserInfo.FirstName @User?.UserInfo?.LastName</h5>
-                                    <p>@User.UserOtherInfo.TypeOfWork</p>
+                                    <h5>@User?.UserInfo?.FirstName @User?.UserInfo?.LastName</h5>
+                                    <p>@User?.UserOtherInfo?.TypeOfWork</p>
                                     <i class="far fa-edit mb-5"></i>
                                 </div>
                                     <div class="col-md-8">
@@ -42,11 +42,11 @@
                                             <div class="row pt-1">
                                                 <div class="col-6 mb-3">
                                                     <h6>Name</h6>
-                                                    <p class="text-muted">@User.UserInfo?.FirstName @User.UserInfo?.LastName</p>
+                                                    <p class="text-muted">@User?.UserInfo?.FirstName @User.UserInfo?.LastName</p>
                                                 </div>
                                                 <div class="col-6 mb-3">
                                                     <h6>Role</h6>
-                                                    <p class="text-muted">@User.RoleName</p>
+                                                    <p class="text-muted">@User?.RoleName</p>
                                                 </div>
                                             </div>
                                             <h6>Contact Information</h6>
@@ -54,11 +54,11 @@
                                             <div class="row pt-1">
                                                 <div class="col-6 mb-3">
                                                     <h6>Email</h6>
-                                                    <p class="text-muted">@User.Email</p>
+                                                    <p class="text-muted">@User?.Email</p>
                                                 </div>
                                                 <div class="col-6 mb-3">
                                                     <h6>Phone</h6>
-                                                    <p class="text-muted">@User.UserInfo?.PhoneNumber</p>
+                                                    <p class="text-muted">@User?.UserInfo?.PhoneNumber</p>
                                                 </div>
                                             </div>
                                             <h6>Others</h6>
@@ -66,23 +66,23 @@
                                             <div class="row pt-1">
                                                 <div class="col-6 mb-3">
                                                     <h6>Home Address</h6>
-                                                    <p class="text-muted">@User.UserOtherInfo.HomeAddress</p>
+                                                    <p class="text-muted">@User?.UserOtherInfo?.HomeAddress</p>
                                                 </div>
                                                 <div class="col-6 mb-3">
                                                     <h6>Plate Number</h6>
-                                                    <p class="text-muted">@User.UserOtherInfo.PlateNumber</p>
+                                                    <p class="text-muted">@User?.UserOtherInfo?.PlateNumber</p>
                                                 </div>
 
                                                 <div class="col-6 mb-3">
                                                     <h6>Type of Participant</h6>
-                                                    <p class="text-muted">@User.UserOtherInfo.TypeOfVisitor</p>
+                                                    <p class="text-muted">@User?.UserOtherInfo?.TypeOfVisitor</p>
                                                 </div>
                                                 <div class="col-6 mb-3">
                                                     <h6>Type of Work</h6>
-                                                    <p class="text-muted">@User.UserOtherInfo.TypeOfWork</p>
+                                                    <p class="text-muted">@User?.UserOtherInfo?.TypeOfWork</p>
                                                 </div>
                                                 <div class="col-6 mb-3">
-                                                    <button @onclick="()=>ManageUserClicked()" class="btn btn-warning btn-custom float-md-end">
+                                                    <button @onclick="()=>ManageUserClicked(User)" class="btn btn-warning btn-custom float-md-end">
                                                         <i class="fa fa-edit"></i> Update Details
                                                     </button>
                                                 </div>
@@ -106,68 +106,71 @@
         <Footer />
     </FooterTemplate>
 </TwoSectionsTemplate>
-@if(User != null)
+@if (ChangeUserClaim == null)
 {
 
+}
+else
+{
     <Modal @bind-Open="IsOpen"
-           BootstrapClass="border-info rounded p-2 ml-2 mr-2 align-item-conter position-absolute top-50 start-50 translate-middle"
-           CustomStyle="width:300px;margin-top:10px;">
+    BootstrapClass="border-info rounded p-2 ml-2 mr-2 align-item-conter position-absolute top-50 start-50 translate-middle"
+    CustomStyle="width:300px;margin-top:10px;">
         <ContentContent>
             <div class="card p-3 shadow-lg border-success">
                 <div class="card-title text-center text-info d-flex justify-content-between">
                     <i class="d-flex mdi mdi-pencil text-primary fs-3"></i>
                     <span class="d-flex">Manage Account</span>
                     <i class="mdi mdi-close text-danger fw-bold menu-icon fs-3 d-flex"
-                       style="cursor:pointer" @onclick="()=>CloseModalDialog()"></i>
+                    style="cursor:pointer" @onclick="()=>CloseModalDialog()"></i>
                 </div>
                 <div class="card-body">
-                    <EditForm Model="User" OnValidSubmit="SaveChanges">
+                    <EditForm Model="ChangeUserClaim" OnValidSubmit="SaveChanges">
                         <DataAnnotationsValidator />
                         <div class="form-group mt-3">
                             <label class="form-label">FIrst Name</label>
-                            <input @bind="User.UserInfo.Id" id="js-eventremarks" class="form-control" hidden />
+                            <input @bind="ChangeUserClaim.UserInfo.Id" id="js-eventremarks" class="form-control" hidden />
 
-                            <input @bind="User.UserInfo.FirstName" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserInfo.FirstName" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Middle Initials</label>
-                            <input @bind="User.UserInfo.MiddleInitial" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserInfo.MiddleInitial" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Last Name</label>
-                            <input @bind="User.UserInfo.LastName" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserInfo.LastName" id="js-eventremarks" class="form-control" />
                         </div>
 
-                         <div class="form-group mt-3">
+                        <div class="form-group mt-3">
                             <label class="form-label">User Name</label>
-                            <input @bind="User.UserInfo.UserName" id="js-eventremarks" class="form-control" disabled/>
+                            <input @bind="ChangeUserClaim.UserInfo.UserName" id="js-eventremarks" class="form-control" disabled />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Email</label>
-                            <input @bind="User.UserInfo.Email" id="js-eventremarks" class="form-control" disabled/>
-                        </div> 
+                            <input @bind="ChangeUserClaim.UserInfo.Email" id="js-eventremarks" class="form-control" disabled />
+                        </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Phone Number</label>
-                            <input @bind="User.UserInfo.PhoneNumber" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserInfo.PhoneNumber" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Plate Number</label>
-                            <input @bind="User.UserOtherInfo.PlateNumber" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserOtherInfo.PlateNumber" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Type of Work</label>
-                            <input @bind="User.UserOtherInfo.TypeOfWork" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserOtherInfo.TypeOfWork" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
                             <label class="form-label">Home Address</label>
-                            <input @bind="User.UserOtherInfo.HomeAddress" id="js-eventremarks" class="form-control" />
+                            <input @bind="ChangeUserClaim.UserOtherInfo.HomeAddress" id="js-eventremarks" class="form-control" />
                         </div>
 
                         <div class="form-group mt-3">
@@ -186,7 +189,6 @@
         </ContentContent>
     </Modal>
 }
-
 <NetcodeHubToast Duration="5000" IconClass="mdi mdi-content-duplicate menu-icon fs-4" @ref="ToastComponent" />
 
 @code {
@@ -199,7 +201,8 @@
     };
     public bool IsOpen { get; set; }
     void OpenModal() => IsOpen = true;
-    ClaimChangeUserRequestDTO ChangeUserClaim = null;
+    private ClaimGetUserResponseDTO User = null;
+    private ClaimChangeUserRequestDTO ChangeUserClaim = null;
     NetcodeHubToast ToastComponent;
     private HubConnection hub;
     private UserCreateRequestDTO UserModel { get; set; } = new();
@@ -214,7 +217,6 @@
     //         new string(Policy.RoleClaim.Admin)
     // };
     private bool Loading = false;
-    private ClaimGetUserResponseDTO User = null;
     private IEnumerable<ClaimGetUserResponseDTO> UsersClaim { get; set; } = [];
 
     public async Task GetUserUpdatedDetails()
@@ -229,7 +231,7 @@
         if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
             NavManager.NavigateTo("Account/Access-Denied");
 
-       await GetUserUpdatedDetails();
+        await GetUserUpdatedDetails();
         // passwordState.Changed += StateHasChanged;
         // homeGenericState.StateChanged += StateButtonClicked;
 
@@ -261,14 +263,13 @@
             NavManager.NavigateTo($"{adminurl}/{homeGenericState.StateName}");
     }
 
-
     async Task SaveChanges()
     {
         Loading = true;
 
         try
         {
-            var result = await accountService.UpdateUserProfileAsync(User);
+            var result = await accountService.UpdateUserProfileAsync(ChangeUserClaim);
 
             var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
             var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
@@ -286,33 +287,30 @@
             {
                 Loading = false;
                 CloseModalDialog();
-
                 await InvokeAsync(() => StateHasChanged());
-
                 await ToastComponent!.ShowSuccessToast("Updated User Account", result.message);
             }
             else
             {
-
                 Loading = false;
-
                 await InvokeAsync(() => StateHasChanged());
-
                 await ToastComponent!.ShowSuccessToast("Failed To Update Permission", result.message);
             }
         }
         catch (Exception ex)
         {
-            
             throw;
         }
     }
 
-    public async Task ManageUserClicked()
+    async Task ManageUserClicked(ClaimGetUserResponseDTO user)
     {
-        var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
-        var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
-        User = userData;
+        ChangeUserClaim = new ClaimChangeUserRequestDTO()
+        {
+            UserInfo = user.UserInfo,
+            UserOtherInfo = user.UserOtherInfo
+        };
+
         OpenModal();
     }
 

@@ -230,7 +230,7 @@
     </ContentContent>
 </Modal>
 
-<NetcodeHubToast Duration="2000" IconClass="mdi mdi-content-duplicate menu-icon fs-4" @ref="ToastComponent" />
+<NetcodeHubToast Duration="4000" IconClass="mdi mdi-content-duplicate menu-icon fs-4" @ref="ToastComponent" />
 @code {
     [CascadingParameter]
     public Task<AuthenticationState> userAuthState { get; set; }
@@ -314,27 +314,29 @@
         var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
 
         await accountService.SaveActivityTrackerAsync(new ActivityTrackerRequestDTO()
-            {
-                UserId = userData.UserId,
-                Title = "Update User Permision Method called",
-                Description = result.message,
-                Date = DateTime.Now,
-                OperationState = result.flag.ToString()
-            });
+        {
+            UserId = userData.UserId,
+            Title = "Update User Permision Method called",
+            Description = result.message,
+            Date = DateTime.Now,
+            OperationState = result.flag.ToString()
+        });
 
         if (result.flag)
         {
+            Loading = false;
+            CloseModalDialog();
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowSuccessToast("Updated User Permission", result.message);
             await GetUsersWithClaims();
-
-            CloseModalDialog();
         }
         else
         {
+            Loading = false;
+            CloseModalDialog();
+            await InvokeAsync(() => StateHasChanged());
             await ToastComponent!.ShowSuccessToast("Failed To Update Permission", result.message);
         }
-
-        Loading = false;
     }
 
     void ManageUserClicked(ClaimGetUserResponseDTO user)
