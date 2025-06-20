@@ -2,8 +2,8 @@
 @using codegeneratorlib.Helpers
 @using Newtonsoft.Json
 
-@using EventMonitoring.ph.Data.Entities 
- @using EventMonitoring.ph.Data.Repositories 
+@using EventMonitoring.ph.Data.Entities
+ @using EventMonitoring.ph.Data.Repositories
  @inject IRepositoryWrapper repowrapper
 
 @rendermode InteractiveServer
@@ -27,28 +27,27 @@
                         @responseMessage
                     </div>
                 }
-                <input type="hidden" @bind="oEventTitleVM.EventTitleId" id=js-eventtitleid/>
-				
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title Venue Name*</label>	
-								<input @bind="oEventTitleVM.EventTitleVenueName" id="js-eventtitlevenuename" class="form-control" />
-								
-							</div>
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title Description*</label>	
-								<input @bind="oEventTitleVM.EventTitleDescription" id="js-eventtitledescription" class="form-control" />
-								
-							</div>
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title Start Time Date*</label>	
-								<input type="date" @bind="oEventTitleVM.EventTitleStartTimeDate" id="js-eventtitlestarttimedate" class="form-control" />
-								
-							</div>
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Title End Time Date*</label>	
-								<input type="date" @bind="oEventTitleVM.EventTitleEndTimeDate" id="js-eventtitleendtimedate" class="form-control" />
-								
-							</div>
+                <input type="hidden" @bind="oEventTitleVM.EventTitleId" id=js-eventtitleid />
+
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Title Venue Name*</label>
+                    <input @bind="oEventTitleVM.EventTitleVenueName" id="js-eventtitlevenuename" class="form-control" />
+
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Title Description*</label>
+                    <input @bind="oEventTitleVM.EventTitleDescription" id="js-eventtitledescription" class="form-control" />
+
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Title Start Time Date*</label>
+                    <input type="datetime-local" @bind="oEventTitleVM.EventTitleStartTimeDate" id="js-eventtitlestarttimedate" class="form-control" />
+
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Title End Time Date*</label>
+                    <input type="datetime-local" @bind="oEventTitleVM.EventTitleEndTimeDate" id="js-eventtitleendtimedate" class="form-control" />
+                </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                     <label>Event Title Status</label>
                     <select @bind="oEventTitleVM.EventTitleStatus" id="js-eventlineid" class="form-control">
@@ -58,17 +57,22 @@
                     </select>
 
                 </div>
-							<div class="col-md-12 col-sm-12 col-xs-12 form-group">
-								<label>Event Line Name</label>	
-								<select @bind="oEventTitleVM.EventLineId" id="js-eventlineid" class="form-control"><option value="">-- Select --</option>@if (listEventLine != null){@foreach (var item in listEventLine){<option value="@item.EventLineId">@item.EventLineName</option>}}
-							</select>
-								
-							</div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                    <label>Event Line Name</label>
+                    <select @bind="oEventTitleVM.EventLineId" id="js-eventlineid" class="form-control">
+                        <option value="">-- Select --</option>@if (listEventLine != null)
+                        {@foreach (var item in listEventLine)
+                            {
+                                <option value="@item.EventLineId">@item.EventLineName</option>
+                            }               }
+                    </select>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                   @*  <a href="/EventTitle/Index" @onclick="Hide" class="btn btn-danger btn-custom float-md-end">
-					<i class="fa fa-close"></i> Cancel Request</a> *@
+                    @*  <a href="/EventTitle/Index" @onclick="Hide" class="btn btn-danger btn-custom float-md-end">
+                    <i class="fa fa-close"></i> Cancel Request</a> *@
                     @if (Loading)
                     {
                         <button class="btn btn-primary btn-custom float-md-end" type="button" disabled>
@@ -78,9 +82,9 @@
                     }
                     else
                     {
-                       <button class="btn btn-primary btn-custom float-md-end" type="submit">
-							<i class="fa fa-save"></i> Submit Request
-                       </button>
+                        <button class="btn btn-primary btn-custom float-md-end" type="submit">
+                            <i class="fa fa-save"></i> Submit Request
+                        </button>
                     }
                 </div>
             </div>
@@ -90,29 +94,29 @@
 
 @code {
     [Parameter]
-	public int Id { get; set; }
-	private EventTitleVM oEventTitleVM = new();
-	private string responseMessage = "";
-	private bool Loading = false;
+    public int Id { get; set; }
+    private EventTitleVM oEventTitleVM = new();
+    private string responseMessage = "";
+    private bool Loading = false;
 
     private bool _isVisible;
 
     [Parameter] public string ModalTitle { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    
-	private bool AlertShowMessage = false;
+
+    private bool AlertShowMessage = false;
 
     private List<EventLine> listEventLine => repowrapper.EventLine_Repository.FindAll().ToList();
 
     //file upload
-	private async Task LoadFiles(InputFileChangeEventArgs e)
-	{
-		IBrowserFile file = e.File;
-		var buffer = new byte[file.Size];
-		await file.OpenReadStream().ReadAsync(buffer);
-		var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
-		
-	}
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        IBrowserFile file = e.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        var bytes = $"{file.Name},{Convert.ToBase64String(buffer)}";
+
+    }
 
     public async Task Show(int id)
     {
@@ -145,15 +149,15 @@
     }
 
     private async Task SendRequest()
-	{
-		Loading = true;
-		var restService = new RestService<List<EventTitleVM>>();
+    {
+        Loading = true;
+        var restService = new RestService<List<EventTitleVM>>();
 
-		var json = JsonConvert.SerializeObject(oEventTitleVM);
+        var json = JsonConvert.SerializeObject(oEventTitleVM);
 
-		var result = new ServiceModel<List<EventTitleVM>>();
+        var result = new ServiceModel<List<EventTitleVM>>();
 
-		if (oEventTitleVM.EventTitleId != 0)
+        if (oEventTitleVM.EventTitleId != 0)
         {
 
             result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/Update", json);
@@ -182,25 +186,25 @@
             result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/Add", json);
 
             if (!result.IsSuccess)
-    		{
-    			responseMessage = result.Error;
-    		}
-    		else
-    		{
+            {
+                responseMessage = result.Error;
+            }
+            else
+            {
                 Loading = false;
-    			oEventTitleVM = new();
-    
-    			AlertShowMessage = true;
-    			responseMessage = "Request has been successfully submitted!";
-    
-    			await InvokeAsync(() => StateHasChanged());
-    
-    			await Task.Delay(5000);
-    
-    			AlertShowMessage = false;
-		    }
+                oEventTitleVM = new();
+
+                AlertShowMessage = true;
+                responseMessage = "Request has been successfully submitted!";
+
+                await InvokeAsync(() => StateHasChanged());
+
+                await Task.Delay(5000);
+
+                AlertShowMessage = false;
+            }
         }
-	}
+    }
 
 }
-
+
