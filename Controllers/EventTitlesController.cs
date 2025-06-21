@@ -178,7 +178,8 @@ namespace EventMonitoring.ph.Controllers
 				EventTitleStartTimeDate = eventtitle.EventTitleStartTimeDate,
 				EventTitleEndTimeDate = eventtitle.EventTitleEndTimeDate,
 				EventTitleStatus = eventtitle.EventTitleStatus,
-				EventLineId = eventtitle.EventLineId
+				EventLineId = eventtitle.EventLineId,
+				CreateDate = DateTime.Now
 			};
 
             _eventtitleRepository.Add(eventtitleToAdd);

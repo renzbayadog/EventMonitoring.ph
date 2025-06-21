@@ -245,3 +245,4 @@ C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitorin
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.pdb
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\EventMonitoring.ph.genruntimeconfig.cache
 C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\ref\EventMonitoring.ph.dll
+C:\Users\LENOVO\Desktop\CODEGENERATOR\Projects\EventMonitoring.ph\EventMonitoring.ph\obj\Debug\net8.0\scopedcss\Components\Pages\content\DashboardEventTitleModal.razor.rz.scp.css

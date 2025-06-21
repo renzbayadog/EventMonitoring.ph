@@ -209,6 +209,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-kedb1vs24c
 
+[C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/content/DashboardEventTitleModal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xjb250ZW50XERhc2hib2FyZEV2ZW50VGl0bGVNb2RhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-dmmk09mmxd
+
 [C:/Users/LENOVO/Desktop/CODEGENERATOR/Projects/EventMonitoring.ph/EventMonitoring.ph/Components/Pages/EventLine_pge/EventLineModal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudExpbmVfcGdlXEV2ZW50TGluZU1vZGFsLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-v2hm7du5l0

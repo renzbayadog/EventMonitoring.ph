@@ -1,11 +1,157 @@
 ﻿@page "/app/home"
+@using EventMonitoring.Helpers
+@using EventMonitoring.ph.ViewModels
+@using EventMonitoring.ph.Data.Entities
+@using EventMonitoring.ph.Components.Pages.content
+@using Newtonsoft.Json
+@using System.Security.Claims
+@using codegen.Extensions
+@using codegen.ViewModels
+@using codegeneratorlib.Helpers
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
 
 @attribute [Authorize]
 <PageTitle>Home Page</PageTitle>
 <ThreeSectionsTemplate>
     <Col9Template>
         <AdminHomeHeader />
-        <HomeSkeletonLoader />
+        @* <HomeSkeletonLoader /> *@
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content js-EventTitle-main-container">
+
+                        <div class="row">
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <MudBlazor.MudDivider class="mt5" />
+                            </div>
+                            <!--BUTTON TOP-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                @if (Print)
+                                {
+                                    @* <button class="btn btn-dark btn-custom float-end" id="js-export-EventLine" @onclick="()=>PrintReport()"><i class="fa fa-print"></i> Print</button> *@
+                                }
+                                @if (Export)
+                                {
+                                    <button class="btn btn-warning btn-custom float-end" id="js-export-EventTitle" @onclick="()=>ExportFile()"><i class="fa fa-download"></i> Export Data</button>
+
+                                }
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <MudBlazor.MudDivider class="mt5" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--SEARCH AREA-->
+                            <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventTitle()">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>Filter by date: </label>
+                                    <input type="date"  class="form-control" id="js-Keyword-search" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                    <label>Page Size:</label>
+                                    <select class="form-control" id="js-page-size" @bind="PageSize">
+                                        <option disabled>Max rows</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
+                                    <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row">
+                            <!--BULK BUTTON-->
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="display:none" id="js-delete-container">
+                                <button class="btn btn-primary btn-md btn-custom fa fa-trash" id="js-delete-bulk">Delete</button>
+                            </div>
+                            @if (pEventTitles == null)
+                            {
+                                <br />
+                                <p>Loading..</p>
+                            }
+                            else
+                            {
+                                <!--DATA TABLE-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-EventTitle-list-container">
+                                    <table class="table table-hover bulk_action" id="js-table-EventTitle" style="margin-top:10px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="column-title">Event Line</th>
+                                                <th class="column-title">Event Venue</th>
+                                                <th class="column-title">Description</th>
+                                                <th class="column-title">Start Date/ Time</th>
+                                                <th class="column-title">End Date/ Time</th>
+                                                <th class="column-title">Event Status</th>
+                                                @* <th class="column-title">Event Line Id</th> *@
+                                                <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="js-load-EventTitle-row">
+                                            @foreach (var EventTitle in pEventTitles.List)
+                                            {
+                                                <tr id="selected-row-eventtitleid">
+
+                                                    <td>@EventTitle.EventLineName</td>
+                                                    <td>@EventTitle.EventTitleVenueName</td>
+                                                    <td>@EventTitle.EventTitleDescription</td>
+                                                    <td>@EventTitle.EventTitleStartTimeDate</td>
+                                                    <td>@EventTitle.EventTitleEndTimeDate</td>
+                                                    <td><span class="text text-warning"> @EventTitle.EventStausEnum</span></td>
+                                                    <td>
+                                                        <a style="cursor:pointer" @onclick="()=>OpenModalEventsDashboard(EventTitle.EventTitleId)" class="popup">
+                                                            <i class="fa fa-info-circle"></i>
+                                                            </a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!--PAGINATION AND SUMMARY-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 js-pagination-EventTitle">
+
+                                    <div id="js-page-history" style="float:left;margin-top:25px;color:#cc503b;">
+                                        <!--PAGINATION HISTORY-->
+                                        @pEventTitles?.PageSummary
+                                    </div>
+
+                                    <div style="float:right;margin-top:20px;">
+                                        <ul class="pagination pagination-md" id="js-ul-pagination">
+                                            <!--LOAD PAGINATION-->
+                                            @* <li id="js-prev-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationPrev()">&laquo;</a></li> *@
+                                            @for (var i = 0; i < @pEventTitles?.PageIndices?.Count(); i++)
+                                            {
+                                                var pageNum = @pEventTitles?.PageIndices?.ToArray()[i];
+
+                                                <li id="js-li-count-@pageNum" class="check page-item li-children-ref" data-id="@pageNum">
+                                                    <a style="cursor:pointer;" class="page-link" id="click-User-pagination-@pageNum" @onclick="()=>ClickPagination(pageNum)" data-id="@pageNum">
+                                                        @pageNum
+                                                    </a>
+                                                </li>
+                                            }
+                                            @* <li id="js-next-btn"><a class="page-link" style="cursor:pointer;" @onclick="()=>ClickPaginationNext()">&raquo;</a></li> *@
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </Col9Template>
     <Col3Template>
         <Banner />
@@ -14,6 +160,191 @@
         <Footer />
    </FooterTemplate>
 </ThreeSectionsTemplate>
-@code {
 
+<DashboardEventTitleModal @ref="modalRef" ModalTitle="EventTitle">
+    <p>This is modal content.</p>
+</DashboardEventTitleModal>
+<NetcodeHubToast @ref="ToastComponent" Duration="4000" />
+
+@code {
+    private EventTitleSearch searchInfo = new();
+    private PaginationVM<EventTitleVM> pEventTitles;
+    private EventTitleVM oEventTitleVM = new();
+    private string responseMessage;
+    private int PageSize = 10;
+    private int CurrentPage = 1;
+
+    private DashboardEventTitleModal modalRef;
+
+    NetcodeHubToast ToastComponent;
+
+    private Dictionary<string, string> crumbs = new Dictionary<string, string>()
+    {
+        {"Home", "/"},
+        {"Event Title", null!}
+    };
+    [CascadingParameter]
+    public Task<AuthenticationState> userAuthState { get; set; }
+    bool CanManageUser = false;
+    bool Add = false;
+    bool Update = false;
+    bool Delete = false;
+    bool Read = false;
+    bool Print = false;
+    bool Export = false;
+
+    private ClaimGetUserResponseDTO User = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+            NavManager.NavigateTo("Account/Access-Denied");
+
+        CanManageUser = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser);
+        Add = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Add);
+        Update = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Update);
+        Delete = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Delete);
+        Read = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Read);
+        Print = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Print);
+        Export = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Export);
+
+
+
+        var search = new EventTitleSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventTitle(CurrentPage, PageSize, search);
+        pEventTitles = list;
+    }
+
+    private async Task ExportFile()
+    {
+        var restService = new RestService<ExcelData>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<ExcelData>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/export/report");
+        if (!result.IsSuccess)
+        {
+        }
+        else
+        {
+            var file = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;base64,{result.Data.File}";
+
+            NavigationManager.NavigateTo(file);
+        }
+    }
+
+
+    private async Task PrintReport()
+    {
+    }
+
+    private async Task<PaginationVM<EventTitleVM>> LoadEventTitle(int? currpage, int pagesize, EventTitleSearch search)
+    {
+        var restService = new RestService<PaginationVM<EventTitleVM>>();
+        //var json = JsonConvert.SerializeObject(search);
+        var result = new ServiceModel<PaginationVM<EventTitleVM>>();
+        result = await restService.Get($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/List/Page{currpage}/PageSize{pagesize}?Keyword={search?.Keyword}");
+        if (!result.IsSuccess)
+        {
+            return pEventTitles = null;
+        }
+        else
+        {
+            return pEventTitles = result.Data;
+        }
+    }
+
+    private async Task OpenModalEventsDashboard(int id)
+    {
+        await modalRef.Show(id);
+    }
+
+    private async Task SearchEventTitle()
+    {
+        var search = new EventTitleSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventTitle(CurrentPage, PageSize, search);
+        pEventTitles = list;
+    }
+
+    private async Task CreateEventTitle()
+    {
+        var restService = new RestService<List<EventTitleVM>>();
+        var result = new ServiceModel<List<EventTitleVM>>();
+
+        var json = JsonConvert.SerializeObject(oEventTitleVM);
+
+        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/add", json);
+
+        if (!result.IsSuccess)
+        {
+            responseMessage = result.Error;
+        }
+        else
+        {
+            var search = new EventTitleSearch();
+            search.Keyword = searchInfo?.Keyword;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
+        }
+    }
+
+    private async Task UpdateEventTitle()
+    {
+        var restService = new RestService<List<EventTitleVM>>();
+
+        var json = JsonConvert.SerializeObject(oEventTitleVM);
+
+        var result = new ServiceModel<List<EventTitleVM>>();
+
+        result = await restService.Post($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/update", json);
+
+        if (!result.IsSuccess)
+        {
+            responseMessage = result.Error;
+
+            await ToastComponent!.ShowSuccessToast("Danger", responseMessage);
+
+        }
+        else
+        {
+            var search = new EventTitleSearch();
+            search.Keyword = searchInfo?.Keyword;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
+        }
+    }
+
+    public async Task DeleteEventTitle(int id)
+    {
+        var restService = new RestService<List<EventTitleVM>>();
+
+        var result = new ServiceModel<List<EventTitleVM>>();
+
+        result = await restService.Delete($"{AppHelper.CDNFTPConfiguration.PublicHost}/api/EventTitles/{id}/delete");
+
+        if (!result.IsSuccess)
+        {
+            responseMessage = result.Error;
+            await ToastComponent!.ShowErrorToast("Error", responseMessage);
+        }
+        else
+        {
+            var search = new EventTitleSearch();
+            search.Keyword = searchInfo?.Keyword;
+            var list = await LoadEventTitle(CurrentPage, PageSize, search);
+            pEventTitles = list;
+            await InvokeAsync(() => StateHasChanged());
+            await ToastComponent!.ShowSuccessToast("Success", "Successfully Deleted!");
+        }
+    }
+
+    private async Task ClickPagination(int? elementId)
+    {
+        var currrentPage = elementId;
+        var search = new EventTitleSearch();
+        search.Keyword = searchInfo?.Keyword;
+        var list = await LoadEventTitle(currrentPage, PageSize, search);
+        pEventTitles = list;
+    }
 }
