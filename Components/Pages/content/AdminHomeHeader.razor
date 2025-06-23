@@ -10,35 +10,35 @@
         Hi @if(User!=null){ @User.UserInfo.FirstName}, Welcome to <span class="p-l-0 h6 select2-selection--multiple text-muted d-inline-block"> Event Registration System with QR Code</span>
     </h3>
     <div class="d-flex" style="margin-top:20px;">
-        <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Processing, true))">
+        <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Audience, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
             Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                @adminState.ProcessingCount
+                @adminState.AudienceCount
                 <span class="visually-hidden">unread messages</span>
             </span>
         </button>
-        <button type="button" class="btn btn-sm btn-outline-primary btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Delivering, true))">
+        <button type="button" class="btn btn-sm btn-outline-primary btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Events, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
             Listed Audience
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                @adminState.DeliveringCount
+                @adminState.EventsCount
                 <span class="visually-hidden">unread messages</span>
             </span>
         </button>
-        <button type="button" class="btn btn-sm btn-outline-success btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Delivered, true))">
+        <button type="button" class="btn btn-sm btn-outline-success btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.OngoingEvents, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
             Finished Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                @adminState.DeliveredCount
+                @adminState.OngoingEventsCount
                 <span class="visually-hidden">unread messages</span>
             </span>
         </button>
-        <button type="button" class="btn btn-sm btn-outline-danger btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetProcessingOrderButtonClicked(OrderState.Canceled, true))">
+        <button type="button" class="btn btn-sm btn-outline-danger btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.FinishedEvents, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
             Ongoing-Events
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                @adminState.CanceledCount
+                @adminState.FinishedEventsCount
                 <span class="visually-hidden">unread messages</span>
             </span>
         </button>
@@ -48,18 +48,13 @@
 @code
 {
     public int Count { get; set; }
-
     private ClaimGetUserResponseDTO User = null;
-
-
     [CascadingParameter]
     public Task<AuthenticationState> userAuthState { get; set; }
     protected override async Task OnInitializedAsync()
     {
         adminState.StateChanged += StateHasChanged;
         await adminState.GetActiveEventCount();
-
-
         var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
         var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
         User = userData;

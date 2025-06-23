@@ -5,7 +5,7 @@
         public string StateName { get; set; } = string.Empty;
         public bool IsAdmin { get; set; }
         public event Action? StateChanged;
-        public void GetProcessingOrderButtonClicked(string stateName, bool isAdmin)
+        public void GetEventsButtonClicked(string stateName, bool isAdmin)
         {
             StateName = stateName;
             IsAdmin = isAdmin;

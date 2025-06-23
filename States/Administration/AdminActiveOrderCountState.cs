@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using EventMonitoring.ph.Data.Repositories;
+using MediatR;
 namespace EventMonitoring.States.Administration
 {
-    public class AdminActiveOrderCountState(IServiceProvider serviceProvider)
+    public class AdminActiveEventCountState(IServiceProvider serviceProvider, IRepositoryWrapper wrapper)
     {
-        public int ProcessingCount { get; set; }
-        public int DeliveringCount { get; set; }
-        public int DeliveredCount { get; set; }
-        public int CanceledCount { get; set; }
+        public int AudienceCount { get; set; }
+        public int EventsCount { get; set; }
+        public int OngoingEventsCount { get; set; }
+        public int FinishedEventsCount { get; set; }
 
         public event Action? StateChanged;
 
@@ -15,10 +16,12 @@ namespace EventMonitoring.States.Administration
             //using var scope = serviceProvider.CreateScope();
             //var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             //var response = (await mediator.Send(new GetGenericOrdersCountQry(null, false)));
-            ProcessingCount = 20;
-            DeliveringCount = 30;
-            DeliveredCount = 40;
-            CanceledCount = 50;
+
+            var activeEventCount = await wrapper.EventTitle_Repository.GetActiveEventCountState(0);
+            AudienceCount = activeEventCount.AudienceCount;
+            EventsCount = activeEventCount.EventsCount;
+            OngoingEventsCount = activeEventCount.OngoingEventsCount;
+            FinishedEventsCount = activeEventCount.FinishedEventsCount;
             StateChanged?.Invoke();
         }
     }
