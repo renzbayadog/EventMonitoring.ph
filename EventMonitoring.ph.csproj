@@ -61,7 +61,6 @@
   <ItemGroup>
     <Folder Include="Components\Pages\Profile\" />
     <Folder Include="librarybin\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
