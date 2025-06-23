@@ -1,15 +1,33 @@
 ﻿@using System.Security.Claims
+@using EventMonitoring.ph.Data.Entities
+@using EventMonitoring.ph.Data.Repositories
 @using codegen.Extensions
 @using codegen.ViewModels
 @using codegeneratorlib.Helpers
 @rendermode InteractiveServer
 @implements IDisposable
+@inject IRepositoryWrapper repowrapper
 
 <div class="page-header flex-wrap" style="margin-top:0rem">
     <h3 class="mb-0">
         Hi @if(User!=null){ @User.UserInfo.FirstName}, Welcome to <span class="p-l-0 h6 select2-selection--multiple text-muted d-inline-block"> Event Registration System with QR Code</span>
     </h3>
     <div class="d-flex" style="margin-top:20px;">
+        <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+
+            <label>Filter Event Location</label>
+            <select @bind="EventTitleId" id="js-eventtitleid" class="form-control">
+                <option value="">-- Select --</option>
+                @if (listEventTItle != null)
+                {
+                    @foreach (var item in listEventTItle)
+                    {
+                        <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
+                    }
+                }
+            </select>
+        </div>
+
         <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Audience, true))">
             <i class="mdi mdi-sync-off btn-icon-prepend"></i>
             Events
@@ -51,15 +69,19 @@
     private ClaimGetUserResponseDTO User = null;
     [CascadingParameter]
     public Task<AuthenticationState> userAuthState { get; set; }
+
+    private List<EventTitle> listEventTItle => repowrapper.EventTitle_Repository.FindAll().ToList();
+
+    private int EventTitleId;
+
     protected override async Task OnInitializedAsync()
     {
         adminState.StateChanged += StateHasChanged;
-        await adminState.GetActiveEventCount();
+        await adminState.GetActiveEventCount(EventTitleId);
         var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
         var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
         User = userData;
     }
 
     public void Dispose() => adminState.StateChanged -= StateHasChanged;
-
 }

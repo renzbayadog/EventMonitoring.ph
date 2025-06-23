@@ -22,7 +22,7 @@ builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthStateProvider>();
 builder.Services.AddScoped<ICustomAuthorizationService, CustomAuthorizationService>();
 builder.Services.AddScoped<NetcodeHubConnectionService>();
-builder.Services.AddScoped<AdminActiveEventCountState>();
+builder.Services.AddScoped<AdminActiveOrderCountState>();
 builder.Services.AddScoped<UserActiveOrderCountState>();
 builder.Services.AddScoped<GenericHomeHeaderState>();
 builder.Services.AddScoped<ChangePasswordState>();
