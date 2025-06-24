@@ -50,18 +50,7 @@
                         <div class="row">
                             <!--SEARCH AREA-->
                             <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventTitle()">
-                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                                    <label>Filter by Date: </label>
-                                    <input type="date" @bind="oEventTitleVM.EventTitleStartTimeDate"  class="form-control" id="js-Keyword-search" />
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                                    <label>Filter by Status:</label>
-                                    <select class="form-control" id="js-page-size" @bind="oEventTitleVM.EventTitleStatus">
-                                        <option disabled>Select Status</option>
-                                        <option value="1">Ongoing</option>
-                                        <option value="2">Completed</option>
-                                    </select>
-                                </div>
+                               
                                 <div class="col-md-6 col-sm-6 col-xs-6 form-group">
                                     <label>Page Size:</label>
                                     <select class="form-control" id="js-page-size" @bind="PageSize">
