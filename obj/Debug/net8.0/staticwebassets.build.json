@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "s9xY1i32cnXFAEovJgoPv0MlsdGo23Ls+2790E6gpJk=",
+  "Hash": "IP7Y60svHl6os8fgrKYB0IRF8pNgsi21zlbtySjpFj8=",
   "Source": "EventMonitoring.ph",
   "BasePath": "_content/EventMonitoring.ph",
   "Mode": "Default",
@@ -2979,6 +2979,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\CODEGENERATOR\\Projects\\EventMonitoring.ph\\EventMonitoring.ph\\wwwroot\\js\\chat.js",
+      "SourceId": "EventMonitoring.ph",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\CODEGENERATOR\\Projects\\EventMonitoring.ph\\EventMonitoring.ph\\wwwroot\\",
+      "BasePath": "_content/EventMonitoring.ph",
+      "RelativePath": "js/chat.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\chat.js"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\Desktop\\CODEGENERATOR\\Projects\\EventMonitoring.ph\\EventMonitoring.ph\\wwwroot\\js\\picker.js",

@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\CODEGENERATOR\\Projects\\EventMonitoring.ph\\EventMonitoring.ph\\wwwroot\\js\\chat.js",
+      "PackagePath": "staticwebassets\\js\\chat.js"
+    },
+    {
       "Id": "C:\\Users\\LENOVO\\Desktop\\CODEGENERATOR\\Projects\\EventMonitoring.ph\\EventMonitoring.ph\\wwwroot\\js\\picker.js",
       "PackagePath": "staticwebassets\\js\\picker.js"
     },

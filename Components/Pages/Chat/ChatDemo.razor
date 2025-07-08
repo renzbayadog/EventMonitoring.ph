@@ -1,0 +1,114 @@
+@page "/chat-demo"
+@rendermode InteractiveServer
+
+<PageTitle>Chat Demo - Event Monitoring</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-comments"></i> SignalR Chat Demo</h3>
+                    <p class="text-muted">This page demonstrates the real-time chat functionality using SignalR</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Full Chat Interface</h5>
+                            <p>Click the button below to open the full chat interface:</p>
+                            <a href="/chat" class="btn btn-primary">
+                                <i class="fas fa-comments"></i> Open Full Chat
+                            </a>
+                            
+                            <hr class="my-4">
+                            
+                            <h5>Features</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success"></i>
+                                    <strong>Real-time messaging</strong> - Messages appear instantly across all connected clients
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success"></i>
+                                    <strong>Chat rooms</strong> - Join different chat rooms for organized conversations
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success"></i>
+                                    <strong>User presence</strong> - See who's online and when users join/leave
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success"></i>
+                                    <strong>Responsive design</strong> - Works on desktop and mobile devices
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success"></i>
+                                    <strong>Floating chat widget</strong> - Quick access chat from any page
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Chat Widget</h5>
+                            <p>The floating chat widget is available on this page. Look for the chat icon in the bottom-right corner!</p>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Tip:</strong> The chat widget shows unread message count and connection status.
+                            </div>
+                            
+                            <h6>How to use:</h6>
+                            <ol>
+                                <li>Click the chat icon in the bottom-right corner</li>
+                                <li>Type your message and press Enter or click Send</li>
+                                <li>Messages will appear in real-time for all connected users</li>
+                                <li>Click the chat icon again to minimize</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Widget - This will appear as a floating element -->
+<ChatWidget />
+
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .list-group-item {
+        border: none;
+        padding: 12px 0;
+    }
+    
+    .list-group-item i {
+        margin-right: 10px;
+    }
+    
+    .alert {
+        border-radius: 10px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 10px 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+</style> 

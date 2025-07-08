@@ -161,7 +161,7 @@
 
 
     async Task CallWhenNotified()
-    {
+    { 
         await InvokeAsync(async () =>
         {
             StateHasChanged();
@@ -184,6 +184,5 @@
 
         homeGenericState.StateChanged -= StateButtonClicked;
         passwordState.Changed -= StateHasChanged;
-
     }
 }

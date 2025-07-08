@@ -1,0 +1,192 @@
+@using EventMonitoring.Services
+@using EventMonitoring.Models
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Text.Json
+@rendermode InteractiveServer
+@implements IAsyncDisposable
+@inject IChatService ChatService
+@inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthStateProvider
+
+<div class="chat-widget @(isExpanded ? "expanded" : "")">
+    <div class="chat-widget-header" @onclick="ToggleChat">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+        <div class="chat-indicators">
+            @if (unreadCount > 0)
+            {
+                <span class="unread-badge">@unreadCount</span>
+            }
+            <span class="status-dot @(isConnected ? "online" : "offline")"></span>
+        </div>
+    </div>
+
+    @if (isExpanded)
+    {
+        <div class="chat-widget-body">
+            <div class="chat-messages-widget" @ref="messagesContainer">
+                @if (messages.Count == 0)
+                {
+                    <div class="no-messages-widget">
+                        <p>No messages yet. Start chatting!</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var message in messages.TakeLast(10))
+                    {
+                        <div class="message-widget @(message.IsOwnMessage ? "own" : "other")">
+                            <div class="message-sender">@message.SenderName</div>
+                            <div class="message-text">@message.Message</div>
+                            <div class="message-time">@message.Timestamp</div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="chat-input-widget">
+                <input @bind="newMessage" @bind:event="oninput" 
+                       @onkeypress="HandleKeyPress" 
+                       placeholder="Type a message..." 
+                       class="form-control form-control-sm" 
+                       disabled="@(!isConnected)" />
+                <button @onclick="SendMessage" 
+                        class="btn btn-primary btn-sm" 
+                        disabled="@(string.IsNullOrWhiteSpace(newMessage) || !isConnected)">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ChatMessage> messages = new();
+    private string newMessage = "";
+    private string currentUserName = "";
+    private bool isConnected = false;
+    private bool isExpanded = false;
+    private int unreadCount = 0;
+    private ElementReference messagesContainer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            currentUserName = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? 
+                             user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? 
+                             "Anonymous";
+        }
+        else
+        {
+            currentUserName = "Anonymous";
+        }
+
+        await InitializeChat();
+    }
+
+    private async Task InitializeChat()
+    {
+        try
+        {
+            await ChatService.InitializeAsync();
+            isConnected = true;
+
+            // Set up event handlers
+            ChatService.OnMessageReceived(OnMessageReceived);
+
+            // Join the general room
+            await ChatService.JoinRoomAsync("general", currentUserName);
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error initializing chat widget: {ex.Message}");
+        }
+    }
+
+    private void OnMessageReceived(object messageObj)
+    {
+        if (messageObj is JsonElement element)
+        {
+            var message = new ChatMessage
+            {
+                Message = element.GetProperty("Message").GetString() ?? "",
+                SenderName = element.GetProperty("SenderName").GetString() ?? "",
+                Timestamp = element.GetProperty("Timestamp").GetString() ?? "",
+                RoomName = element.GetProperty("RoomName").GetString() ?? "",
+                IsOwnMessage = element.GetProperty("SenderName").GetString() == currentUserName
+            };
+
+            messages.Add(message);
+            
+            // Increment unread count if chat is not expanded
+            if (!isExpanded && !message.IsOwnMessage)
+            {
+                unreadCount++;
+            }
+
+            InvokeAsync(async () =>
+            {
+                StateHasChanged();
+                if (isExpanded)
+                {
+                    await ScrollToBottom();
+                }
+            });
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(newMessage) && isConnected)
+        {
+            await ChatService.SendMessageAsync(newMessage, currentUserName, "general");
+            newMessage = "";
+        }
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey)
+        {
+            await SendMessage();
+        }
+    }
+
+    private void ToggleChat()
+    {
+        isExpanded = !isExpanded;
+        if (isExpanded)
+        {
+            unreadCount = 0;
+        }
+        StateHasChanged();
+    }
+
+    private async Task ScrollToBottom()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("scrollToBottom", messagesContainer);
+        }
+        catch
+        {
+            // Ignore if JavaScript is not available
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (isConnected)
+        {
+            await ChatService.LeaveRoomAsync("general", currentUserName);
+            await ChatService.DisconnectAsync();
+        }
+    }
+} 

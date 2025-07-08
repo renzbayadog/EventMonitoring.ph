@@ -12,87 +12,54 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 form-group">
             <h3 class="mb-0">
-                Hi @if (User != null)
+                Hi @if (AppHelper.UserFullName != null)
                 {
-                    @User.UserInfo.FirstName
+                    @AppHelper.UserFullName
                 }, Welcome to <span class="p-l-0 h6 select2-selection--multiple text-muted d-inline-block"> Event Registration System with QR Code</span>
             </h3>
         </div>
-        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-            <label>Filter Event Location</label>
-            <select @bind="EventTitleId" id="js-eventtitleid" class="form-control">
-                <option value="">-- Select --</option>
-                @if (listEventTItle != null)
-                {
-                    @foreach (var item in listEventTItle)
-                    {
-                        <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
-                    }
-                }
-            </select>
-
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-            <label>Filter by Date: </label>
-            <input type="date" class="form-control" id="js-Keyword-search" />
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-            <label>Filter by Status:</label>
-            <select class="form-control" id="js-page-size">
-                <option disabled>Select Status</option>
-                <option value="1">Ongoing</option>
-                <option value="2">Completed</option>
-            </select>
-        </div>
-
-        <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="margin-top:20px;">
-            <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Filter Event</button>
-        </div>
     </div>
-    <div class="row">
-    </div>
+    <div class="row"></div>
 
     <div class="d-flex" style="margin-top:20px;">
-
-            <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Audience, true))">
-                <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-                Events
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                    @adminState.AudienceCount
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </button>
-            <button type="button" class="btn btn-sm btn-outline-primary btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Events, true))">
-                <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-                Listed Audience
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                    @adminState.EventsCount
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </button>
-            <button type="button" class="btn btn-sm btn-outline-success btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.OngoingEvents, true))">
-                <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-                Finished Events
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                    @adminState.OngoingEventsCount
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </button>
-            <button type="button" class="btn btn-sm btn-outline-danger btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.FinishedEvents, true))">
-                <i class="mdi mdi-sync-off btn-icon-prepend"></i>
-                Ongoing-Events
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-                    @adminState.FinishedEventsCount
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </button>
-        </div>
+        <button type="button" class="btn btn-sm btn-outline-warning btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Audience, true))">
+            <i class="mdi mdi-sync-off btn-icon-prepend"></i>
+            Events
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                @adminState.AudienceCount
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-primary btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.Events, true))">
+            <i class="mdi mdi-sync-off btn-icon-prepend"></i>
+            Listed Audience
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                @adminState.EventsCount
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-success btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.OngoingEvents, true))">
+            <i class="mdi mdi-sync-off btn-icon-prepend"></i>
+            Finished Events
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                @adminState.OngoingEventsCount
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-danger btn-icon-text border-1 position-relative ml-4" @onclick="(()=>homeGenericState.GetEventsButtonClicked(EventState.FinishedEvents, true))">
+            <i class="mdi mdi-sync-off btn-icon-prepend"></i>
+            Ongoing-Events
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                @adminState.FinishedEventsCount
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </button>
+    </div>
 </div>
 
 @code
 {
     public int Count { get; set; }
-    private ClaimGetUserResponseDTO User = null;
     [CascadingParameter]
     public Task<AuthenticationState> userAuthState { get; set; }
 
@@ -104,12 +71,7 @@
     protected override async Task OnInitializedAsync()
     {
         adminState.StateChanged += StateHasChanged;
-        await adminState.GetActiveEventCount(EventTitleId);
-        var userEmail = (await userAuthState!).User.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.Email)!.Value;
-        var userData = await accountService.GetUserWithClaimEmailAsync(userEmail);
-        User = userData;
-
-        listEventTItle = repowrapper.EventTitle_Repository.FindAll().ToList();
+        await adminState.GetActiveEventCount(5);
     }
 
     public void Dispose() => adminState.StateChanged -= StateHasChanged;

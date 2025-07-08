@@ -1,5 +1,6 @@
 ﻿@page "/app/home"
 @using EventMonitoring.Helpers
+@using EventMonitoring.ph.Data.Repositories
 @using EventMonitoring.ph.ViewModels
 @using EventMonitoring.ph.Data.Entities
 @using EventMonitoring.ph.Components.Pages.content
@@ -10,7 +11,8 @@
 @using codegeneratorlib.Helpers
 @attribute [StreamRendering]
 @rendermode InteractiveServer
-@inject NavigationManager NavigationManager;
+@inject NavigationManager NavigationManager
+@inject IRepositoryWrapper repowrapper
 
 @attribute [Authorize]
 <PageTitle>Home Page</PageTitle>
@@ -50,7 +52,32 @@
                         <div class="row">
                             <!--SEARCH AREA-->
                             <form class="form-horizontal" id="search-EventLine-form" @onsubmit="()=>SearchEventTitle()">
-                               
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <label>Filter Event Location</label>
+                                    <select @bind="EventTitleId" id="js-eventtitleid" class="form-control">
+                                        <option value="">-- Select --</option>
+                                        @if (listEventTItle != null)
+                                        {
+                                            @foreach (var item in listEventTItle)
+                                            {
+                                                <option value="@item.EventTitleId">@item.EventTitleVenueName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                    <label>Filter by Date: </label>
+                                    <input type="date" class="form-control" id="js-Keyword-search" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                                    <label>Filter by Status:</label>
+                                    <select class="form-control" id="js-page-size">
+                                        <option disabled>Select Status</option>
+                                        <option value="1">Ongoing</option>
+                                        <option value="2">Completed</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 form-group">
                                     <label>Page Size:</label>
                                     <select class="form-control" id="js-page-size" @bind="PageSize">
@@ -63,8 +90,9 @@
                                         <option value="100">100</option>
                                     </select>
                                 </div>
+
                                 <div class="col-md-6 col-sm-6 col-xs-6 form-group" style="margin-top:20px;">
-                                    <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-search"></i> Filter Event</button>
                                 </div>
                             </form>
                         </div>
@@ -109,7 +137,8 @@
                                                     <td>
                                                         <a style="cursor:pointer" @onclick="()=>OpenModalEventsDashboard(EventTitle.EventTitleId)" class="popup">
                                                             <i class="fa fa-info-circle"></i>
-                                                            </a></td>
+                                                            </a>
+                                                    </td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -161,9 +190,13 @@
 <DashboardEventTitleModal @ref="modalRef" ModalTitle="EventTitle">
     <p>This is modal content.</p>
 </DashboardEventTitleModal>
+
 <NetcodeHubToast @ref="ToastComponent" Duration="4000" />
 
 @code {
+    private List<EventTitle> listEventTItle = new List<EventTitle>();
+
+    private int EventTitleId;
     private EventTitleSearch searchInfo = new();
     private PaginationVM<EventTitleVM> pEventTitles;
     private EventTitleVM oEventTitleVM = new();
@@ -205,12 +238,13 @@
         Print = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Print);
         Export = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Export);
 
-
-
         var search = new EventTitleSearch();
         search.Keyword = searchInfo?.Keyword;
         var list = await LoadEventTitle(CurrentPage, PageSize, search);
         pEventTitles = list;
+
+        
+        listEventTItle = repowrapper.EventTitle_Repository.FindAll().ToList();
     }
 
     private async Task ExportFile()
@@ -228,11 +262,6 @@
 
             NavigationManager.NavigateTo(file);
         }
-    }
-
-
-    private async Task PrintReport()
-    {
     }
 
     private async Task<PaginationVM<EventTitleVM>> LoadEventTitle(int? currpage, int pagesize, EventTitleSearch search)

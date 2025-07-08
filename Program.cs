@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using EventMonitoring.ph.Data.Repositories;
 using Syncfusion.Blazor;
 using EventMonitoring.ph.Services;
+using EventMonitoring.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,10 @@ builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IQRCodeService, QRCodeService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+
+// Add SignalR
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -53,6 +58,10 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
 app.MapControllers();
+
+// Map SignalR Hub
+app.MapHub<CommunicationHub>("/communicationhub");
+
 app.UseNodeModules(app.Environment.ContentRootPath);
 app.UseAntiforgery();
 app.MapRazorComponents<App>()
