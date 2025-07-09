@@ -114,38 +114,42 @@
     {
         try
         {
-            if (messageObj is JsonElement element)
+            Console.WriteLine($"Widget received message object: {messageObj?.GetType().Name}");
+            
+            // Try to deserialize as dynamic object first
+            if (messageObj != null)
             {
-                var message = new ChatMessage
-                {
-                    Message = element.TryGetProperty("Message", out var msgProp) ? msgProp.GetString() ?? "" : "",
-                    SenderName = element.TryGetProperty("SenderName", out var senderProp) ? senderProp.GetString() ?? "" : "",
-                    Timestamp = element.TryGetProperty("Timestamp", out var timeProp) ? timeProp.GetString() ?? "" : "",
-                    RoomName = element.TryGetProperty("RoomName", out var roomProp) ? roomProp.GetString() ?? "" : "",
-                    IsOwnMessage = element.TryGetProperty("SenderName", out var senderCheckProp) ? senderCheckProp.GetString() == currentUserName : false
-                };
-
-                messages.Add(message);
+                var jsonString = JsonSerializer.Serialize(messageObj);
+                Console.WriteLine($"Widget message JSON: {jsonString}");
                 
-                // Increment unread count if chat is not expanded
-                if (!isExpanded && !message.IsOwnMessage)
+                var message = JsonSerializer.Deserialize<ChatMessage>(jsonString);
+                if (message != null)
                 {
-                    unreadCount++;
-                }
-
-                InvokeAsync(async () =>
-                {
-                    StateHasChanged();
-                    if (isExpanded)
+                    message.IsOwnMessage = message.SenderName == currentUserName;
+                    
+                    messages.Add(message);
+                    
+                    // Increment unread count if chat is not expanded
+                    if (!isExpanded && !message.IsOwnMessage)
                     {
-                        await ScrollToBottom();
+                        unreadCount++;
                     }
-                });
+
+                    InvokeAsync(async () =>
+                    {
+                        StateHasChanged();
+                        if (isExpanded)
+                        {
+                            await ScrollToBottom();
+                        }
+                    });
+                }
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error processing message in widget: {ex.Message}");
+            Console.WriteLine($"Message object type: {messageObj?.GetType().Name}");
         }
     }
 
@@ -153,6 +157,7 @@
     {
         if (!string.IsNullOrWhiteSpace(newMessage) && isConnected)
         {
+            Console.WriteLine($"Widget sending message: '{newMessage}' from '{currentUserName}' to room 'general'");
             await ChatService.SendMessageAsync(newMessage, currentUserName, "general");
             newMessage = "";
         }

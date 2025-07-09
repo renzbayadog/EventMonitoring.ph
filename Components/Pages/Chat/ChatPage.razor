@@ -378,31 +378,35 @@
     {
         try
         {
-            if (messageObj is JsonElement element)
+            Console.WriteLine($"Received message object: {messageObj?.GetType().Name}");
+            
+            // Try to deserialize as dynamic object first
+            if (messageObj != null)
             {
-                var message = new ChatMessage
+                var jsonString = JsonSerializer.Serialize(messageObj);
+                Console.WriteLine($"Message JSON: {jsonString}");
+                
+                var message = JsonSerializer.Deserialize<ChatMessage>(jsonString);
+                if (message != null)
                 {
-                    Message = element.TryGetProperty("Message", out var msgProp) ? msgProp.GetString() ?? "" : "",
-                    SenderName = element.TryGetProperty("SenderName", out var senderProp) ? senderProp.GetString() ?? "" : "",
-                    Timestamp = element.TryGetProperty("Timestamp", out var timeProp) ? timeProp.GetString() ?? "" : "",
-                    RoomName = element.TryGetProperty("RoomName", out var roomProp) ? roomProp.GetString() ?? "" : "",
-                    IsOwnMessage = element.TryGetProperty("SenderName", out var senderCheckProp) ? senderCheckProp.GetString() == currentUserName : false
-                };
-
-                if (message.RoomName == currentRoom)
-                {
-                    messages.Add(message);
-                    InvokeAsync(async () =>
+                    message.IsOwnMessage = message.SenderName == currentUserName;
+                    
+                    if (message.RoomName == currentRoom)
                     {
-                        StateHasChanged();
-                        await ScrollToBottom();
-                    });
+                        messages.Add(message);
+                        InvokeAsync(async () =>
+                        {
+                            StateHasChanged();
+                            await ScrollToBottom();
+                        });
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error processing message: {ex.Message}");
+            Console.WriteLine($"Message object type: {messageObj?.GetType().Name}");
         }
     }
 
@@ -441,6 +445,7 @@
     {
         if (!string.IsNullOrWhiteSpace(newMessage) && isConnected)
         {
+            Console.WriteLine($"Sending message: '{newMessage}' from '{currentUserName}' to room '{currentRoom}'");
             await ChatService.SendMessageAsync(newMessage, currentUserName, currentRoom);
             newMessage = "";
         }

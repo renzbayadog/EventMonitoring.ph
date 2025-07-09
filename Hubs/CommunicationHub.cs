@@ -18,8 +18,11 @@ namespace EventMonitoring.Hubs
         {
             try
             {
+                Console.WriteLine($"Hub received: message='{message}', sender='{senderName}', room='{roomName}'");
+                
                 if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(senderName))
                 {
+                    Console.WriteLine("Message or sender name is empty, skipping");
                     return;
                 }
 
@@ -31,6 +34,7 @@ namespace EventMonitoring.Hubs
                     RoomName = roomName ?? "general"
                 };
 
+                Console.WriteLine($"Hub sending message object: {System.Text.Json.JsonSerializer.Serialize(chatMessage)}");
                 await Clients.Group(roomName ?? "general").SendAsync("ReceiveMessage", chatMessage);
             }
             catch (Exception ex)
