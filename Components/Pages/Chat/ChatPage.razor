@@ -92,6 +92,11 @@
                             disabled="@(string.IsNullOrWhiteSpace(newMessage) || !isConnected)">
                         <i class="fas fa-paper-plane"></i>
                     </button>
+                    <button @onclick="SendTestMessage" 
+                            class="btn btn-secondary" 
+                            disabled="@(!isConnected)">
+                        Test
+                    </button>
                 </div>
             </div>
         </div>
@@ -353,18 +358,27 @@
     {
         try
         {
+            Console.WriteLine("Initializing chat...");
             await ChatService.InitializeAsync();
             isConnected = true;
+            Console.WriteLine("Chat service initialized successfully");
 
             // Set up event handlers
             ChatService.OnMessageReceived(OnMessageReceived);
             ChatService.OnUserJoined(OnUserJoined);
             ChatService.OnUserLeft(OnUserLeft);
             ChatService.OnUserListUpdated(OnUserListUpdated);
+            Console.WriteLine("Event handlers set up");
 
             // Join the default room
             await ChatService.JoinRoomAsync(currentRoom, currentUserName);
             await ChatService.GetUserListAsync(currentRoom);
+            Console.WriteLine($"Joined room: {currentRoom} as {currentUserName}");
+
+            // Send a test message to verify connection
+            await Task.Delay(1000); // Wait a bit for connection to stabilize
+            await ChatService.SendMessageAsync("Test message from " + currentUserName, currentUserName, currentRoom);
+            Console.WriteLine("Test message sent");
 
             StateHasChanged();
         }
@@ -379,27 +393,56 @@
         try
         {
             Console.WriteLine($"Received message object: {messageObj?.GetType().Name}");
+            Console.WriteLine($"Message object: {messageObj}");
             
-            // Try to deserialize as dynamic object first
+            // Try multiple approaches to extract message data
             if (messageObj != null)
             {
-                var jsonString = JsonSerializer.Serialize(messageObj);
-                Console.WriteLine($"Message JSON: {jsonString}");
+                // Approach 1: Try direct property access if it's a dynamic object
+                var message = new ChatMessage();
                 
-                var message = JsonSerializer.Deserialize<ChatMessage>(jsonString);
-                if (message != null)
+                try
                 {
-                    message.IsOwnMessage = message.SenderName == currentUserName;
-                    
-                    if (message.RoomName == currentRoom)
+                    var dynamicObj = messageObj as dynamic;
+                    message.Message = dynamicObj?.Message?.ToString() ?? "";
+                    message.SenderName = dynamicObj?.SenderName?.ToString() ?? "";
+                    message.Timestamp = dynamicObj?.Timestamp?.ToString() ?? "";
+                    message.RoomName = dynamicObj?.RoomName?.ToString() ?? "";
+                    Console.WriteLine($"Dynamic approach - Message: '{message.Message}', Sender: '{message.SenderName}'");
+                }
+                catch
+                {
+                    // Approach 2: Try JSON serialization
+                    try
                     {
-                        messages.Add(message);
-                        InvokeAsync(async () =>
+                        var jsonString = JsonSerializer.Serialize(messageObj);
+                        Console.WriteLine($"Message JSON: {jsonString}");
+                        
+                        var deserializedMessage = JsonSerializer.Deserialize<ChatMessage>(jsonString);
+                        if (deserializedMessage != null)
                         {
-                            StateHasChanged();
-                            await ScrollToBottom();
-                        });
+                            message = deserializedMessage;
+                            Console.WriteLine($"JSON approach - Message: '{message.Message}', Sender: '{message.SenderName}'");
+                        }
                     }
+                    catch (Exception jsonEx)
+                    {
+                        Console.WriteLine($"JSON deserialization failed: {jsonEx.Message}");
+                    }
+                }
+                
+                // Set ownership and add to messages
+                message.IsOwnMessage = message.SenderName == currentUserName;
+                
+                if (message.RoomName == currentRoom)
+                {
+                    Console.WriteLine($"Adding message to chat: '{message.Message}' from '{message.SenderName}'");
+                    messages.Add(message);
+                    InvokeAsync(async () =>
+                    {
+                        StateHasChanged();
+                        await ScrollToBottom();
+                    });
                 }
             }
         }
@@ -448,6 +491,16 @@
             Console.WriteLine($"Sending message: '{newMessage}' from '{currentUserName}' to room '{currentRoom}'");
             await ChatService.SendMessageAsync(newMessage, currentUserName, currentRoom);
             newMessage = "";
+        }
+    }
+
+    private async Task SendTestMessage()
+    {
+        if (isConnected)
+        {
+            var testMessage = $"Test message at {DateTime.Now:HH:mm:ss} from {currentUserName}";
+            Console.WriteLine($"Sending test message: '{testMessage}'");
+            await ChatService.SendMessageAsync(testMessage, currentUserName, currentRoom);
         }
     }
 

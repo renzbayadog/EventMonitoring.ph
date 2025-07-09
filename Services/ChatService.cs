@@ -35,8 +35,11 @@ namespace EventMonitoring.Services
         {
             if (_isInitialized) return;
 
+            var hubUrl = _navigationManager.ToAbsoluteUri("/communicationhub");
+            Console.WriteLine($"Connecting to SignalR hub at: {hubUrl}");
+
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl(_navigationManager.ToAbsoluteUri("/communicationhub"))
+                .WithUrl(hubUrl)
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -44,6 +47,7 @@ namespace EventMonitoring.Services
             {
                 await _hubConnection.StartAsync();
                 _isInitialized = true;
+                Console.WriteLine($"SignalR connection established. State: {_hubConnection.State}");
             }
             catch (Exception ex)
             {
@@ -56,9 +60,14 @@ namespace EventMonitoring.Services
         {
             try
             {
+                Console.WriteLine($"ChatService.SendMessageAsync called with: message='{message}', sender='{senderName}', room='{roomName}'");
+                Console.WriteLine($"Hub connection state: {_hubConnection?.State}");
+                
                 if (_hubConnection?.State == HubConnectionState.Connected)
                 {
+                    Console.WriteLine("Invoking SendMessage on hub...");
                     await _hubConnection.InvokeAsync("SendMessage", message, senderName, roomName);
+                    Console.WriteLine("SendMessage invoked successfully");
                 }
                 else
                 {
@@ -68,6 +77,7 @@ namespace EventMonitoring.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Error sending message: {ex.Message}");
+                Console.WriteLine($"Exception type: {ex.GetType().Name}");
             }
         }
 

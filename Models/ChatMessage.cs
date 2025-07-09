@@ -4,18 +4,18 @@ namespace EventMonitoring.Models
 {
     public class ChatMessage
     {
-        [JsonPropertyName("Message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; } = string.Empty;
         
-        [JsonPropertyName("SenderName")]
+        [JsonPropertyName("senderName")]
         public string SenderName { get; set; } = string.Empty;
         
-        [JsonPropertyName("Timestamp")]
+        [JsonPropertyName("timestamp")]
         public string Timestamp { get; set; } = string.Empty;
         
-        [JsonPropertyName("RoomName")]
+        [JsonPropertyName("roomName")]
         public string RoomName { get; set; } = string.Empty;
-        
+
         [JsonIgnore]
         public bool IsOwnMessage { get; set; } = false;
     }
