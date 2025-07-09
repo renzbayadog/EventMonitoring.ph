@@ -54,33 +54,77 @@ namespace EventMonitoring.Services
 
         public async Task SendMessageAsync(string message, string senderName, string roomName = "general")
         {
-            if (_hubConnection?.State == HubConnectionState.Connected)
+            try
             {
-                await _hubConnection.InvokeAsync("SendMessage", message, senderName, roomName);
+                if (_hubConnection?.State == HubConnectionState.Connected)
+                {
+                    await _hubConnection.InvokeAsync("SendMessage", message, senderName, roomName);
+                }
+                else
+                {
+                    Console.WriteLine("Hub connection is not connected. Current state: " + _hubConnection?.State);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending message: {ex.Message}");
             }
         }
 
         public async Task JoinRoomAsync(string roomName, string userName)
         {
-            if (_hubConnection?.State == HubConnectionState.Connected)
+            try
             {
-                await _hubConnection.InvokeAsync("JoinChatRoom", roomName, userName);
+                if (_hubConnection?.State == HubConnectionState.Connected)
+                {
+                    await _hubConnection.InvokeAsync("JoinChatRoom", roomName, userName);
+                }
+                else
+                {
+                    Console.WriteLine("Hub connection is not connected. Current state: " + _hubConnection?.State);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error joining room: {ex.Message}");
             }
         }
 
         public async Task LeaveRoomAsync(string roomName, string userName)
         {
-            if (_hubConnection?.State == HubConnectionState.Connected)
+            try
             {
-                await _hubConnection.InvokeAsync("LeaveChatRoom", roomName, userName);
+                if (_hubConnection?.State == HubConnectionState.Connected)
+                {
+                    await _hubConnection.InvokeAsync("LeaveChatRoom", roomName, userName);
+                }
+                else
+                {
+                    Console.WriteLine("Hub connection is not connected. Current state: " + _hubConnection?.State);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error leaving room: {ex.Message}");
             }
         }
 
         public async Task GetUserListAsync(string roomName)
         {
-            if (_hubConnection?.State == HubConnectionState.Connected)
+            try
             {
-                await _hubConnection.InvokeAsync("GetUserList", roomName);
+                if (_hubConnection?.State == HubConnectionState.Connected)
+                {
+                    await _hubConnection.InvokeAsync("GetUserList", roomName);
+                }
+                else
+                {
+                    Console.WriteLine("Hub connection is not connected. Current state: " + _hubConnection?.State);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting user list: {ex.Message}");
             }
         }
 

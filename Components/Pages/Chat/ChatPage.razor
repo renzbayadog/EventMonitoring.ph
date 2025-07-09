@@ -376,26 +376,33 @@
 
     private void OnMessageReceived(object messageObj)
     {
-        if (messageObj is JsonElement element)
+        try
         {
-            var message = new ChatMessage
+            if (messageObj is JsonElement element)
             {
-                Message = element.GetProperty("Message").GetString() ?? "",
-                SenderName = element.GetProperty("SenderName").GetString() ?? "",
-                Timestamp = element.GetProperty("Timestamp").GetString() ?? "",
-                RoomName = element.GetProperty("RoomName").GetString() ?? "",
-                IsOwnMessage = element.GetProperty("SenderName").GetString() == currentUserName
-            };
-
-            if (message.RoomName == currentRoom)
-            {
-                messages.Add(message);
-                InvokeAsync(async () =>
+                var message = new ChatMessage
                 {
-                    StateHasChanged();
-                    await ScrollToBottom();
-                });
+                    Message = element.TryGetProperty("Message", out var msgProp) ? msgProp.GetString() ?? "" : "",
+                    SenderName = element.TryGetProperty("SenderName", out var senderProp) ? senderProp.GetString() ?? "" : "",
+                    Timestamp = element.TryGetProperty("Timestamp", out var timeProp) ? timeProp.GetString() ?? "" : "",
+                    RoomName = element.TryGetProperty("RoomName", out var roomProp) ? roomProp.GetString() ?? "" : "",
+                    IsOwnMessage = element.TryGetProperty("SenderName", out var senderCheckProp) ? senderCheckProp.GetString() == currentUserName : false
+                };
+
+                if (message.RoomName == currentRoom)
+                {
+                    messages.Add(message);
+                    InvokeAsync(async () =>
+                    {
+                        StateHasChanged();
+                        await ScrollToBottom();
+                    });
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error processing message: {ex.Message}");
         }
     }
 

@@ -112,33 +112,40 @@
 
     private void OnMessageReceived(object messageObj)
     {
-        if (messageObj is JsonElement element)
+        try
         {
-            var message = new ChatMessage
+            if (messageObj is JsonElement element)
             {
-                Message = element.GetProperty("Message").GetString() ?? "",
-                SenderName = element.GetProperty("SenderName").GetString() ?? "",
-                Timestamp = element.GetProperty("Timestamp").GetString() ?? "",
-                RoomName = element.GetProperty("RoomName").GetString() ?? "",
-                IsOwnMessage = element.GetProperty("SenderName").GetString() == currentUserName
-            };
-
-            messages.Add(message);
-            
-            // Increment unread count if chat is not expanded
-            if (!isExpanded && !message.IsOwnMessage)
-            {
-                unreadCount++;
-            }
-
-            InvokeAsync(async () =>
-            {
-                StateHasChanged();
-                if (isExpanded)
+                var message = new ChatMessage
                 {
-                    await ScrollToBottom();
+                    Message = element.TryGetProperty("Message", out var msgProp) ? msgProp.GetString() ?? "" : "",
+                    SenderName = element.TryGetProperty("SenderName", out var senderProp) ? senderProp.GetString() ?? "" : "",
+                    Timestamp = element.TryGetProperty("Timestamp", out var timeProp) ? timeProp.GetString() ?? "" : "",
+                    RoomName = element.TryGetProperty("RoomName", out var roomProp) ? roomProp.GetString() ?? "" : "",
+                    IsOwnMessage = element.TryGetProperty("SenderName", out var senderCheckProp) ? senderCheckProp.GetString() == currentUserName : false
+                };
+
+                messages.Add(message);
+                
+                // Increment unread count if chat is not expanded
+                if (!isExpanded && !message.IsOwnMessage)
+                {
+                    unreadCount++;
                 }
-            });
+
+                InvokeAsync(async () =>
+                {
+                    StateHasChanged();
+                    if (isExpanded)
+                    {
+                        await ScrollToBottom();
+                    }
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error processing message in widget: {ex.Message}");
         }
     }
 

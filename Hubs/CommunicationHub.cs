@@ -16,15 +16,27 @@ namespace EventMonitoring.Hubs
         // Chat functionality
         public async Task SendMessage(string message, string senderName, string roomName = "general")
         {
-            var chatMessage = new
+            try
             {
-                Message = message,
-                SenderName = senderName,
-                Timestamp = DateTime.Now.ToString("HH:mm"),
-                RoomName = roomName
-            };
+                if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(senderName))
+                {
+                    return;
+                }
 
-            await Clients.Group(roomName).SendAsync("ReceiveMessage", chatMessage);
+                var chatMessage = new
+                {
+                    Message = message,
+                    SenderName = senderName,
+                    Timestamp = DateTime.Now.ToString("HH:mm"),
+                    RoomName = roomName ?? "general"
+                };
+
+                await Clients.Group(roomName ?? "general").SendAsync("ReceiveMessage", chatMessage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending message: {ex.Message}");
+            }
         }
 
         public async Task JoinChatRoom(string roomName, string userName)
