@@ -12,6 +12,7 @@ namespace EventMonitoring.Hubs
         {
             _hubConnection = new HubConnectionBuilder()
                                 .WithUrl(navigationManager.ToAbsoluteUri("/communicationhub"))
+                                .WithAutomaticReconnect()
                                 .Build();
             _hubConnection.StartAsync();
         }

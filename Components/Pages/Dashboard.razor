@@ -1,0 +1,134 @@
+@page "/dashboard"
+@using Syncfusion.Blazor.Charts
+
+<PageTitle>Dashboard</PageTitle>
+
+<div class="container-fluid py-4">
+    <h2 class="mb-4">Event Monitoring Dashboard</h2>
+    <div class="row mb-4">
+        <!-- Stat Cards -->
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-muted">Total Events</h6>
+                    <div class="display-4 fw-bold text-primary">@TotalEvents</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-muted">Active Users</h6>
+                    <div class="display-4 fw-bold text-success">@ActiveUsers</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-muted">Events Today</h6>
+                    <div class="display-4 fw-bold text-info">@EventsToday</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-muted">Pending Alerts</h6>
+                    <div class="display-4 fw-bold text-danger">@PendingAlerts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Chart Area -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Events Over Time</h5>
+                    <!-- Syncfusion Line Chart -->
+                    <SfChart Title="Events Over Time">
+                        <SfChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Date"></SfChartPrimaryXAxis>
+                        <SfChartPrimaryYAxis Title="Event Count"></SfChartPrimaryYAxis>
+                        <SfChartSeriesCollection>
+                            <SfChartSeries DataSource="@EventData"
+                                           XName="Date"
+                                           YName="Count"
+                                           Type="ChartSeriesType.Line"
+                                           MarkerVisible="true"
+                                           Name="Events">
+                            </SfChartSeries>
+                        </SfChartSeriesCollection>
+                    </SfChart>
+                </div>
+            </div>
+        </div>
+        <!-- Side Widgets -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">Recent Events</h6>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var evt in RecentEvents)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@evt.Name</span>
+                                <span class="badge bg-primary rounded-pill">@evt.Count</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="card-title mb-3">System Status</h6>
+                    <div>
+                        <span class="badge bg-success">Online</span>
+                        <span class="ms-2 text-muted">All systems operational</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Example stat values (replace with real data)
+    int TotalEvents = 1234;
+    int ActiveUsers = 56;
+    int EventsToday = 12;
+    int PendingAlerts = 3;
+
+    // Example recent events (replace with real data)
+    List<RecentEvent> RecentEvents = new()
+    {
+        new RecentEvent { Name = "Login", Count = 10 },
+        new RecentEvent { Name = "File Upload", Count = 5 },
+        new RecentEvent { Name = "Alert Triggered", Count = 2 },
+        new RecentEvent { Name = "User Registered", Count = 1 }
+    };
+
+    // Example chart data (replace with real data)
+    public class EventStat
+    {
+        public string Date { get; set; }
+        public int Count { get; set; }
+    }
+    List<EventStat> EventData = new()
+    {
+        new EventStat { Date = "2024-06-01", Count = 12 },
+        new EventStat { Date = "2024-06-02", Count = 18 },
+        new EventStat { Date = "2024-06-03", Count = 9 },
+        new EventStat { Date = "2024-06-04", Count = 15 },
+        new EventStat { Date = "2024-06-05", Count = 22 },
+        new EventStat { Date = "2024-06-06", Count = 17 },
+        new EventStat { Date = "2024-06-07", Count = 25 }
+    };
+
+    public class RecentEvent
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
+} 
