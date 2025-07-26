@@ -1,0 +1,63 @@
+@page "/payment"
+@inject HttpClient Http
+
+<h3>Sample Payment</h3>
+
+<div>
+    <label>Amount:</label>
+    <input @bind="amount" type="number" step="0.01" />
+</div>
+<div>
+    <label>Description:</label>
+    <input @bind="description" type="text" />
+</div>
+<button @onclick="InitiatePayment">Initiate Payment</button>
+
+@if (payment != null)
+{
+    <div>
+        <p>Payment ID: @payment.Id</p>
+        <p>Status: @payment.Status</p>
+        <p>Amount: @payment.Amount</p>
+        <p>Description: @payment.Description</p>
+        <p>Timestamp: @payment.Timestamp</p>
+        @if (payment.Status == "Pending")
+        {
+            <button @onclick="ConfirmPayment">Confirm Payment</button>
+        }
+    </div>
+}
+
+@code {
+    private decimal amount;
+    private string description;
+    private PaymentDto payment;
+
+    private async Task InitiatePayment()
+    {
+        var response = await Http.PostAsJsonAsync("api/payment/initiate", new { Amount = amount, Description = description });
+        if (response.IsSuccessStatusCode)
+        {
+            payment = await response.Content.ReadFromJsonAsync<PaymentDto>();
+        }
+    }
+
+    private async Task ConfirmPayment()
+    {
+        if (payment == null) return;
+        var response = await Http.PostAsync($"api/payment/confirm/{payment.Id}", null);
+        if (response.IsSuccessStatusCode)
+        {
+            payment = await response.Content.ReadFromJsonAsync<PaymentDto>();
+        }
+    }
+
+    public class PaymentDto
+    {
+        public int Id { get; set; }
+        public decimal Amount { get; set; }
+        public string Status { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string Description { get; set; }
+    }
+} 
