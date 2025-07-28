@@ -227,8 +227,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
-            NavManager.NavigateTo("Account/Access-Denied");
+        // if ((!customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser)))
+        //     NavManager.NavigateTo("Account/Access-Denied");
 
         CanManageUser = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.ManageUser);
         Add = customAuthorizationService.CustomClaimChecker((await userAuthState!).User, DefaultClaims.Add);
